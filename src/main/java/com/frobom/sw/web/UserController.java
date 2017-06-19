@@ -1,6 +1,7 @@
 package com.frobom.sw.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.frobom.sw.entity.User;
 import com.frobom.sw.entity.UserRole;
 import com.frobom.sw.service.UserService;
+import com.frobom.sw.validator.UserFormValidator;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    @Qualifier("userFormValidator")
+    private UserFormValidator userFormValidator;
 
     @Autowired
     private UserService userService;
@@ -32,6 +38,11 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String addUser(@Validated @ModelAttribute User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "signup";
+        }
+
+        userFormValidator.validate(user, result);
         if (result.hasErrors()) {
             return "signup";
         }
