@@ -24,6 +24,9 @@ public class UserFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
+        if (!user.getPassword().equals(user.getConfirmedPassword())) {
+            errors.rejectValue("confirmedPassword", "password.notMatched", "Passwords do not match.");
+        }
         if (userService.findByEmail(user.getEmail()) != null) {
             errors.rejectValue("email", "email.alreadyExists", "Email already taken.");
         }
