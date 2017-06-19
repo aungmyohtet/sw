@@ -74,4 +74,10 @@ public class HomeController {
         return "redirect:/login?logout";
     }
 
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @ResponseBody
+    public String hello() {
+        return "Hello";
+    }
+
 }
