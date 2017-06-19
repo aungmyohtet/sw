@@ -4,6 +4,8 @@
 <title>Login</title>
 </head>
 <body>
+    <div th:if="${loginError != null}" th:text="${loginError}">Invalid email or password</div>
+     <div th:if="${logout != null}" th:text="${logout}">You have been logged out</div>
 	<form action="#" th:action="@{/login}" th:object="${user}" method="post">
 	   
 	   <input type="text" th:field="*{email}" placeholder="Email" />
