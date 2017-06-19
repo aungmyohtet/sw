@@ -18,56 +18,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.frobom.sw.entity.User;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home(Locale locale, Model model) {
 
-		logger.info("Welcome home! The client locale is {}.", locale);
+        logger.info("Welcome home! The client locale is {}.", locale);
 
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
-		String formattedDate = dateFormat.format(date);
+        String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate);
+        model.addAttribute("serverTime", formattedDate);
 
-		return "home";
-	}
+        return "home";
+    }
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	@ResponseBody
-	public String admin(Model model) {
-		return "Hello admin";
-	}
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @ResponseBody
+    public String admin(Model model) {
+        return "Hello admin";
+    }
 
-	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
-	@ResponseBody
-	public String accessDeniedPage(Model model) {
-		return "accessDenied";
-	}
+    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+    @ResponseBody
+    public String accessDeniedPage(Model model) {
+        return "accessDenied";
+    }
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
-		return "login";
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Model model) {
+        model.addAttribute(new User());
+        return "login";
+    }
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		return "redirect:/login?logout";
-	}
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+    }
 
 }

@@ -4,5 +4,5 @@ import com.frobom.sw.entity.UserRole;
 
 public interface UserRoleRepository {
 
-	void add(UserRole userRole);
+    void add(UserRole userRole);
 }

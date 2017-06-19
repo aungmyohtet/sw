@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -35,76 +36,81 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @ComponentScan(basePackages = "com.frobom.sw")
 public class SpringMvcWebConfig extends WebMvcConfigurerAdapter {
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 
-	@Bean
-	public ViewResolver viewResolver() {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
-		return resolver;
-	}
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
+    }
 
-	@Bean
-	public TemplateEngine templateEngine() {
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
-		return engine;
-	}
+    @Bean
+    public ViewResolver viewResolver() {
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setTemplateEngine((SpringTemplateEngine) templateEngine());
+        return resolver;
+    }
 
-	@Bean
-	public ITemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-		resolver.setPrefix("/WEB-INF/templates/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode("HTML5");
-		return resolver;
-	}
+    @Bean
+    public TemplateEngine templateEngine() {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver());
+        return engine;
+    }
 
-	@Bean
-	public DataSource getDataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/sw");
-		return dataSource;
-	}
+    @Bean
+    public ITemplateResolver templateResolver() {
+        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+        resolver.setPrefix("/WEB-INF/templates/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        return resolver;
+    }
 
-	@Bean
-	@Autowired
-	public PlatformTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory)
-			throws NamingException {
-		JpaTransactionManager jpaTransaction = new JpaTransactionManager();
-		jpaTransaction.setEntityManagerFactory(entityManagerFactory);
-		return jpaTransaction;
-	}
+    @Bean
+    public DataSource getDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root1");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/sw");
+        return dataSource;
+    }
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-		emf.setDataSource(getDataSource());
-		emf.setPackagesToScan("");
-		emf.setJpaVendorAdapter(getHibernateAdapter());
-		Properties jpaProperties = new Properties();
-		jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-		jpaProperties.put("hibernate.show_sql", "true");
-		jpaProperties.put("hibernate.format_sql", "false");
-		emf.setJpaProperties(jpaProperties);
-		return emf;
-	}
+    @Bean
+    @Autowired
+    public PlatformTransactionManager getTransactionManager(EntityManagerFactory entityManagerFactory) throws NamingException {
+        JpaTransactionManager jpaTransaction = new JpaTransactionManager();
+        jpaTransaction.setEntityManagerFactory(entityManagerFactory);
+        return jpaTransaction;
+    }
 
-	@Bean
-	public JpaVendorAdapter getHibernateAdapter() {
-		return new HibernateJpaVendorAdapter();
-	}
+    @Bean
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setDataSource(getDataSource());
+        emf.setPackagesToScan("");
+        emf.setJpaVendorAdapter(getHibernateAdapter());
+        Properties jpaProperties = new Properties();
+        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        jpaProperties.put("hibernate.hbm2ddl.auto", "update");
+        jpaProperties.put("hibernate.show_sql", "true");
+        jpaProperties.put("hibernate.format_sql", "false");
+        emf.setJpaProperties(jpaProperties);
+        return emf;
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public JpaVendorAdapter getHibernateAdapter() {
+        return new HibernateJpaVendorAdapter();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

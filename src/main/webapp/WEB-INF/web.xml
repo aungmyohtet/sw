@@ -13,6 +13,18 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>
+              org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+          </param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>com.frobom.sw.config</param-value>
+	</context-param>
+
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>spring-mvc</servlet-name>

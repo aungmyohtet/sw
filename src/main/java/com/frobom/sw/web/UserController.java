@@ -14,12 +14,11 @@ import com.frobom.sw.entity.User;
 import com.frobom.sw.entity.UserRole;
 import com.frobom.sw.service.UserService;
 
-
 @Controller
 public class UserController {
 
     @Autowired
-	private UserService userService;
+    private UserService userService;
 
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -33,14 +32,14 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String addUser(@Validated @ModelAttribute User user, BindingResult result, Model model) {
-    	if (result.hasErrors()) {
-    		return "signup";
-    	}
-    	
-    	UserRole userRole = new UserRole();
-    	userRole.setRole("USER");
-    	userRole.setUser(user);
-    	user.setUserRole(userRole);
+        if (result.hasErrors()) {
+            return "signup";
+        }
+
+        UserRole userRole = new UserRole();
+        userRole.setRole("USER");
+        userRole.setUser(user);
+        user.setUserRole(userRole);
         userService.add(user);
         return "redirect:/";
     }

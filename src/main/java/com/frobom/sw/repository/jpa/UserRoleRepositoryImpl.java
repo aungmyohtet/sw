@@ -11,12 +11,12 @@ import com.frobom.sw.repository.UserRoleRepository;
 @Repository
 public class UserRoleRepositoryImpl implements UserRoleRepository {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public void add(UserRole userRole) {
+    @Override
+    public void add(UserRole userRole) {
         entityManager.persist(userRole);
-	}
+    }
 
 }
