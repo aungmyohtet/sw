@@ -7,33 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
 @Entity
-@Table(name = "mail_address")
-public class MailAddress {
+@Table(name = "mail_property_key")
+public class MailPropertyKey {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Name cannot be empty.")
+    @Column(name = "name", unique = true)
     private String name;
 
-    @Column(unique = true)
-    @Email
-    @NotBlank(message = "Address cannot be empty.")
-    private String address;
-
-    @ManyToMany(mappedBy = "mailAddresses")
-    private List<Project> projects;
-
-    @OneToMany(mappedBy = "mailAddress")
+    @OneToMany(mappedBy = "mailPropertyKey")
     private List<MailPropertySetting> propertySettings;
 
     public Integer getId() {
@@ -52,22 +40,6 @@ public class MailAddress {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
     public List<MailPropertySetting> getPropertySettings() {
         return propertySettings;
     }
@@ -75,4 +47,5 @@ public class MailAddress {
     public void setPropertySettings(List<MailPropertySetting> propertySettings) {
         this.propertySettings = propertySettings;
     }
+
 }
