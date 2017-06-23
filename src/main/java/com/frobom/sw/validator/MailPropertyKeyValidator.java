@@ -26,6 +26,11 @@ public class MailPropertyKeyValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         MailPropertyKey mailPropertyKey = (MailPropertyKey) target;
+
+        if (mailPropertyKey.getName().equals("")) {
+            errors.rejectValue("name", "name.alreadyExists", "Enter Mail Property Key");
+        }
+
         List<MailPropertyKey> mailPropertyKeyList = mailPropertyKeyService.findAll();
         for (MailPropertyKey m : mailPropertyKeyList) {
             if (m.getName().equals(mailPropertyKey.getName())) {

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mail Count Listener</title>
+</head>
+<body>
+	<form action="#" th:action="@{/mailcountlistener/add}" th:object="${mailCountListener}" method="post">
+	
+	<select th:field="*{mailAddress.address}">
+	   <option value="0" selected="selected">Select Mail Address</option>
+	   <option th:each="mailAddressList : ${mailAddressLists}"
+				th:value="${mailAddressList.address}"
+				th:text="${mailAddressList.address}" />
+	</select>
+		<span th:if="${#fields.hasErrors('mailAddress.address')}" th:errors="*{mailAddress.address}">Invalid Data </span>	
+		<br/> 
+		<input type="submit" value="Add Mail Address"/>
+	</form>
+	<br/>
+	<table>
+	    <tr>
+	      <td>Mail Address ID </td>
+	      <td>Mail Address </td>
+	     
+	    </tr>
+		<tr th:each="mailCountListener : ${mailCountListeners}" align = 'center'>
+			<td th:text="${mailCountListener.mailAddress.id}"></td>
+			<td th:text="${mailCountListener.mailAddress.address}"></td>
+		
+		</tr>
+	</table>
+</body>
+</html>

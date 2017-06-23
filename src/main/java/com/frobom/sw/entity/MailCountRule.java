@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "mail_count_rule")
@@ -16,12 +17,12 @@ public class MailCountRule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private int threshold;
-
     @OneToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @Min(1)
+    private int threshold;
     public Integer getId() {
         return id;
     }

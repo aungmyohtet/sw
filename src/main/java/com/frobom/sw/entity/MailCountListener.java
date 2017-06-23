@@ -1,11 +1,9 @@
 package com.frobom.sw.entity;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,11 +12,11 @@ import javax.persistence.Table;
 public class MailCountListener {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "mail_address_id")
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mail_address_id", unique = true)
+    @OneToOne
+    @MapsId
     private MailAddress mailAddress;
 
     public Integer getId() {
