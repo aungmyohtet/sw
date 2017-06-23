@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.frobom.sw.entity.AlertWordCountSetting;
 import com.frobom.sw.entity.MailCountSetting;
 import com.frobom.sw.service.MailCountSettingService;
 
@@ -19,7 +18,7 @@ public class MailCountSettingFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return AlertWordCountSetting.class.equals(clazz);
+        return MailCountSetting.class.equals(clazz);
     }
 
     @Override
