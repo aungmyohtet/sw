@@ -1,5 +1,6 @@
 package com.frobom.sw.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -11,7 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "mail_count")
-public class MailCount {
+public class MailCount implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     private Date date;
