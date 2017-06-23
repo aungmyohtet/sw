@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "alert_word")
 public class AlertWord {
@@ -18,6 +20,7 @@ public class AlertWord {
     private Integer id;
 
     @Column(unique = true)
+    @NotBlank(message = "Word cannot be empty.")
     private String word;
 
     @Enumerated(EnumType.STRING)

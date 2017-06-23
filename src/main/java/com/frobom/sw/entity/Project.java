@@ -30,7 +30,7 @@ public class Project {
     @ManyToMany
     @JoinTable(name = "target_mail", joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
-    private Set<MailAddress> mailAddresses;
+    private List<MailAddress> mailAddresses;
 
     @OneToMany(mappedBy = "project")
     private List<MailCount> mailCountList;
@@ -54,16 +54,16 @@ public class Project {
         this.name = name;
     }
 
-    public Set<MailAddress> getMailAddresses() {
+    public List<MailCount> getMailCountList() {
+        return mailCountList;
+    }
+
+    public List<MailAddress> getMailAddresses() {
         return mailAddresses;
     }
 
-    public void setMailAddresses(Set<MailAddress> mailAddresses) {
+    public void setMailAddresses(List<MailAddress> mailAddresses) {
         this.mailAddresses = mailAddresses;
-    }
-
-    public List<MailCount> getMailCountList() {
-        return mailCountList;
     }
 
     public void setMailCountList(List<MailCount> mailCountList) {
