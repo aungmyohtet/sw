@@ -1,8 +1,5 @@
 package com.frobom.sw.entity;
 
-import javax.persistence.Column;
-
-import javax.persistence.MapsId;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,15 +10,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "alert_word_count_listener")
-public class AlertWordCountListener {
+@Table(name = "mail_count_listener")
+public class MailCountListener {
 
     @Id
-    @Column(name = "mailaddress_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mail_address_id", unique = true)
     private MailAddress mailAddress;
 
     public Integer getId() {
