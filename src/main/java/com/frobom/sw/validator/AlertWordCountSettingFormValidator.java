@@ -25,8 +25,6 @@ public class AlertWordCountSettingFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         AlertWordCountSetting alertWordCountSetting = (AlertWordCountSetting) target;
         if (alertWordCountSettingService.findByName(alertWordCountSetting.getName()) != null) {
-
-            System.out.println("#### setting name : " + alertWordCountSetting.getName());
             errors.rejectValue("name", "name.alreadyExists", "Setting name already exist.");
         }
     }

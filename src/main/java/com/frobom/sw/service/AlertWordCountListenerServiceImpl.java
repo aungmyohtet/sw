@@ -66,4 +66,10 @@ public class AlertWordCountListenerServiceImpl implements AlertWordCountListener
         return alertWordCountListenerRepository.findByMailAddress(mailAddress);
     }
 
+    @Override
+    @Transactional
+    public void remove(AlertWordCountListener alertWordCountListener) {
+        alertWordCountListenerRepository.delete(alertWordCountListener);
+    }
+
 }
