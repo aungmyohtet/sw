@@ -45,7 +45,7 @@ public class MailPropertySettingController {
     private MailPropertySettingValidator mailPropertySettingValidator;
 
     @RequestMapping(value = "/mailpropertysetting", method = RequestMethod.GET)
-    public String showMailPropertyKey(Model model) {
+    public String showMailPropertySetting(Model model) {
         model.addAttribute("mailPropertySetting", new MailPropertySetting());
         model.addAttribute("mailPropertySettings", this.mailPropertySettingService.findAll());
         model.addAttribute("mailAddressLists", this.mailAdddressService.findAll());
@@ -55,7 +55,7 @@ public class MailPropertySettingController {
     }
 
     @RequestMapping(value = "/mailpropertysetting/add", method = RequestMethod.POST)
-    public String addMailProperty(@Validated @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model) {
+    public String addMailPropertySetting(@Validated @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model) {
         model.addAttribute("mailAddressLists", this.mailAdddressService.findAll());
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         model.addAttribute("mailPropertySettings", this.mailPropertySettingService.findAll());

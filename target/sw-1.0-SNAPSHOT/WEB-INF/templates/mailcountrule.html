@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mail Count Listener</title>
+</head>
+<body>
+	<form action="#" th:action="@{/mailcountrule/add}" th:object="${mailCountRule}" method="post">
+		<input type="number" th:field="*{threshold}" placeholder="Threshold" />
+	    <span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid Data </span>
+	    <br/>  
+		
+		<select th:field="*{project.id}">
+		   <option value="0" selected="selected">Select Project</option>
+		   <option th:each="projectList : ${projectLists}"
+					th:value="${projectList.id}"
+					th:text="${projectList.name}" />
+		</select>
+		<span th:if="${#fields.hasErrors('project.id')}" th:errors="*{project.id}">Invalid Data </span>
+		<br/>
+		
+		<input type="submit" value="Add"/>	
+	</form>
+	<br/>
+		<table>
+	    <tr>
+	      <td>Threshold</td>
+	      <td>Project Name</td>
+	    </tr>
+		<tr th:each="mailCountRuleList : ${mailCountRuleLists}" align="center">
+			<td th:text="${mailCountRuleList.threshold}"></td>
+			<td th:text="${mailCountRuleList.project.name}"></td>
+		</tr>
+	</table>
+</body>
+</html>	
+	
