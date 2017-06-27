@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -51,4 +52,36 @@ public class AlertWordCountSettingController {
         alertWordCountSettingService.add(alertWordCountSetting);
         return "redirect:/alertwordcountsettings/add";
     }
+
+    @RequestMapping(value="/alertwordcountsettings/remove/{id}", method=RequestMethod.GET)
+    public String deleteAlertWordCountSetting(@PathVariable int id, Model model) {
+        AlertWordCountSetting alertWordCountSetting = alertWordCountSettingService.findById(id);
+        if(alertWordCountSetting == null) {
+            return "redirect:/bad/request";
+        }
+        alertWordCountSettingService.remove(alertWordCountSetting.getId());
+        return "redirect:/alertwordcountsettings/add";
+     }
+
+    @RequestMapping(value="/alertwordcountsettings/update/{id}", method=RequestMethod.GET)
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        AlertWordCountSetting alertWordCountSetting = alertWordCountSettingService.findById(id);
+        if(alertWordCountSetting == null) {
+            return "redirect:/bad/request";
+        }
+        model.addAttribute("alertWordCountSetting", alertWordCountSetting);
+        return "update_alertwordcountsetting";
+     }
+
+    @RequestMapping(value = "/alertwordcountsettings/update", method = RequestMethod.POST)
+    public String updateAlertWordCountSetting(@Validated @ModelAttribute AlertWordCountSetting alertWordCountSetting, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "update_alertwordcountsetting";
+        }
+
+        alertWordCountSettingService.update(alertWordCountSetting);
+        return "redirect:/alertwordcountsettings/add";
+    }
+
 }

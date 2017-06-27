@@ -29,6 +29,8 @@
 		<tr th:each="alertwordrule : ${alertWordRuleList}">
 			<td th:text="${alertwordrule.project.name}"></td>
 			<td th:text="${alertwordrule.threshold}"></td>
+			<td><a th:href="@{/alertwordrules/remove/__${alertwordrule.id}__}">Remove</a></td>
+			<td><a th:href="@{/alertwordrules/update/__${alertwordrule.id}__}">Update</a></td>
 		</tr>
 	</table>
 </body>

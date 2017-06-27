@@ -71,4 +71,17 @@ public class AlertWordRuleServiceImpl implements AlertWordRuleService {
         return alertWordRuleRepository.findByProject(project);
     }
 
+    @Override
+    @Transactional
+    public void delete(int id) {
+        alertWordRuleRepository.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(AlertWordRule alertWordRule) {
+        AlertWordRule oldAlertWordRule = alertWordRuleRepository.findById(alertWordRule.getId());
+        oldAlertWordRule.setThreshold(alertWordRule.getThreshold());
+    }
+
 }

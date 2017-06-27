@@ -18,4 +18,8 @@ public interface AlertWordRuleService {
     Integer getThresholdByProject(Project project);
 
     void add(int projectId, int threshold);
+
+    void delete(int id);
+
+    void update(AlertWordRule alertWordRule);
 }
