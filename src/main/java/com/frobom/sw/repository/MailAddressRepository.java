@@ -15,4 +15,8 @@ public interface MailAddressRepository {
     MailAddress findByAddress(String address);
 
     MailAddress findByName(String name);
+
+    void update(MailAddress mailAddress);
+
+    void delete(int id);
 }

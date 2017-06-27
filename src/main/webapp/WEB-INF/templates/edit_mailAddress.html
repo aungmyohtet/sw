@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Mail Address</title>
+</head>
+<body>
+	<div>
+		<h4>Edit Mail Address Form</h4>
+		<form action="#" th:action="@{/mailAddresses/edit/}+${id}" th:object="${mailAddress}"
+			method="post">
+			<input type="hidden" th:field="*{id}" />
+			<input type="text" th:field="*{name}" placeholder="Name" />
+			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br/><br/>
+			<input type="text" th:field="*{address}" placeholder="Mail Address" />
+			<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+			<br /> <br /> <input type="submit" value="Edit" />
+		</form>
+	</div>
+</body>
+</html>

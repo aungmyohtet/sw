@@ -7,16 +7,16 @@
 <body>
 	<h4>Add Mail Address to Project</h4>
 	<div>
-		<form action="#" th:action="@{/projects/add/mailAddress}"
+		<form action="#"
+			th:action="@{/projects/__${project.id}__/add/mailAddress}"
 			method="post">
 			<div th:object="${project}">
-				<select th:field="*{name}">
-					<option value="">Select Project</option>
-					<option th:each="project : ${projects}" th:value="${project.name}"
-						th:text="${project.name}"></option>
-				</select> <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+				<input type="hidden" th:field="*{id}" /> <input type="text"
+					th:field="*{name}" readonly="readonly" />
 			</div>
+
 			<br />
+
 			<div th:object="${mailAddress}">
 				<select th:field="*{address}">
 					<option value="">Select Mail Address</option>
@@ -27,6 +27,19 @@
 			</div>
 			<br /> <input type="submit" value="Add" />
 		</form>
+	</div>
+	<div th:if="${!addresses.empty}">
+		<h4>Mail Addresses that are Member of Project</h4>
+		<table>
+			<tr>
+				<td>Address</td>
+				<td>Action</td>
+			</tr>
+			<tr th:each="mailAddress : ${addresses}">
+				<td th:text="${mailAddress.address}"></td>
+				<td><a th:href="@{../delete/__${mailAddress.id}__}">Delete</a></td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>

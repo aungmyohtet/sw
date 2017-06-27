@@ -26,11 +26,14 @@
 				<td>ID</td>
 				<td>Name</td>
 				<td>Address</td>
+				<td>Actions</td>
 			</tr>
 			<tr th:each="mailAddress : ${mailAddresses}">
 				<td th:text="${mailAddress.id}"></td>
 				<td th:text="${mailAddress.name}"></td>
 				<td th:text="${mailAddress.address}"></td>
+				<td><a th:href="@{edit/__${mailAddress.id}__}">Edit</a> &nbsp;
+					<a th:href="@{delete/__${mailAddress.id}__}">Delete</a></td>
 			</tr>
 		</table>
 	</div>

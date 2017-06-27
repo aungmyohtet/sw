@@ -20,10 +20,16 @@
 			<tr>
 				<td>ID</td>
 				<td>Name</td>
+				<td>Actions</td>
+				<td>Setting</td>
 			</tr>
 			<tr th:each="project : ${projects}">
 				<td th:text="${project.id}"></td>
 				<td th:text="${project.name}"></td>
+				<td><a th:href="@{edit/__${project.id}__}">Edit</a> &nbsp; <a
+					th:href="@{delete/__${project.id}__}">Delete</a></td>
+				<td><a th:href="@{__${project.id}__/add/mailAddress}">Add
+						MailAddress</a></td>
 			</tr>
 		</table>
 	</div>

@@ -2,6 +2,7 @@ package com.frobom.sw.service;
 
 import java.util.List;
 
+import com.frobom.sw.entity.MailAddress;
 import com.frobom.sw.entity.Project;
 
 public interface ProjectService {
@@ -13,4 +14,14 @@ public interface ProjectService {
     Project findById(int id);
 
     Project findByName(String name);
+
+    void update(Project project);
+
+    void delete(int id);
+
+    void addMailAddressToProject(String address, String projName);
+
+    boolean IsExistsMailAddress(MailAddress mailAddress, Project project);
+
+    List<MailAddress> findMailAddressesByID(int id);
 }
