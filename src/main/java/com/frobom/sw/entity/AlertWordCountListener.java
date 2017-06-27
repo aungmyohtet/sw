@@ -1,5 +1,8 @@
 package com.frobom.sw.entity;
 
+import javax.persistence.Column;
+
+import javax.persistence.MapsId;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +17,11 @@ import javax.persistence.Table;
 public class AlertWordCountListener {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "mailaddress_id")
     private Integer id;
 
-    @OneToOne (cascade=CascadeType.ALL)
-    @JoinColumn(name="mail_address_id", unique= true)
+    @OneToOne
+    @MapsId
     private MailAddress mailAddress;
 
     public Integer getId() {

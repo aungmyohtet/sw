@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add AlertWordRule</title>
+</head>
+<body>
+	<form action="#" th:action="@{/alertwordrules/add}" th:object="${alertWordRule}" method="post">
+		
+		<div>
+		    <select th:field="*{project.id}" id="optionsList" name="optionsListId">
+		    <option value="0">Select Project</option>
+		    <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+		    </select>
+		    &nbsp;&nbsp;<span th:if="${#fields.hasErrors('project.id')}" th:errors="*{project.id}">Select project</span>
+		    <br/>
+		    <input type="text" th:field="*{threshold}" placeholder="Threshold"/>
+		    &nbsp;&nbsp;<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+		    <br/>
+		    <input type="submit" value="Add AlertWordCountRule"/>
+		</div>
+	</form>
+	<br/><br/>
+	<table>
+		<caption>AlertWordRules</caption>
+	    <tr>
+	      <td>Project</td>
+	      <td>Threshold</td>
+	    </tr>
+		<tr th:each="alertwordrule : ${alertWordRuleList}">
+			<td th:text="${alertwordrule.project.name}"></td>
+			<td th:text="${alertwordrule.threshold}"></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "alert_word_count_setting")
 public class AlertWordCountSetting {
@@ -16,8 +17,10 @@ public class AlertWordCountSetting {
     private Integer id;
 
     @Column(unique = true)
+    @NotBlank(message = "Name cannot be empty.")
     private String name;
 
+    @NotBlank(message = "Value cannot be empty.")
     private String value;
 
     public Integer getId() {
