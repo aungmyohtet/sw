@@ -24,4 +24,6 @@ public interface ProjectService {
     boolean IsExistsMailAddress(MailAddress mailAddress, Project project);
 
     List<MailAddress> findMailAddressesByID(int id);
+
+    void deleteMailAddress(int pid, int mid);
 }

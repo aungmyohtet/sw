@@ -20,6 +20,8 @@ import com.frobom.sw.validator.ProjectFormValidator;
 @Controller
 public class ProjectController {
 
+    String projName;
+
     @Autowired
     @Qualifier("projectFormValidator")
     private ProjectFormValidator projectFormValidator;
@@ -69,27 +71,38 @@ public class ProjectController {
 
     @RequestMapping(value = "/projects/edit/{id}", method = RequestMethod.GET)
     public String showEditForm(@PathVariable("id") int id, Model model) {
+        projName = projectService.findById(id).getName();
         model.addAttribute("project", projectService.findById(id));
         return "edit_project";
     }
 
-    @RequestMapping(value="/projects/edit/{id}", method=RequestMethod.POST)
+    @RequestMapping(value = "/projects/edit/{id}", method = RequestMethod.POST)
     public String updateProject(@Validated @ModelAttribute Project project, BindingResult result, Model model) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "edit_project";
         }
+
+        if (projName.equals(project.getName())) {
+            return "redirect:/projects/add";
+        } else {
+            projectFormValidator.validate(project, result);
+            if (result.hasErrors()) {
+                return "edit_project";
+            }
+        }
+
         projectService.update(project);
         return "redirect:/projects/add";
     }
 
-    @RequestMapping(value="/projects/delete/{id}", method=RequestMethod.GET)
+    @RequestMapping(value = "/projects/delete/{id}", method = RequestMethod.GET)
     public String deleteProject(@PathVariable("id") int id, Model model) {
         projectService.delete(id);
         return "redirect:/projects/add";
     }
 
-    @RequestMapping(value="/projects/{id}/add/mailAddress", method=RequestMethod.GET)
-    public String showAddMailAddressForm(@PathVariable("id") int id, Model model){
+    @RequestMapping(value = "/projects/{id}/add/mailAddress", method = RequestMethod.GET)
+    public String showAddMailAddressForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("mailAddress", new MailAddress());
         model.addAttribute("mailAddresses", mailAddressService.findAll());
         model.addAttribute("project", projectService.findById(id));
@@ -116,6 +129,12 @@ public class ProjectController {
         }
 
         projectService.addMailAddressToProject(mailAddress.getAddress(), project.getName());
+        return "redirect:/projects/add";
+    }
+
+    @RequestMapping(value = "/projects/{pid}/mailAddress/delete/{mid}", method = RequestMethod.GET)
+    public String deleteMailAddress(@PathVariable("pid") int pid, @PathVariable("mid") int mid, Model model) {
+        projectService.deleteMailAddress(pid, mid);
         return "redirect:/projects/add";
     }
 }

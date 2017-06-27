@@ -2,14 +2,15 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add Alert Word</title>
+<title>Edit Alert Word</title>
 </head>
 <body>
 	<div>
-		<h4>Alert Word Form</h4>
-		<form action="#" th:action="@{/alertWords/add}"
+		<h4>Edit Alert Word Form</h4>
+		<form action="#" th:action="@{/alertWords/edit/}+${id}"
 			th:object="${alertWord}" method="post">
-			<input type="text" th:field="*{word}" placeholder="Alert Word" /> <span
+			<input type="hidden" th:field="*{id}" /> <input type="text"
+				th:field="*{word}" placeholder="Alert Word" /> <span
 				th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span> <br />
 			<br /> <select th:field="*{language}">
 				<option value="">Select Language</option>
@@ -18,24 +19,8 @@
 					th:value="${language}" th:text="${language}"></option>
 			</select> <span th:if="${#fields.hasErrors('language')}"
 				th:errors="*{language}"></span> <br /> <br /> <input type="submit"
-				value="Add" />
+				value="Edit" />
 		</form>
-	</div>
-	<div th:if="${!alertWords.empty}">
-		<h4>Alert Word List</h4>
-		<table>
-			<tr>
-				<td>Word</td>
-				<td>Language</td>
-				<td>Actions</td>
-			</tr>
-			<tr th:each="alertWord : ${alertWords}">
-				<td th:text="${alertWord.word}"></td>
-				<td th:text="${alertWord.language}"></td>
-				<td><a th:href="@{edit/__${alertWord.id}__}">Edit</a> &nbsp; <a
-					th:href="@{delete/__${alertWord.id}__}">Delete</a></td>
-			</tr>
-		</table>
 	</div>
 </body>
 </html>

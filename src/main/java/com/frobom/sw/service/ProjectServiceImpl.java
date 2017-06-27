@@ -31,31 +31,31 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void save(Project project) {
-    projectRepository.save(project);
+        projectRepository.save(project);
     }
 
     @Override
     @Transactional
     public List<Project> findAll() {
-       return projectRepository.findAll();
+        return projectRepository.findAll();
     }
 
     @Override
     @Transactional
     public Project findById(int id) {
-      return projectRepository.findById(id);
+        return projectRepository.findById(id);
     }
 
     @Override
     @Transactional
     public Project findByName(String name) {
-       return projectRepository.findByName(name);
+        return projectRepository.findByName(name);
     }
 
     @Override
     @Transactional
     public void update(Project project) {
-      projectRepository.update(project);
+        projectRepository.update(project);
     }
 
     @Override
@@ -91,6 +91,17 @@ public class ProjectServiceImpl implements ProjectService {
     public List<MailAddress> findMailAddressesByID(int id) {
         Project proj = projectRepository.findById(id);
         return proj.getMailAddresses();
+    }
+
+    @Override
+    @Transactional
+    public void deleteMailAddress(int pid, int mid) {
+        Project proj = projectRepository.findById(pid);
+        for (int i = 0; i < proj.getMailAddresses().size(); i++) {
+            if (proj.getMailAddresses().get(i).getId().equals(mid)) {
+                proj.getMailAddresses().remove(i);
+            }
+        }
     }
 
 }

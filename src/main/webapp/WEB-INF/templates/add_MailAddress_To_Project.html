@@ -14,9 +14,7 @@
 				<input type="hidden" th:field="*{id}" /> <input type="text"
 					th:field="*{name}" readonly="readonly" />
 			</div>
-
 			<br />
-
 			<div th:object="${mailAddress}">
 				<select th:field="*{address}">
 					<option value="">Select Mail Address</option>
@@ -32,12 +30,12 @@
 		<h4>Mail Addresses that are Member of Project</h4>
 		<table>
 			<tr>
-				<td>Address</td>
+				<td>Mail Address</td>
 				<td>Action</td>
 			</tr>
 			<tr th:each="mailAddress : ${addresses}">
 				<td th:text="${mailAddress.address}"></td>
-				<td><a th:href="@{../delete/__${mailAddress.id}__}">Delete</a></td>
+				<td><a th:href="@{../mailAddress/delete/__${mailAddress.id}__}">Delete</a></td>
 			</tr>
 		</table>
 	</div>

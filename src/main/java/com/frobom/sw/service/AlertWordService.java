@@ -12,4 +12,10 @@ public interface AlertWordService {
     List<AlertWord> findAll();
 
     AlertWord findByWordAndLanguage(String word, Language language);
+
+    AlertWord findById(int id);
+
+    void update(AlertWord alertWord);
+
+    void delete(int id);
 }

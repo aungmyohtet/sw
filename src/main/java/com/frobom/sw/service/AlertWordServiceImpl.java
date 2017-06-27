@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.templateresolver.AlwaysValidTemplateResolutionValidity;
-
 import com.frobom.sw.entity.AlertWord;
 import com.frobom.sw.entity.AlertWord.Language;
 import com.frobom.sw.repository.AlertWordRepository;
@@ -37,6 +35,24 @@ public class AlertWordServiceImpl implements AlertWordService {
     @Transactional
     public AlertWord findByWordAndLanguage(String word, Language language) {
         return alertWordRepo.findByWordAndLanguage(word, language);
+    }
+
+    @Override
+    @Transactional
+    public AlertWord findById(int id) {
+        return alertWordRepo.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(AlertWord alertWord) {
+       alertWordRepo.update(alertWord);
+    }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+       alertWordRepo.delete(id);
     }
 
 }
