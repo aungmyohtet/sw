@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mail Count Rule</title>
+</head>
+<body>
+	<form action="#" th:action="@{/mailcountrule/add}" th:object="${mailCountRule}" method="post">
+		<input type="number" th:field="*{threshold}" placeholder="Threshold" />
+	    <span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid Data </span>
+	    <br/>
+
+		<select th:field="*{project.id}">
+		   <option value="0" selected="selected">Select Project</option>
+		   <option th:each="projectList : ${projectLists}"
+				th:value="${projectList.id}"
+				th:text="${projectList.name}" />
+		</select>
+		<span th:if="${#fields.hasErrors('project.id')}" th:errors="*{project.id}">Invalid Data </span>
+		<br/>
+
+		<input type="submit" value="Add"/>
+	</form>
+	<br/>
+	<h2>Mail Count Rules</h2>
+		<table>
+	    <tr>
+	      <td><b>Project Name</b></td>
+	      <td><b>Threshold</b></td>
+	    </tr>
+		<tr th:each="mailCountRuleList : ${mailCountRuleLists}" align="center">			
+			<td th:text="${mailCountRuleList.project.name}"></td>
+			<td th:text="${mailCountRuleList.threshold}"></td>
+			<td><a th:href="@{/mailcountrule/remove/__${mailCountRuleList.id}__}">Remove</a></td>
+			<td><a th:href="@{/mailcountrule/update/__${mailCountRuleList.id}__}">Update</a></td>
+		</tr>
+	</table>
+</body>
+</html>	
+	

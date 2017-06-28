@@ -74,14 +74,13 @@ public class AlertWordRuleServiceImpl implements AlertWordRuleService {
     @Override
     @Transactional
     public void delete(int id) {
-        alertWordRuleRepository.delete(id);
+        alertWordRuleRepository.delete(alertWordRuleRepository.findById(id));
     }
 
     @Override
     @Transactional
     public void update(AlertWordRule alertWordRule) {
-        AlertWordRule oldAlertWordRule = alertWordRuleRepository.findById(alertWordRule.getId());
-        oldAlertWordRule.setThreshold(alertWordRule.getThreshold());
+        alertWordRuleRepository.update(alertWordRule);
     }
 
 }
