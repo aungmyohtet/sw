@@ -1,7 +1,5 @@
 package com.frobom.sw.web;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -61,6 +60,37 @@ public class AlertWordRuleController {
         }
 
         alertWordRuleService.add(alertWordRule.getProject().getId(), alertWordRule.getThreshold());
+        return "redirect:/alertwordrules/add";
+    }
+
+    @RequestMapping(value = "/alertwordrules/remove/{id}", method = RequestMethod.GET)
+    public String deleteAlertWordRule(@PathVariable int id, Model model) {
+        AlertWordRule alertWordRule = alertWordRuleService.findById(id);
+        if (alertWordRule == null) {
+            return "redirect:/bad/request";
+        }
+        alertWordRuleService.delete(id);
+        return "redirect:/alertwordrules/add";
+    }
+
+    @RequestMapping(value="/alertwordrules/update/{id}", method=RequestMethod.GET)
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        AlertWordRule alertWordRule = alertWordRuleService.findById(id);
+        if(alertWordRule == null) {
+            return "redirect:/bad/request";
+        }
+        model.addAttribute("alertWordRule", alertWordRule);
+        return "update_alertwordrule";
+     }
+
+    @RequestMapping(value = "/alertwordrules/update", method = RequestMethod.POST)
+    public String updateAlertWordRule(@Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "update_alertwordrule";
+        }
+
+        alertWordRuleService.update(alertWordRule);
         return "redirect:/alertwordrules/add";
     }
 }

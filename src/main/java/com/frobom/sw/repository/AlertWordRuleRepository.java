@@ -16,4 +16,8 @@ public interface AlertWordRuleRepository {
     AlertWordRule findByProject(Project project);
 
     Integer getThresholdByProject(Project project);
+
+    void update(AlertWordRule alertWorldRule);
+
+    void delete(AlertWordRule alertWorldRule);
 }

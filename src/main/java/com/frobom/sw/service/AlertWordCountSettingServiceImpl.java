@@ -43,4 +43,17 @@ public class AlertWordCountSettingServiceImpl implements AlertWordCountSettingSe
         return alertWordCountSettingRepo.findByName(name);
     }
 
+    @Override
+    @Transactional
+    public void update(AlertWordCountSetting alertWordCountSetting) {
+        alertWordCountSettingRepo.update(alertWordCountSetting);
+    }
+
+    @Override
+    @Transactional
+    public void remove(int id) {
+        AlertWordCountSetting alertWordCountSetting = alertWordCountSettingRepo.findById(id);
+        alertWordCountSettingRepo.delete(alertWordCountSetting);
+    }
+
 }

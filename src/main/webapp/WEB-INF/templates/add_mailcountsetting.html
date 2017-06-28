@@ -14,15 +14,17 @@
 	   <input type="submit" value="Add MailCountSetting"/>
 	</form>
 	<br/><br/>
+	<h3>Mail Count Settings</h3>
 	<table>
-		<caption>AlertWordCountSettings</caption>
 	    <tr>
-	      <td>Name</td>
-	      <td>Value</td>
+	      <td><b>Name</b></td>
+	      <td><b>Value</b></td>
 	    </tr>
 		<tr th:each="mailcountsetting : ${mailcountsettings}">
 			<td th:text="${mailcountsetting.name}"></td>
 			<td th:text="${mailcountsetting.value}"></td>
+			<td><a th:href="@{/mailcountsettings/remove/__${mailcountsetting.id}__}">Remove</a></td>
+			<td><a th:href="@{/mailcountsettings/update/__${mailcountsetting.id}__}">Update</a></td>
 		</tr>
 	</table>
 </body>

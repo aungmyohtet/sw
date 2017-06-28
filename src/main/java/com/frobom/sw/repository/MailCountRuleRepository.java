@@ -18,4 +18,6 @@ public interface MailCountRuleRepository {
     void update(MailCountRule mailCountRule);
 
     Integer getThresholdByProject(Project project);
+
+    void delete(MailCountRule mailCountRule);
 }

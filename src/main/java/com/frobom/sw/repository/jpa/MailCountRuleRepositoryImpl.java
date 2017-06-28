@@ -65,4 +65,9 @@ public class MailCountRuleRepositoryImpl implements MailCountRuleRepository {
         return (Integer) query.getSingleResult();
     }
 
+    @Override
+    public void delete(MailCountRule mailCountRule) {
+        entityManager.remove(mailCountRule);
+    }
+
 }

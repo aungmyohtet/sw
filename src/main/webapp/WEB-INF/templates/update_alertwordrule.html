@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add AlertWordRule</title>
+</head>
+<body>
+	<form action="#" th:action="@{/alertwordrules/update}" th:object="${alertWordRule}" method="post">
+
+		<div>
+			<input type="hidden" th:field="*{id}" />
+			<input type="hidden" th:field="*{project.id}" />
+		    <input type="text" th:field="*{project.name}" readonly="readonly"/>
+		    <br/>
+		    <input type="text" th:field="*{threshold}" placeholder="Threshold"/>
+		    &nbsp;&nbsp;<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+		    <br/>
+		    <input type="submit" value="Update AlertWordCountRule"/>
+		</div>
+	</form>
+</body>
+</html>

@@ -13,4 +13,8 @@ public interface MailCountSettingRepository {
     MailCountSetting findById(int id);
 
     MailCountSetting findByName(String name);
+
+    void update(MailCountSetting mailCountSetting);
+
+    void delete(MailCountSetting mailCountSetting);
 }

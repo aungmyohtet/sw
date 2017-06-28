@@ -14,4 +14,5 @@ public interface AlertWordCountListenerRepository {
 
     AlertWordCountListener findByMailAddress(MailAddress mailAddress);
 
+    void delete(AlertWordCountListener alertWordCountListener);
 }

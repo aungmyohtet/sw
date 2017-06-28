@@ -63,4 +63,14 @@ public class AlertWordRuleRepositoryImpl implements AlertWordRuleRepository {
         return alertWordRule;
     }
 
+    @Override
+    public void update(AlertWordRule alertWorldRule) {
+        entityManager.merge(alertWorldRule);
+    }
+
+    @Override
+    public void delete(AlertWordRule alertWorldRule) {
+        entityManager.remove(alertWorldRule);
+    }
+
 }

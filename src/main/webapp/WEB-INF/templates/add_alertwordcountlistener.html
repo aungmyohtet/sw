@@ -11,7 +11,7 @@
 		<div>
 			<select th:field="*{mailAddress.id}" id="optionsList"
 				name="optionsListId">
-				<option value="0">Select Mail</option>
+				<option value="0">Select Mail Address</option>
 				<option th:each="mailaddress : ${mailaddresses}"
 					th:value="${mailaddress.id}" th:text="${mailaddress.address}"></option>
 			</select> &nbsp;&nbsp;<span th:if="${#fields.hasErrors('mailAddress.id')}"
@@ -20,17 +20,14 @@
 		<br /> <input type="submit" value="Add Listener" />
 	</form>
 	<br />
-	<br />
+	<h3>Alert WordCount Listeners</h3>
 	<table>
-		<caption>AlertWordCountListeners</caption>
 		<tr>
-			<td></td>
-		</tr>
-		<tr>
-			<td>Address</td>
+			<td><b>Address</b></td>
 		</tr>
 		<tr th:each="alertwordcountlistener : ${alertwordcountlisteners}">
 			<td th:text="${alertwordcountlistener.mailAddress.address}"></td>
+			<td><a th:href="@{/alertwordcountlisteners/remove/__${alertwordcountlistener.id}__}">Remove</a></td>
 		</tr>
 	</table>
 </body>

@@ -9,6 +9,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "alert_word_rule")
@@ -25,6 +26,7 @@ public class AlertWordRule implements Serializable {
     private Project project;
 
     @Min(1)
+    @NotNull
     private int threshold;
 
 

@@ -15,4 +15,6 @@ public interface AlertWordCountListenerService {
     void add(int maillAddressId);
 
     AlertWordCountListener findByMailAddress(MailAddress mailAddress);
+
+    void remove(int id);
 }

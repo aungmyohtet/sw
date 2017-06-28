@@ -51,4 +51,9 @@ public class AlertWordCountListenerRepositoryImpl implements AlertWordCountListe
         return alertWordCountListener;
     }
 
+    @Override
+    public void delete(AlertWordCountListener alertWordCountListener) {
+        entityManager.remove(alertWordCountListener);
+    }
+
 }

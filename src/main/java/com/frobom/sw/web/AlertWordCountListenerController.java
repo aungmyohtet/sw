@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.frobom.sw.entity.AlertWordCountListener;
 import com.frobom.sw.service.AlertWordCountListenerService;
@@ -60,5 +62,21 @@ public class AlertWordCountListenerController {
         alertWordCountListenerService.add(alertWordCountListener.getMailAddress().getId());
 
         return "redirect:/alertwordcountlisteners/add";
+    }
+    
+    @RequestMapping(value="/alertwordcountlisteners/remove/{id}", method=RequestMethod.GET)
+    public String deleteAlertWordCountListener(@PathVariable int id, Model model) {
+        AlertWordCountListener alertWordCountListener = alertWordCountListenerService.findById(id);
+        if(alertWordCountListener == null) {
+            return "redirect:/bad/request";
+        }
+        alertWordCountListenerService.remove(alertWordCountListener.getId());
+        return "redirect:/alertwordcountlisteners/add";
+     }
+
+    @RequestMapping(value = "/bad/request", method = RequestMethod.GET)
+    @ResponseBody
+    public String accessDeniedPage(Model model) {
+        return "Bad Request!";
     }
 }

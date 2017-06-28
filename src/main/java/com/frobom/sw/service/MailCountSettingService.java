@@ -13,4 +13,8 @@ public interface MailCountSettingService {
     MailCountSetting findById(int id);
 
     MailCountSetting findByName(String name);
+
+    void delete(int id);
+
+    void update(MailCountSetting mailCountSetting);
 }

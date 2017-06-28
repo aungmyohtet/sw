@@ -50,4 +50,14 @@ public class AlertWordCountSettingRepositoryImpl implements AlertWordCountSettin
         return setting;
     }
 
+    @Override
+    public void update(AlertWordCountSetting alertWordCountSetting) {
+        entityManager.merge(alertWordCountSetting);
+    }
+
+    @Override
+    public void delete(AlertWordCountSetting alertWordCountSetting) {
+        entityManager.remove(alertWordCountSetting);
+    }
+
 }

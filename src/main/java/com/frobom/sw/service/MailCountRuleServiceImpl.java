@@ -16,7 +16,7 @@ public class MailCountRuleServiceImpl implements MailCountRuleService {
     @Autowired
     private MailCountRuleRepository mailCountRuleRepository;
 
-    public void setMailCountRuleRepository(MailCountRuleRepository mailCountListenerRepository) {
+    public void setMailCountRuleRepository(MailCountRuleRepository mailCountRuleRepository) {
         this.mailCountRuleRepository = mailCountRuleRepository;
     }
 
@@ -36,8 +36,27 @@ public class MailCountRuleServiceImpl implements MailCountRuleService {
     }
 
     @Override
+    @Transactional
     public List<MailCountRule> findAll() {
         return mailCountRuleRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public MailCountRule findById(int id) {
+        return mailCountRuleRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(MailCountRule mailCountRule) {
+        mailCountRuleRepository.update(mailCountRule);
+    }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+        mailCountRuleRepository.delete(mailCountRuleRepository.findById(id));
     }
 
 }
