@@ -1,8 +1,6 @@
 package com.frobom.sw.entity;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +27,7 @@ public class Project {
 
     @ManyToMany
     @JoinTable(name = "target_mail", joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
+    @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
     private List<MailAddress> mailAddresses;
 
     @OneToMany(mappedBy = "project")

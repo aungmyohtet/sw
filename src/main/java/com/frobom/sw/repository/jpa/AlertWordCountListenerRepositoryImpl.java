@@ -53,9 +53,7 @@ public class AlertWordCountListenerRepositoryImpl implements AlertWordCountListe
 
     @Override
     public void delete(AlertWordCountListener alertWordCountListener) {
-        Query query = entityManager.createQuery("DELETE FROM AlertWordCountListener a WHERE a.id = :id");
-        int deletedCount = query.setParameter("id", alertWordCountListener.getId()).executeUpdate();
-        System.out.println("deletedCount : " + deletedCount);
+        entityManager.remove(alertWordCountListener);
     }
 
 }

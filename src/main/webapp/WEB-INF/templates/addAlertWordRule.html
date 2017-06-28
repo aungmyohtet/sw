@@ -19,12 +19,12 @@
 		    <input type="submit" value="Add AlertWordCountRule"/>
 		</div>
 	</form>
-	<br/><br/>
+	<br/>
+	<h3>Alert Word Rules</h3>
 	<table>
-		<caption>AlertWordRules</caption>
 	    <tr>
-	      <td>Project</td>
-	      <td>Threshold</td>
+	      <td><b>Project</b></td>
+	      <td><b>Threshold</b></td>
 	    </tr>
 		<tr th:each="alertwordrule : ${alertWordRuleList}">
 			<td th:text="${alertwordrule.project.name}"></td>

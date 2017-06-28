@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "mail_count_rule")
@@ -22,7 +23,9 @@ public class MailCountRule {
     private Project project;
 
     @Min(1)
+    @NotNull
     private int threshold;
+
     public Integer getId() {
         return id;
     }

@@ -29,6 +29,8 @@ public class AlertWordCountSettingController {
         this.alertWordCountSettingService = alertWordCountSettingService;
     }
 
+    String oldSettingName = "";
+
     @RequestMapping(value = "/alertwordcountsettings/add", method = RequestMethod.GET)
     public String showForm(Model model) {
         model.addAttribute("alertWordCountSetting", new AlertWordCountSetting());
@@ -70,12 +72,22 @@ public class AlertWordCountSettingController {
             return "redirect:/bad/request";
         }
         model.addAttribute("alertWordCountSetting", alertWordCountSetting);
+        oldSettingName = alertWordCountSetting.getName();
         return "update_alertwordcountsetting";
      }
 
     @RequestMapping(value = "/alertwordcountsettings/update", method = RequestMethod.POST)
     public String updateAlertWordCountSetting(@Validated @ModelAttribute AlertWordCountSetting alertWordCountSetting, BindingResult result, Model model) {
 
+        if (result.hasErrors()) {
+            return "update_alertwordcountsetting";
+        }
+
+        if (oldSettingName.equals(alertWordCountSetting.getName())) {
+            return "redirect:/alertwordcountsettings/add";
+        }
+
+        validator.validate(alertWordCountSetting, result);
         if (result.hasErrors()) {
             return "update_alertwordcountsetting";
         }

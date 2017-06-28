@@ -64,9 +64,13 @@ public class AlertWordRuleRepositoryImpl implements AlertWordRuleRepository {
     }
 
     @Override
-    public void delete(int id) {
-        Query query = entityManager.createQuery("DELETE FROM AlertWordRule a WHERE a.id = :id");
-        query.setParameter("id", id).executeUpdate();
+    public void update(AlertWordRule alertWorldRule) {
+        entityManager.merge(alertWorldRule);
+    }
+
+    @Override
+    public void delete(AlertWordRule alertWorldRule) {
+        entityManager.remove(alertWorldRule);
     }
 
 }

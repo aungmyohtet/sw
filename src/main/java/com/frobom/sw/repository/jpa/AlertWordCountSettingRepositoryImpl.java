@@ -51,9 +51,13 @@ public class AlertWordCountSettingRepositoryImpl implements AlertWordCountSettin
     }
 
     @Override
-    public void delete(int id) {
-        Query query = entityManager.createQuery("DELETE FROM AlertWordCountSetting a WHERE a.id = :id");
-        query.setParameter("id", id).executeUpdate();
+    public void update(AlertWordCountSetting alertWordCountSetting) {
+        entityManager.merge(alertWordCountSetting);
+    }
+
+    @Override
+    public void delete(AlertWordCountSetting alertWordCountSetting) {
+        entityManager.remove(alertWordCountSetting);
     }
 
 }

@@ -14,5 +14,7 @@ public interface AlertWordCountSettingRepository {
 
     AlertWordCountSetting findByName(String name);
 
-    void delete(int id);
+    void delete(AlertWordCountSetting alertWordCountSetting);
+
+    void update(AlertWordCountSetting alertWordCountSetting);
 }

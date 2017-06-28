@@ -50,4 +50,14 @@ public class MailCountSettingRepositoryImpl implements MailCountSettingRepositor
         return mailCountSetting;
     }
 
+    @Override
+    public void delete(MailCountSetting mailCountSetting) {
+        entityManager.remove(mailCountSetting);
+    }
+
+    @Override
+    public void update(MailCountSetting mailCountSetting) {
+        entityManager.merge(mailCountSetting);
+    }
+
 }

@@ -70,7 +70,7 @@ public class AlertWordCountListenerController {
         if(alertWordCountListener == null) {
             return "redirect:/bad/request";
         }
-        alertWordCountListenerService.remove(alertWordCountListener);
+        alertWordCountListenerService.remove(alertWordCountListener.getId());
         return "redirect:/alertwordcountlisteners/add";
      }
 

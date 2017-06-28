@@ -9,4 +9,10 @@ public interface MailCountRuleService {
 
     public List<MailCountRule> findAll();
 
+    MailCountRule findById(int id);
+
+    void update(MailCountRule mailCountRule);
+
+    void delete(int id);
+
 }

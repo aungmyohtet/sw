@@ -17,5 +17,7 @@ public interface AlertWordRuleRepository {
 
     Integer getThresholdByProject(Project project);
 
-    void delete(int id);
+    void update(AlertWordRule alertWorldRule);
+
+    void delete(AlertWordRule alertWorldRule);
 }

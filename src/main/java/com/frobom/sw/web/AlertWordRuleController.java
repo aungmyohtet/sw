@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.frobom.sw.entity.AlertWordCountSetting;
 import com.frobom.sw.entity.AlertWordRule;
 import com.frobom.sw.service.AlertWordRuleService;
 import com.frobom.sw.service.ProjectService;

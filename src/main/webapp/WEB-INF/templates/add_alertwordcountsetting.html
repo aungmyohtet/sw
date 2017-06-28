@@ -13,12 +13,12 @@
 	   <br/>
 	   <input type="submit" value="Add AlertWordCountSetting"/>
 	</form>
-	<br/><br/>
+	<br/>
+	<h3>Alert Word Count Settings</h3>
 	<table>
-		<caption>AlertWordCountSettings</caption>
 	    <tr>
-	      <td>Name</td>
-	      <td>Value</td>
+	      <td><b>Name</b></td>
+	      <td><b>Value</b></td>
 	    </tr>
 		<tr th:each="alertwordcountsetting : ${alertwordcountsettings}">
 			<td th:text="${alertwordcountsetting.name}"></td>

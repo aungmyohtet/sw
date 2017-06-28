@@ -46,15 +46,14 @@ public class AlertWordCountSettingServiceImpl implements AlertWordCountSettingSe
     @Override
     @Transactional
     public void update(AlertWordCountSetting alertWordCountSetting) {
-        AlertWordCountSetting oldSetting = alertWordCountSettingRepo.findById(alertWordCountSetting.getId());
-        oldSetting.setName(alertWordCountSetting.getName());
-        oldSetting.setValue(alertWordCountSetting.getValue());
+        alertWordCountSettingRepo.update(alertWordCountSetting);
     }
 
     @Override
     @Transactional
     public void remove(int id) {
-        alertWordCountSettingRepo.delete(id);
+        AlertWordCountSetting alertWordCountSetting = alertWordCountSettingRepo.findById(id);
+        alertWordCountSettingRepo.delete(alertWordCountSetting);
     }
 
 }

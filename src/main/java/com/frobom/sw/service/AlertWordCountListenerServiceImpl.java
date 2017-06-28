@@ -68,8 +68,8 @@ public class AlertWordCountListenerServiceImpl implements AlertWordCountListener
 
     @Override
     @Transactional
-    public void remove(AlertWordCountListener alertWordCountListener) {
-        alertWordCountListenerRepository.delete(alertWordCountListener);
+    public void remove(int id) {
+        alertWordCountListenerRepository.delete(alertWordCountListenerRepository.findById(id));
     }
 
 }

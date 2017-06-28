@@ -43,4 +43,16 @@ public class MailCountSettingServiceImpl implements MailCountSettingService {
         return mailCountSettingRepo.findByName(name);
     }
 
+    @Override
+    @Transactional
+    public void delete(int id) {
+        mailCountSettingRepo.delete(mailCountSettingRepo.findById(id));
+    }
+
+    @Override
+    @Transactional
+    public void update(MailCountSetting mailCountSetting) {
+        mailCountSettingRepo.update(mailCountSetting);
+    }
+
 }
