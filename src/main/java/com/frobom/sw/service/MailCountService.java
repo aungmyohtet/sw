@@ -1,10 +1,10 @@
-package com.frobom.sw.repository;
+package com.frobom.sw.service;
 
 import java.util.List;
 
 import com.frobom.sw.entity.MailCount;
 
-public interface MailCountRepository {
+public interface MailCountService {
 
     List<MailCount> findAll();
 

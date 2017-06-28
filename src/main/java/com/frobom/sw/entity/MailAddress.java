@@ -1,9 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2017 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package com.frobom.sw.entity;
 
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +22,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -30,10 +43,11 @@ public class MailAddress {
     @NotBlank(message = "Address cannot be empty.")
     private String address;
 
-    @ManyToMany(mappedBy = "mailAddresses")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "mailAddresses")
     private List<Project> projects;
 
-    @OneToMany(mappedBy = "mailAddress")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mailAddress")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<MailPropertySetting> propertySettings;
 
     public Integer getId() {

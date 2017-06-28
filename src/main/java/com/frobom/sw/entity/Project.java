@@ -22,6 +22,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -37,6 +40,7 @@ public class Project {
     private String name;
 
     @ManyToMany(fetch=FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "target_mail", joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") }, inverseJoinColumns = {
     @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
     private List<MailAddress> mailAddresses;
