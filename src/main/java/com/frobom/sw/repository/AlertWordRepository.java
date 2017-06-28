@@ -14,4 +14,8 @@ public interface AlertWordRepository {
     AlertWord findById(int id);
 
     AlertWord findByWordAndLanguage(String word, Language language);
+
+    void update(AlertWord alertWord);
+
+    void delete(int id);
 }

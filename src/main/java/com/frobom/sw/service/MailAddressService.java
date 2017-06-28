@@ -3,9 +3,10 @@ package com.frobom.sw.service;
 import java.util.List;
 
 import com.frobom.sw.entity.MailAddress;
+import com.frobom.sw.entity.Project;
 
 public interface MailAddressService {
-    
+
     void save(MailAddress mailAddress);
 
     List<MailAddress> findAll();
@@ -15,5 +16,9 @@ public interface MailAddressService {
     MailAddress findByAddress(String address);
 
     MailAddress findByName(String name);
+
+    void update(MailAddress mailAddress);
+
+    void delete(int id);
 
 }

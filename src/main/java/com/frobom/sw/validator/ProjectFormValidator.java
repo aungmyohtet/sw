@@ -6,7 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.frobom.sw.entity.MailAddress;
 import com.frobom.sw.entity.Project;
+import com.frobom.sw.service.MailAddressService;
 import com.frobom.sw.service.ProjectService;
 
 @Component("projectFormValidator")
@@ -16,9 +18,13 @@ public class ProjectFormValidator implements Validator {
     @Qualifier("projectService")
     private ProjectService projectService;
 
+    @Autowired
+    @Qualifier("mailAddressService")
+    private MailAddressService mailAddressService;
+
     @Override
     public boolean supports(Class<?> clazz) {
-        return Project.class.equals(clazz);
+        return Project.class.equals(clazz) && MailAddress.class.equals(clazz);
     }
 
     @Override
@@ -26,6 +32,14 @@ public class ProjectFormValidator implements Validator {
         Project project = (Project) target;
         if (projectService.findByName(project.getName()) != null) {
             errors.rejectValue("name", "name.alreadyExists", "Name already taken.");
+        }
+    }
+
+    public void validate(Object target1, Errors error1, Object target2, Errors error2) {
+        Project project = (Project) target1;
+        MailAddress mailAddress = (MailAddress) target2;
+        if (projectService.IsExistsMailAddress(mailAddress, project)) {
+            error2.rejectValue("address", "address.alreadyExists", "Address already taken.");
         }
     }
 }

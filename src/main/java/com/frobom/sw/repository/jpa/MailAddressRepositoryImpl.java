@@ -69,4 +69,20 @@ public class MailAddressRepositoryImpl implements MailAddressRepository {
         }
         return mailAddress;
     }
+
+    @Override
+    public void update(MailAddress mailAddress) {
+        Query query= entityManager.createQuery("update MailAddress m set m.name=:name, m.address=:address where m.id=:id");
+        query.setParameter("id", mailAddress.getId());
+        query.setParameter("name", mailAddress.getName());
+        query.setParameter("address", mailAddress.getAddress());
+        query.executeUpdate();
+    }
+
+    @Override
+    public void delete(int id) {
+        Query query= entityManager.createQuery("delete from MailAddress m where m.id=:id");
+        query.setParameter("id",id);
+        query.executeUpdate();
+    }
 }

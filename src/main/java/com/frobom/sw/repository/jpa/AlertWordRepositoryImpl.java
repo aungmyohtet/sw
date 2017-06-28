@@ -52,4 +52,20 @@ public class AlertWordRepositoryImpl implements AlertWordRepository {
         return alertWord;
     }
 
+    @Override
+    public void update(AlertWord alertWord) {
+        Query query= entityManager.createQuery("update AlertWord a set a.word=:word, a.language=:language where a.id=:id");
+        query.setParameter("id", alertWord.getId());
+        query.setParameter("word", alertWord.getWord());
+        query.setParameter("language", alertWord.getLanguage());
+        query.executeUpdate();
+    }
+
+    @Override
+    public void delete(int id) {
+        Query query= entityManager.createQuery("delete from AlertWord a where a.id=:id");
+        query.setParameter("id",id);
+        query.executeUpdate();
+    }
+
 }

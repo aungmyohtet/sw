@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2017 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package com.frobom.sw.entity;
 
 import java.io.Serializable;
@@ -5,6 +15,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -16,38 +27,16 @@ public class MailPropertySetting implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "mail_address_id")
-    private Integer mailAddressId;
-
-    @Id
-    @Column(name = "mail_property_key_id")
-    private Integer mailPropertyKeyId;
-
-    private String value;
-
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "mail_address_id", referencedColumnName = "id")
+    @JoinColumn(name = "mail_address_id", referencedColumnName = "id")
     private MailAddress mailAddress;
 
+    @Id
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "mail_property_key_id", referencedColumnName = "id")
+    @JoinColumn(name = "mail_property_key_id", referencedColumnName = "id")
     private MailPropertyKey mailPropertyKey;
 
-    public Integer getMailAddressId() {
-        return mailAddressId;
-    }
-
-    public void setMailAddressId(Integer mailAddressId) {
-        this.mailAddressId = mailAddressId;
-    }
-
-    public int getMailPropertyKeyId() {
-        return mailPropertyKeyId;
-    }
-
-    public void setMailPropertyKeyId(int mailPropertyKeyId) {
-        this.mailPropertyKeyId = mailPropertyKeyId;
-    }
+    private String value;
 
     public String getValue() {
         return value;
