@@ -8,4 +8,6 @@ public interface MailCountRepository {
 
     List<MailCount> findAll();
 
+    void delete(MailCount mailCount);
+
 }

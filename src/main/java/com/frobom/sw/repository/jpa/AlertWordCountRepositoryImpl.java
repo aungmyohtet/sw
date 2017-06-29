@@ -24,4 +24,9 @@ public class AlertWordCountRepositoryImpl implements AlertWordCountRepository {
     public List<AlertWordCount> findAll() {
         return entityManager.createQuery("select a from AlertWordCount a", AlertWordCount.class).getResultList();
     }
+
+    @Override
+    public void delete(AlertWordCount alertWordCount) {
+        entityManager.remove(alertWordCount);
+    }
 }

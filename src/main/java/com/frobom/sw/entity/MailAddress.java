@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package com.frobom.sw.entity;
 
 import java.util.List;
@@ -44,14 +34,14 @@ public class MailAddress {
     @NotBlank(message = "Address cannot be empty.")
     private String address;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "mailAddresses")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "mailAddresses")
     private List<Project> projects;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mailAddress")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<MailPropertySetting> propertySettings;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mailAddress")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "mailAddress")
     private List<Mail> mailList;
 
     public Integer getId() {

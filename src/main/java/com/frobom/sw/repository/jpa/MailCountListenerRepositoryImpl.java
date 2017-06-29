@@ -40,4 +40,9 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
         return entityManager.find(MailCountListener.class, id);
     }
 
+    @Override
+    public void delete(MailCountListener listener) {
+        entityManager.remove(listener);
+    }
+
 }

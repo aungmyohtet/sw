@@ -8,4 +8,6 @@ public interface AlertWordCountRepository {
 
     List<AlertWordCount> findAll();
 
+    void delete(AlertWordCount alertWordCount);
+
 }

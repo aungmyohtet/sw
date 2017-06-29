@@ -35,4 +35,9 @@ public class MailPropertySettingRepositoryImpl implements MailPropertySettingRep
         return entityManager.find(MailPropertySetting.class, id);
     }
 
+    @Override
+    public void delete(MailPropertySetting setting) {
+        entityManager.remove(setting);
+    }
+
 }

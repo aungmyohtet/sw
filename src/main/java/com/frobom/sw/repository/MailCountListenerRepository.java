@@ -11,4 +11,6 @@ public interface MailCountListenerRepository {
     List<MailCountListener> findAll();
 
     MailCountListener findById(int id);
+
+    void delete(MailCountListener listener);
 }

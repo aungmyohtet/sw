@@ -25,4 +25,9 @@ public class MailCountRepositoryImpl implements MailCountRepository {
         return entityManager.createQuery("select m from MailCount m", MailCount.class).getResultList();
     }
 
+    @Override
+    public void delete(MailCount mailCount) {
+        entityManager.remove(mailCount);
+    }
+
 }
