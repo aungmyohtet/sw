@@ -19,7 +19,7 @@
 	   <option value="0" selected="selected">Mail Property Key</option>
 	   <option th:each="mailPropertyKey : ${mailPropertyKeys}"
 				th:value="${mailPropertyKey.id}"
-				th:text="${mailPropertyKey.id}" />
+				th:text="${mailPropertyKey.name}" />
 		</select>
 	  <span th:if="${#fields.hasErrors('mailPropertyKey.id')}" th:errors="*{mailPropertyKey.id}">Invalid Data </span>
 	  <br/>
@@ -28,14 +28,16 @@
 	<br/>
 	<table>
 	    <tr>
-	      <td>MailAddressId </td>
-	      <td>MailPropertyKey Id</td>
+	      <td>MailAddress </td>
+	      <td>MailPropertyKey</td>
 	      <td> Value </td>
 	    </tr>
 		<tr th:each="mailPropertySetting : ${mailPropertySettings}" align = 'center'>
 			<td th:text="${mailPropertySetting.mailAddress.address}"></td>
-			<td th:text="${mailPropertySetting.mailPropertyKey.id}"></td>
+			<td th:text="${mailPropertySetting.mailPropertyKey.name}"></td>
 			<td th:text="${mailPropertySetting.value}"></td>
+			<td><a th:href="@{/mailpropertysetting/edit/__${mailPropertySetting.mailPropertyKey.id}__/__${mailPropertySetting.mailAddress.id}__}"> edit </a></td>
+			<td><a th:href="@{/mailpropertysetting/delete/__${mailPropertySetting.mailPropertyKey.id}__/__${mailPropertySetting.mailAddress.id}__}"> delete </a></td>			
 		</tr>
 	</table>
 </body>

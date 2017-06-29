@@ -19,6 +19,8 @@
 		<tr th:each="mailPropertyKey : ${mailPropertyKeys}">
 			<td th:text="${mailPropertyKey.id}"></td>
 			<td th:text="${mailPropertyKey.name}"></td>
+			<td><a th:href="@{/mailpropertykey/edit/__${mailPropertyKey.id}__}">Edit </a></td>
+			<td><a th:href="@{/mailpropertykey/delete/__${mailPropertyKey.id}__}"> delete </a></td>
 		</tr>
 	</table>
 </body>

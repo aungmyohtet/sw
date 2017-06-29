@@ -2,8 +2,10 @@ package com.frobom.sw.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +23,7 @@ public class MailPropertyKey {
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "mailPropertyKey")
+    @OneToMany(mappedBy = "mailPropertyKey", fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE })
     private List<MailPropertySetting> propertySettings;
 
     public Integer getId() {
