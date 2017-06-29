@@ -3,8 +3,10 @@ package com.frobom.sw.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table
 public class Mail {
@@ -22,11 +27,11 @@ public class Mail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mail_address_id")
     private MailAddress mailAddress;
 
-    @OneToOne(mappedBy = "mail")
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "mail")
     private AlertWordCount alertWordCount;
 
     private Date date;
@@ -42,7 +47,8 @@ public class Mail {
 
     private Boolean analyzed;
 
-    @OneToMany(mappedBy = "mail")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "mail")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<MailRawDataPath> mailRawDatapaths;
 
     public Long getId() {

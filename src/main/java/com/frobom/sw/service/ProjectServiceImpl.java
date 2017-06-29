@@ -6,9 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frobom.sw.entity.AlertWordRule;
 import com.frobom.sw.entity.MailAddress;
+import com.frobom.sw.entity.MailCount;
+import com.frobom.sw.entity.MailCountRule;
+import com.frobom.sw.entity.NotificationResult;
 import com.frobom.sw.entity.Project;
+import com.frobom.sw.repository.AlertWordRuleRepository;
 import com.frobom.sw.repository.MailAddressRepository;
+import com.frobom.sw.repository.MailCountRepository;
+import com.frobom.sw.repository.MailCountRuleRepository;
+import com.frobom.sw.repository.NotificationResultRepository;
 import com.frobom.sw.repository.ProjectRepository;
 
 @Service("projectService")
@@ -20,12 +28,40 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private MailAddressRepository mailAddressRepo;
 
+    @Autowired
+    private AlertWordRuleRepository alertWordRuleRepo;
+
+    @Autowired
+    private MailCountRuleRepository mailCountRuleRepo;
+
+    @Autowired
+    private MailCountRepository mailCountRepo;
+
+    @Autowired
+    private NotificationResultRepository notiResultRepo;
+
     public void setProjectRepository(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 
     public void setMailAddressRepo(MailAddressRepository mailAddressRepo) {
         this.mailAddressRepo = mailAddressRepo;
+    }
+
+    public void setAlertWordRuleRepo(AlertWordRuleRepository alertWordRuleRepo) {
+        this.alertWordRuleRepo = alertWordRuleRepo;
+    }
+
+    public void setMailCountRuleRepo(MailCountRuleRepository mailCountRuleRepo) {
+        this.mailCountRuleRepo = mailCountRuleRepo;
+    }
+
+    public void setMailCountRepo(MailCountRepository mailCountRepo) {
+        this.mailCountRepo = mailCountRepo;
+    }
+
+    public void setNotiResultRepo(NotificationResultRepository notiResultRepo) {
+        this.notiResultRepo = notiResultRepo;
     }
 
     @Override
@@ -61,7 +97,31 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void delete(int id) {
-        projectRepository.delete(id);
+        Project proj = projectRepository.findById(id);
+        for (MailAddress address : mailAddressRepo.findAll()) {
+            address.getProjects().remove(proj);
+        }
+        for (AlertWordRule alertRule : alertWordRuleRepo.findAll()) {
+            if (alertRule.getProject().equals(proj)) {
+                alertWordRuleRepo.delete(alertRule);
+            }
+        }
+        for (MailCountRule mailCountRule : mailCountRuleRepo.findAll()) {
+            if (mailCountRule.getProject().equals(proj)) {
+                mailCountRuleRepo.delete(mailCountRule);
+            }
+        }
+        for (MailCount count : mailCountRepo.findAll()) {
+            if (count.getProject().equals(proj)) {
+                mailCountRepo.delete(count);
+            }
+        }
+        for (NotificationResult noti : notiResultRepo.findAll()) {
+            if (noti.getProject().equals(proj)) {
+                notiResultRepo.delete(noti);
+            }
+        }
+        projectRepository.delete(projectRepository.findById(id));
     }
 
     @Override

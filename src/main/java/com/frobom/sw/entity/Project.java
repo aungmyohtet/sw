@@ -1,16 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package com.frobom.sw.entity;
 
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -36,15 +31,16 @@ public class Project {
     @NotBlank(message = "Project name cannot be empty.")
     private String name;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "target_mail", joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") }, inverseJoinColumns = {
-    @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
+            @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
     private List<MailAddress> mailAddresses;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "project")
     private List<MailCount> mailCountList;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "project")
     private List<NotificationResult> notificationResultList;
 
     public Integer getId() {

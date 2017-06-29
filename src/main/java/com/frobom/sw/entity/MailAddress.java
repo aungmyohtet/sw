@@ -2,8 +2,10 @@ package com.frobom.sw.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -30,11 +34,15 @@ public class MailAddress {
     @NotBlank(message = "Address cannot be empty.")
     private String address;
 
-    @ManyToMany(mappedBy = "mailAddresses")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "mailAddresses")
     private List<Project> projects;
 
-    @OneToMany(mappedBy = "mailAddress")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mailAddress")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<MailPropertySetting> propertySettings;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "mailAddress")
+    private List<Mail> mailList;
 
     public Integer getId() {
         return id;
@@ -74,5 +82,13 @@ public class MailAddress {
 
     public void setPropertySettings(List<MailPropertySetting> propertySettings) {
         this.propertySettings = propertySettings;
+    }
+
+    public List<Mail> getMailList() {
+        return mailList;
+    }
+
+    public void setMailList(List<Mail> mailList) {
+        this.mailList = mailList;
     }
 }

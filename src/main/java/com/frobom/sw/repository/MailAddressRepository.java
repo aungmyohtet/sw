@@ -18,5 +18,5 @@ public interface MailAddressRepository {
 
     void update(MailAddress mailAddress);
 
-    void delete(int id);
+    void delete(MailAddress mailAddress);
 }

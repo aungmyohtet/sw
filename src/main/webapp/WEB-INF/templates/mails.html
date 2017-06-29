@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mails Information</title>
+</head>
+<body>
+	<h4>Mails Information</h4>
+	<div th:if="${!mails.empty}">
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>Address</th>
+				<th>Raw_FilePath</th>
+				<th>Type</th>
+				<th>Date</th>
+			</tr>
+			<tr th:each="mail : ${mails}">
+				<td th:text="${mail.id}"></td>
+				<td th:text="${mail.mailAddress.address}"></td>
+				<td>
+					<table th:each="filePath : ${mail.mailRawDatapaths}">
+						<tr>
+							<td th:text="${filePath.filePath}"></td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table th:each="filePath : ${mail.mailRawDatapaths}">
+						<tr>
+							<td th:text="${filePath.type}"></td>
+						</tr>
+					</table>
+				</td>
+				<td th:text="${mail.date}"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

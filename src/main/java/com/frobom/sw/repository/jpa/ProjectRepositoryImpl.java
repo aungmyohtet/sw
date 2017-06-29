@@ -66,10 +66,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public void delete(int id) {
-        Query query= entityManager.createQuery("delete from Project p where p.id=:id");
-        query.setParameter("id",id);
-        query.executeUpdate();
+    public void delete(Project project) {
+        entityManager.remove(project);
     }
 
 }
