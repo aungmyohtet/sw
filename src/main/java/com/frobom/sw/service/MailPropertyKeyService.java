@@ -11,4 +11,6 @@ public interface MailPropertyKeyService {
     public List<MailPropertyKey> findAll();
 
     MailPropertyKey findById(int id);
+
+    void delete(int id);
 }

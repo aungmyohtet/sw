@@ -36,9 +36,14 @@ public class MailCountListenerServiceImpl implements MailCountListenerService {
     }
 
     @Override
+    @Transactional
     public List<MailCountListener> findAll() {
-
         return mailCountListenerRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public void delete(int id) {
+        mailCountListenerRepository.delete(id);
+    }
 }

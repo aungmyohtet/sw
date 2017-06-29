@@ -54,4 +54,9 @@ public class MailPropertyKeyRepositoryImpl implements MailPropertyKeyRepository 
         return propertyKey;
     }
 
+    @Override
+    public void delete(int id) {
+        Query query = entityManager.createQuery("delete from MailPropertyKey k where k.id = :id");
+        query.setParameter("id", id).executeUpdate();
+    }
 }

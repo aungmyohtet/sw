@@ -10,4 +10,5 @@ public interface MailCountListenerService {
 
     public List<MailCountListener> findAll();
 
+    public void delete(int id);
 }

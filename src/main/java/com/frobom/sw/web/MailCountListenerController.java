@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -46,7 +47,6 @@ public class MailCountListenerController {
 
     @RequestMapping(value = "/mailcountlistener/add", method = RequestMethod.POST)
     public String addailCountAddress(@Validated @ModelAttribute MailCountListener mailCountListener, BindingResult result, Model model) {
-
         model.addAttribute("mailCountListeners", this.mailCountListenerService.findAll());
         model.addAttribute("mailAddressLists", this.mailAdddressService.findAll());
 
@@ -60,6 +60,12 @@ public class MailCountListenerController {
         }
 
         mailCountListenerService.add(mailCountListener);
+        return "redirect:/mailcountlistener";
+    }
+
+    @RequestMapping(value = "/mailcountlistener/delete/{id}", method = RequestMethod.GET)
+    public String deleteMailCountAddress(@PathVariable("id") int id, Model model) {
+        mailCountListenerService.delete(id);
         return "redirect:/mailcountlistener";
     }
 }

@@ -37,4 +37,9 @@ public class MailPropertyKeyServiceImpl implements MailPropertyKeyService {
         return mailPropertyKeyRepository.findById(id);
     }
 
+    @Override
+    @Transactional
+    public void delete(int id) {
+        mailPropertyKeyRepository.delete(id);
+    }
 }

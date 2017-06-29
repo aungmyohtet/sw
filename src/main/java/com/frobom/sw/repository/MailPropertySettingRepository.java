@@ -12,6 +12,12 @@ public interface MailPropertySettingRepository {
 
     MailPropertySetting findById(int id);
 
+    void update(MailPropertySetting mailPropertySetting);
+
+    void delete(int mailPropertyKeyId, int mailAddressId);
+
+    void delete(int mailPropertyKeyId);
+  
     void delete(MailPropertySetting setting);
 
 }

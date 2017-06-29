@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +28,6 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
         } else {
             entityManager.merge(mailCountListener);
         }
-
     }
 
     @Override
@@ -40,6 +40,12 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
         return entityManager.find(MailCountListener.class, id);
     }
 
+    @Override
+    public void delete(int id) {
+        Query query = entityManager.createQuery("delete from MailCountListener m where m.id = :id");
+        query.setParameter("id", id).executeUpdate();
+    }
+  
     @Override
     public void delete(MailCountListener listener) {
         entityManager.remove(listener);
