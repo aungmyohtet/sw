@@ -1,26 +1,34 @@
 package com.frobom.sw.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "alert_word_rule")
-public class AlertWordRule {
+public class AlertWordRule implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "project_id")
     private Integer id;
 
+    @OneToOne
+    @MapsId
+    private Project project;
+
+    @Min(1)
+    @NotNull
     private int threshold;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
 
     public Integer getId() {
         return id;

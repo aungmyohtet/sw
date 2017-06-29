@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -62,4 +63,33 @@ public class MailCountRuleController {
         return "redirect:/mailcountrule";
     }
 
+    @RequestMapping(value="/mailcountrule/update/{id}", method=RequestMethod.GET)
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        MailCountRule mailCountRule = mailCountRuleService.findById(id);
+        if(mailCountRule == null) {
+            return "redirect:/bad/request";
+        }
+        model.addAttribute("mailCountRule", mailCountRule);
+        return "update_mailcountrule";
+     }
+
+    @RequestMapping(value = "/mailcountrule/update", method = RequestMethod.POST)
+    public String updateAlertWordRule(@Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "update_mailcountrule";
+        }
+        mailCountRuleService.update(mailCountRule);
+        return "redirect:/mailcountrule";
+    }
+
+    @RequestMapping(value = "/mailcountrule/remove/{id}", method = RequestMethod.GET)
+    public String deleteAlertWordRule(@PathVariable int id, Model model) {
+        MailCountRule mailCountRule = mailCountRuleService.findById(id);
+        if (mailCountRule == null) {
+            return "redirect:/bad/request";
+        }
+        mailCountRuleService.delete(id);
+        return "redirect:/mailcountrule";
+    }
 }

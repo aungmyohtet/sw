@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Alert Word</title>
+</head>
+<body>
+	<div>
+		<h4>Edit Alert Word Form</h4>
+		<form action="#" th:action="@{/alertWords/edit/}+${id}"
+			th:object="${alertWord}" method="post">
+			<input type="hidden" th:field="*{id}" /> <input type="text"
+				th:field="*{word}" placeholder="Alert Word" /> <span
+				th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span> <br />
+			<br /> <select th:field="*{language}">
+				<option value="">Select Language</option>
+				<option
+					th:each="language : ${T(com.frobom.sw.entity.AlertWord.Language).values()}"
+					th:value="${language}" th:text="${language}"></option>
+			</select> <span th:if="${#fields.hasErrors('language')}"
+				th:errors="*{language}"></span> <br /> <br /> <input type="submit"
+				value="Edit" />
+		</form>
+	</div>
+</body>
+</html>

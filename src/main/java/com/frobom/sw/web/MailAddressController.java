@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.frobom.sw.entity.MailAddress;
+import com.frobom.sw.entity.Project;
 import com.frobom.sw.service.MailAddressService;
 import com.frobom.sw.validator.MailAddressFormValidator;
 
@@ -56,5 +57,25 @@ public class MailAddressController {
     public String showDetails(@PathVariable("id") int id, Model model) {
         model.addAttribute("mailAddress", mailAddressService.findById(id));
         return "mailAddressDetails";
+    }
+
+    @RequestMapping(value = "/mailAddresses/edit/{id}", method = RequestMethod.GET)
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        model.addAttribute("mailAddress", mailAddressService.findById(id));
+        return "edit_mailAddress";
+    }
+
+    @RequestMapping(value="/mailAddresses/edit/{id}", method=RequestMethod.POST)
+    public String updateMailAddress(@Validated @ModelAttribute MailAddress mailAddress, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            return "edit_mailAddress";
+        }
+        mailAddressService.update(mailAddress);
+        return "redirect:/mailAddresses/add";
+    }
+    @RequestMapping(value="/mailAddresses/delete/{id}", method=RequestMethod.GET)
+    public String deleteMailAddress(@PathVariable("id") int id, Model model) {
+        mailAddressService.delete(id);
+        return "redirect:/mailAddresses/add";
     }
 }

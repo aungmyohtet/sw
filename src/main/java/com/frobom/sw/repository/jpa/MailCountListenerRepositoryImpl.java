@@ -45,4 +45,10 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
         Query query = entityManager.createQuery("delete from MailCountListener m where m.id = :id");
         query.setParameter("id", id).executeUpdate();
     }
+  
+    @Override
+    public void delete(MailCountListener listener) {
+        entityManager.remove(listener);
+    }
+
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add MailCountSetting</title>
+</head>
+<body>
+	<form action="#" th:action="@{/mailcountsettings/add}" th:object="${mailCountSetting}" method="post">
+	   <input type="text" th:field="*{name}" placeholder="Name"/>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
+	   <br/>
+	   <input type="text" th:field="*{value}" placeholder="Value"/>
+	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
+	   <br/>
+	   <input type="submit" value="Add MailCountSetting"/>
+	</form>
+	<br/><br/>
+	<h3>Mail Count Settings</h3>
+	<table>
+	    <tr>
+	      <td><b>Name</b></td>
+	      <td><b>Value</b></td>
+	    </tr>
+		<tr th:each="mailcountsetting : ${mailcountsettings}">
+			<td th:text="${mailcountsetting.name}"></td>
+			<td th:text="${mailcountsetting.value}"></td>
+			<td><a th:href="@{/mailcountsettings/remove/__${mailcountsetting.id}__}">Remove</a></td>
+			<td><a th:href="@{/mailcountsettings/update/__${mailcountsetting.id}__}">Update</a></td>
+		</tr>
+	</table>
+</body>
+</html>

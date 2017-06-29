@@ -17,4 +17,7 @@ public interface MailPropertySettingRepository {
     void delete(int mailPropertyKeyId, int mailAddressId);
 
     void delete(int mailPropertyKeyId);
+  
+    void delete(MailPropertySetting setting);
+
 }

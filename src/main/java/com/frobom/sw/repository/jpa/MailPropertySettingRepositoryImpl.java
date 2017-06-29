@@ -58,4 +58,10 @@ public class MailPropertySettingRepositoryImpl implements MailPropertySettingRep
         query.setParameter("mailPropertyKeyId", mailPropertyKeyId);
         query.executeUpdate();
     }
+
+    @Override  
+    public void delete(MailPropertySetting setting) {
+        entityManager.remove(setting);
+    }
+
 }

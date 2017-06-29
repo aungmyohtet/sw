@@ -13,4 +13,8 @@ public interface ProjectRepository {
     Project findById(int id);
     
     Project findByName(String name);
+
+    void update(Project project);
+
+    void delete(Project project);
 }
