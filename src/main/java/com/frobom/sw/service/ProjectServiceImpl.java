@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void delete(int id) {
-        projectRepository.delete(id);
+        projectRepository.delete(projectRepository.findById(id));
     }
 
     @Override

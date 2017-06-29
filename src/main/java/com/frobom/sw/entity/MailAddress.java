@@ -12,6 +12,7 @@ package com.frobom.sw.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,12 +44,15 @@ public class MailAddress {
     @NotBlank(message = "Address cannot be empty.")
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "mailAddresses")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "mailAddresses")
     private List<Project> projects;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "mailAddress")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<MailPropertySetting> propertySettings;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mailAddress")
+    private List<Mail> mailList;
 
     public Integer getId() {
         return id;
@@ -88,5 +92,13 @@ public class MailAddress {
 
     public void setPropertySettings(List<MailPropertySetting> propertySettings) {
         this.propertySettings = propertySettings;
+    }
+
+    public List<Mail> getMailList() {
+        return mailList;
+    }
+
+    public void setMailList(List<Mail> mailList) {
+        this.mailList = mailList;
     }
 }

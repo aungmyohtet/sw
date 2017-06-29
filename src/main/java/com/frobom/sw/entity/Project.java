@@ -11,6 +11,8 @@
 package com.frobom.sw.entity;
 
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,16 +41,16 @@ public class Project {
     @NotBlank(message = "Project name cannot be empty.")
     private String name;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "target_mail", joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") }, inverseJoinColumns = {
-    @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
+            @JoinColumn(name = "mail_address_id", referencedColumnName = "id") })
     private List<MailAddress> mailAddresses;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<MailCount> mailCountList;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<NotificationResult> notificationResultList;
 
     public Integer getId() {

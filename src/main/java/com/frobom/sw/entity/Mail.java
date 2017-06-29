@@ -13,6 +13,7 @@ package com.frobom.sw.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,8 +41,7 @@ public class Mail {
     @JoinColumn(name = "mail_address_id")
     private MailAddress mailAddress;
 
-    @OneToOne(mappedBy = "mail")
-    //@OneToOne
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "mail")
     private AlertWordCount alertWordCount;
 
     private Date date;
@@ -57,7 +57,7 @@ public class Mail {
 
     private Boolean analyzed;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mail")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "mail")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<MailRawDataPath> mailRawDatapaths;
 

@@ -59,6 +59,6 @@ public class MailAddressServiceImpl implements MailAddressService {
     @Override
     @Transactional
     public void delete(int id) {
-      mailAddressRepo.delete(id);
+      mailAddressRepo.delete(mailAddressRepo.findById(id));
     }
 }

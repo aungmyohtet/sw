@@ -80,9 +80,7 @@ public class MailAddressRepositoryImpl implements MailAddressRepository {
     }
 
     @Override
-    public void delete(int id) {
-        Query query= entityManager.createQuery("delete from MailAddress m where m.id=:id");
-        query.setParameter("id",id);
-        query.executeUpdate();
+    public void delete(MailAddress mailAddress) {
+       entityManager.remove(mailAddress);
     }
 }
