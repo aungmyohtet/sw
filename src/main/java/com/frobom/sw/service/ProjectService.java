@@ -23,7 +23,7 @@ public interface ProjectService {
 
     boolean IsExistsMailAddress(MailAddress mailAddress, Project project);
 
-    List<MailAddress> findMailAddressesByID(int id);
+    List<MailAddress> findMailAddressesByID(int projectId);
 
     void deleteMailAddress(int pid, int mid);
 }

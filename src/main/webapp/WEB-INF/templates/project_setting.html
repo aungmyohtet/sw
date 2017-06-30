@@ -7,9 +7,9 @@
 <body>
 	<div>
 		<h4>Update Project Name</h4>
-		<form id="update_form" action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
+		<form id="project" action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
 			<input type="hidden" th:field="*{id}" /> 
-			<input type="text" th:field="*{name}" placeholder="Project Name" /> 
+			<input type="text" th:field="*{name}" placeholder="Project Name" />
 			<input type="submit" value="Rename" /> <br /> <br /> 
 			<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
 		</form>
@@ -19,7 +19,7 @@
 
 	<div>
 		<h4>Mail Address</h4>
-		<form id="add_form" action="#" th:action="@{/projects/__${project.id}__/addresses/add}" method="post">
+		<form action="#" th:action="@{/projects/__${project.id}__/addresses/add}" method="post">
 			<div th:object="${address}">
 				<select th:field="*{address}">
 					<option value="">Select Mail Address</option>
@@ -30,7 +30,6 @@
 			</div>
 		</form>
 	</div>
-	<br />
 	<div th:if="${!addresses.empty}">
 		<table>
 			<tr th:each="address : ${addresses}">
@@ -44,18 +43,17 @@
 
 	<div>
 		<h4>Alert Word Rule</h4>
-		<div th:if="${alertWordRule}" th:object="${alertWordRule}">
-		<!-- <input type="hidden" th:field="*{id}" /> -->
-			<input type="hidden" th:field="*{project.id}" />
-			<input type="text" th:field="*{threshold}" placeholder="Threshold"/>
-			<a th:href="@{/projects/__${project.id}__/alertwordrule/__${id}__/update}">Update</a>
-			<a th:href="@{/projects/__${project.id}__/alertwordrule/__${id}__/delete}">delete</a>
-			<br/>
-			<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>		
+		<div th:if="${alertWordRule}">
+			<form action="#" th:action="@{/projects/__${project.id}__/alertwordrule}" th:object="${alertWordRule}" method="post">
+				<input type="hidden" th:field="*{project.id}" />
+				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
+				<input type="submit" name="update" value="Update"/>
+				<input type="submit" name="delete" value="Delete"/> <br />
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+			</form>
 		</div>
 		<div th:unless="${alertWordRule}">
-			<form id="add_alert_form" action="#"
-				th:action="@{/projects/__${project.id}__/alertwordrule/add}"
+			<form action="#" th:action="@{/projects/__${project.id}__/alertwordrule/add}"
 				th:object="${newAlertWordRule}" method="post">
 				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
@@ -66,27 +64,27 @@
 	
 	<hr />
 	
-	<!-- <div>
+	<div>
 		<h4>Mail Count Rule</h4>
-		<div th:if="${alertWordRule}" th:object="${alertWordRule}">
-		<input type="hidden" th:field="*{id}" />
-			<input type="hidden" th:field="*{project.id}" />
-			<input type="text" th:field="*{threshold}" placeholder="Threshold"/>
-			<a th:href="@{/projects/__${project.id}__/alertwordrule/__${id}__/update}">Update</a>
-			<a th:href="@{/projects/__${project.id}__/alertwordrule/__${id}__/delete}">delete</a>
-			<br/>
-			<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>		
+		<div th:if="${mailCountRule}">
+			<form action="#" th:action="@{/projects/__${project.id}__/mailcountrule}" th:object="${mailCountRule}" method="post">
+				<input type="hidden" th:field="*{project.id}" />
+				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
+				<input type="submit" name="update" value="Update"/>
+				<input type="submit" name="delete" value="Delete"/> <br />
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+			</form>
 		</div>
-		<div th:unless="${alertWordRule}">
-			<form id="add_alert_form" action="#"
-				th:action="@{/projects/__${project.id}__/alertwordrule/add}"
-				th:object="${newAlertWordRule}" method="post">
+		<div th:unless="${mailCountRule}">
+			<form action="#"
+				th:action="@{/projects/__${project.id}__/mailcountrule/add}"
+				th:object="${newMailCountRule}" method="post">
 				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
 			</form>
 		</div>
-	</div> -->
-
+	</div>
+	<hr />
 </body>
 </html>

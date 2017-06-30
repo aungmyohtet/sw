@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.frobom.sw.entity.AlertWordRule;
 import com.frobom.sw.entity.MailAddress;
+import com.frobom.sw.entity.MailCountRule;
 import com.frobom.sw.entity.Project;
 import com.frobom.sw.service.AlertWordRuleService;
 import com.frobom.sw.service.MailAddressService;
+import com.frobom.sw.service.MailCountRuleService;
 import com.frobom.sw.service.ProjectService;
 import com.frobom.sw.validator.ProjectFormValidator;
 
@@ -37,6 +38,9 @@ public class ProjectController {
     @Autowired
     private AlertWordRuleService alertWordRuleService;
 
+    @Autowired
+    private MailCountRuleService mailCountRuleService;
+
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
     }
@@ -47,6 +51,10 @@ public class ProjectController {
 
     public void setAlertWordRuleService(AlertWordRuleService alertWordRuleService) {
         this.alertWordRuleService = alertWordRuleService;
+    }
+
+    public void setMailCountRuleService(MailCountRuleService mailCountRuleService) {
+        this.mailCountRuleService = mailCountRuleService;
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
@@ -79,52 +87,34 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/setting", method = RequestMethod.GET)
-    public String setting(@PathVariable("id") int id, Model model) {
+    public String showSettingPage(@PathVariable("id") int id, Model model) {
+        System.out.println("####### setting #########");
         // for project form
         model.addAttribute("project", projectService.findById(id));
+
         // for mail address form
         model.addAttribute("address", new MailAddress());
         model.addAttribute("addressList", mailAddressService.findAll());
         model.addAttribute("addresses", projectService.findMailAddressesByID(id));
+
         // for alert word rule form
         model.addAttribute("newAlertWordRule", new AlertWordRule());
         model.addAttribute("alertWordRule", alertWordRuleService.findByProject(projectService.findById(id)));
+
+        // for mail count rule form
+        model.addAttribute("newMailCountRule", new MailCountRule());
+        model.addAttribute("mailCountRule", mailCountRuleService.findByProject(projectService.findById(id)));
         return "project_setting";
     }
 
     @RequestMapping(value = "/projects/{id}/update", method = RequestMethod.POST)
-    public String updateProject(@Validated @ModelAttribute("update_form") Project project, BindingResult result, Model model) {
-        // if (result.hasErrors()) {
-        // return "project_setting";
-        // }
-        // if (projName.equals(project.getName())) {
-        // return "redirect:/projects/{id}/setting";
-        // } else {
-        // projectFormValidator.validate(project, result);
-        // if (result.hasErrors()) {
-        // return "project_setting";
-        // }
-        // }
+    public String updateProject(@Validated @ModelAttribute("project") Project project, BindingResult result, Model model) {
         projectService.update(project);
-        // model.addAttribute("address", new MailAddress());
-        // model.addAttribute("addressList", mailAddressService.findAll());
-        // model.addAttribute("addresses", projectService.findMailAddressesByID(project.getId()));
         return "redirect:/projects/{id}/setting";
     }
 
     @RequestMapping(value = "/projects/{id}/addresses/add", method = RequestMethod.POST)
-    public String addMailAddressToProject(@PathVariable("id") int id, @Validated @ModelAttribute("add_form") MailAddress mailAddress, BindingResult result, Model model) {
-        // if (result.hasErrors()) {
-        // model.addAttribute("mailAddresses", mailAddressService.findAll());
-        // model.addAttribute("addresses", projectService.findMailAddressesByID(id));
-        // return "add_MailAddress_To_Project";
-        // }
-        // projectFormValidator.validate(mailAddress, result);
-        // if (result.hasErrors()) {
-        // model.addAttribute("mailAddresses", mailAddressService.findAll());
-        // model.addAttribute("addresses", projectService.findMailAddressesByID(id));
-        // return "add_MailAddress_To_Project";
-        // }
+    public String addMailAddressToProject(@PathVariable("id") int id, @Validated @ModelAttribute MailAddress mailAddress, BindingResult result, Model model) {
         projectService.addMailAddressToProject(mailAddress.getAddress(), id);
         return "redirect:/projects/{id}/setting";
     }
@@ -136,37 +126,38 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/alertwordrule/add", method = RequestMethod.POST)
-    public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute("add_alert_form") AlertWordRule alertWordRule, BindingResult result, Model model) {
-        model.addAttribute("alertWordRuleList", alertWordRuleService.findAll());
-        model.addAttribute("projects", projectService.findAll());
-        // if (result.hasErrors()) {
-        // return "addAlertWordRule";
-        // }
-        //
-        // alertWordRuleFormValidator.validate(alertWordRule, result);
-        // if (result.hasErrors()) {
-        // return "addAlertWordRule";
-        // }
+    public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model) {
         alertWordRuleService.add(id, alertWordRule.getThreshold());
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{pid}/alertwordrule/{rid}/update", method = RequestMethod.GET)
-    public String updateAlertWordRule(@Validated @ModelAttribute("add_alert_form") AlertWordRule alertWordRule, BindingResult result, Model model) {
-        // if (result.hasErrors()) {
-        // return "update_alertwordrule";
-        // }
+    @RequestMapping(value = "/projects/{id}/alertwordrule", params = "update", method = RequestMethod.POST)
+    public String updateAlertWordRule(@Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model) {
         alertWordRuleService.update(alertWordRule);
-        return "redirect:/projects/{pid}/setting";
+        return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{pid}/alertwordrule/{rid}/delete", method = RequestMethod.GET)
-    public String deleteAlertWordRule(@PathVariable("pid") int pid, @PathVariable("rid") int rid, Model model) {
-        AlertWordRule alertWordRule = alertWordRuleService.findById(rid);
-        // if (alertWordRule == null) {
-        // return "redirect:/bad/request";
-        // }
-        alertWordRuleService.delete(rid);
-        return "redirect:/projects/{pid}/setting";
+    @RequestMapping(value = "/projects/{id}/alertwordrule", params = "delete", method = RequestMethod.POST)
+    public String deleteAlertWordRule(@PathVariable("id") int id, Model model) {
+        alertWordRuleService.delete(id);
+        return "redirect:/projects/{id}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{id}/mailcountrule/add", method = RequestMethod.POST)
+    public String addMailCountRule(@PathVariable("id") int id, @Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model) {
+        mailCountRuleService.add(id, mailCountRule.getThreshold());
+        return "redirect:/projects/{id}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{id}/mailcountrule", params = "update", method = RequestMethod.POST)
+    public String updateMailCountRule(@Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model) {
+        mailCountRuleService.update(mailCountRule);
+        return "redirect:/projects/{id}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{id}/mailcountrule", params = "delete", method = RequestMethod.POST)
+    public String deleteMailCountRule(@PathVariable("id") int id, Model model) {
+        mailCountRuleService.delete(id);
+        return "redirect:/projects/{id}/setting";
     }
 }
