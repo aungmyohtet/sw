@@ -5,10 +5,6 @@
 </head>
 <body>
 	<form action="#" th:action="@{/mailcountrule/add}" th:object="${mailCountRule}" method="post">
-		<input type="number" th:field="*{threshold}" placeholder="Threshold" />
-	    <span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid Data </span>
-	    <br/>
-
 		<select th:field="*{project.id}">
 		   <option value="0" selected="selected">Select Project</option>
 		   <option th:each="projectList : ${projectLists}"
@@ -17,7 +13,9 @@
 		</select>
 		<span th:if="${#fields.hasErrors('project.id')}" th:errors="*{project.id}">Invalid Data </span>
 		<br/>
-
+		<input type="number" th:field="*{threshold}" placeholder="Threshold" />
+	    <span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid Data </span>
+		<br/>
 		<input type="submit" value="Add"/>
 	</form>
 	<br/>
@@ -30,8 +28,8 @@
 		<tr th:each="mailCountRuleList : ${mailCountRuleLists}" align="center">			
 			<td th:text="${mailCountRuleList.project.name}"></td>
 			<td th:text="${mailCountRuleList.threshold}"></td>
-			<td><a th:href="@{/mailcountrule/remove/__${mailCountRuleList.id}__}">Remove</a></td>
-			<td><a th:href="@{/mailcountrule/update/__${mailCountRuleList.id}__}">Update</a></td>
+			<td><a th:href="@{/mailcountrule/remove/__${mailCountRuleList.project.id}__}">Remove</a></td>
+			<td><a th:href="@{/mailcountrule/update/__${mailCountRuleList.project.id}__}">Update</a></td>
 		</tr>
 	</table>
 </body>

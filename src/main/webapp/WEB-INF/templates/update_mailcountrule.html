@@ -7,7 +7,6 @@
 	<form action="#" th:action="@{/mailcountrule/update}" th:object="${mailCountRule}" method="post">
 
 		<div>
-			<input type="hidden" th:field="*{id}" />
 			<input type="hidden" th:field="*{project.id}" />
 		    <input type="text" th:field="*{project.name}" readonly="readonly"/>
 		    <br/>

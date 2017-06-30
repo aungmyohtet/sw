@@ -2,10 +2,9 @@ package com.frobom.sw.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -18,31 +17,19 @@ public class AlertWordRule implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "project_id")
-    private Integer id;
-
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @Min(1)
-    @NotNull
-    private int threshold;
+    @NotNull(message = "Threshold cannot be empty.")
+    private Integer threshold;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public int getThreshold() {
+    public Integer getThreshold() {
         return threshold;
     }
 
-    public void setThreshold(int threshold) {
+    public void setThreshold(Integer threshold) {
         this.threshold = threshold;
     }
 
