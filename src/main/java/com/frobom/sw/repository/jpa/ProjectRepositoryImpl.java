@@ -59,10 +59,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public void update(Project project) {
-        Query query= entityManager.createQuery("update Project p set p.name=:name where p.id=:id");
-        query.setParameter("id", project.getId());
-        query.setParameter("name", project.getName());
-        query.executeUpdate();
+        // Query query= entityManager.createQuery("update Project p set p.name=:name where p.id=:id");
+        // query.setParameter("id", project.getId());
+        // query.setParameter("name", project.getName());
+        // query.executeUpdate();
+        entityManager.merge(project);
     }
 
     @Override

@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.frobom.sw.entity.AlertWordRule;
 import com.frobom.sw.entity.MailAddress;
 import com.frobom.sw.entity.Project;
+import com.frobom.sw.service.AlertWordRuleService;
 import com.frobom.sw.service.MailAddressService;
 import com.frobom.sw.service.ProjectService;
 import com.frobom.sw.validator.ProjectFormValidator;
@@ -32,6 +34,9 @@ public class ProjectController {
     @Autowired
     private MailAddressService mailAddressService;
 
+    @Autowired
+    private AlertWordRuleService alertWordRuleService;
+
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
     }
@@ -40,101 +45,128 @@ public class ProjectController {
         this.mailAddressService = mailAddressService;
     }
 
-    @RequestMapping(value = "/projects/add", method = RequestMethod.GET)
-    public String addProjectForm(Model model) {
+    public void setAlertWordRuleService(AlertWordRuleService alertWordRuleService) {
+        this.alertWordRuleService = alertWordRuleService;
+    }
+
+    @RequestMapping(value = "/projects", method = RequestMethod.GET)
+    public String showProjectList(Model model) {
         model.addAttribute("project", new Project());
         model.addAttribute("projects", projectService.findAll());
-        return "addProject";
+        return "projects";
     }
 
     @RequestMapping(value = "/projects/add", method = RequestMethod.POST)
     public String saveProject(@Validated @ModelAttribute Project project, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("projects", projectService.findAll());
-            return "addProject";
+            return "projects";
         }
         projectFormValidator.validate(project, result);
         if (result.hasErrors()) {
             model.addAttribute("projects", projectService.findAll());
-            return "addProject";
+            return "projects";
         }
         projectService.save(project);
         model.addAttribute("projects", this.projectService.findAll());
-        return "redirect:/projects/add";
+        return "redirect:/projects";
     }
 
-    @RequestMapping(value = "/projects/{id}", method = RequestMethod.GET)
-    public String showDetails(@PathVariable("id") int id, Model model) {
-        model.addAttribute("project", projectService.findById(id));
-        return "projectDetails";
-    }
-
-    @RequestMapping(value = "/projects/edit/{id}", method = RequestMethod.GET)
-    public String showEditForm(@PathVariable("id") int id, Model model) {
-        projName = projectService.findById(id).getName();
-        model.addAttribute("project", projectService.findById(id));
-        return "edit_project";
-    }
-
-    @RequestMapping(value = "/projects/edit/{id}", method = RequestMethod.POST)
-    public String updateProject(@Validated @ModelAttribute Project project, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "edit_project";
-        }
-
-        if (projName.equals(project.getName())) {
-            return "redirect:/projects/add";
-        } else {
-            projectFormValidator.validate(project, result);
-            if (result.hasErrors()) {
-                return "edit_project";
-            }
-        }
-
-        projectService.update(project);
-        return "redirect:/projects/add";
-    }
-
-    @RequestMapping(value = "/projects/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/projects/{id}/delete", method = RequestMethod.GET)
     public String deleteProject(@PathVariable("id") int id, Model model) {
         projectService.delete(id);
-        return "redirect:/projects/add";
+        return "redirect:/projects";
     }
 
-    @RequestMapping(value = "/projects/{id}/add/mailAddress", method = RequestMethod.GET)
-    public String showAddMailAddressForm(@PathVariable("id") int id, Model model) {
-        model.addAttribute("mailAddress", new MailAddress());
-        model.addAttribute("mailAddresses", mailAddressService.findAll());
+    @RequestMapping(value = "/projects/{id}/setting", method = RequestMethod.GET)
+    public String setting(@PathVariable("id") int id, Model model) {
+        // for project form
         model.addAttribute("project", projectService.findById(id));
+        // for mail address form
+        model.addAttribute("address", new MailAddress());
+        model.addAttribute("addressList", mailAddressService.findAll());
         model.addAttribute("addresses", projectService.findMailAddressesByID(id));
-        return "add_MailAddress_To_Project";
+        // for alert word rule form
+        model.addAttribute("newAlertWordRule", new AlertWordRule());
+        model.addAttribute("alertWordRule", alertWordRuleService.findByProject(projectService.findById(id)));
+        return "project_setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/add/mailAddress", method = RequestMethod.POST)
-    public String addMailAddressToProject(@Validated @ModelAttribute Project project, BindingResult projResult, @Validated @ModelAttribute MailAddress mailAddress,
-            BindingResult mailResult, Model model) {
-        if (projResult.hasErrors() || mailResult.hasErrors()) {
-            model.addAttribute("project", projectService.findById(project.getId()));
-            model.addAttribute("mailAddresses", mailAddressService.findAll());
-            model.addAttribute("addresses", projectService.findMailAddressesByID(project.getId()));
-            return "add_MailAddress_To_Project";
-        }
-
-        projectFormValidator.validate(project, projResult, mailAddress, mailResult);
-        if (projResult.hasErrors() || mailResult.hasErrors()) {
-            model.addAttribute("project", projectService.findById(project.getId()));
-            model.addAttribute("mailAddresses", mailAddressService.findAll());
-            model.addAttribute("addresses", projectService.findMailAddressesByID(project.getId()));
-            return "add_MailAddress_To_Project";
-        }
-
-        projectService.addMailAddressToProject(mailAddress.getAddress(), project.getName());
-        return "redirect:/projects/add";
+    @RequestMapping(value = "/projects/{id}/update", method = RequestMethod.POST)
+    public String updateProject(@Validated @ModelAttribute("update_form") Project project, BindingResult result, Model model) {
+        // if (result.hasErrors()) {
+        // return "project_setting";
+        // }
+        // if (projName.equals(project.getName())) {
+        // return "redirect:/projects/{id}/setting";
+        // } else {
+        // projectFormValidator.validate(project, result);
+        // if (result.hasErrors()) {
+        // return "project_setting";
+        // }
+        // }
+        projectService.update(project);
+        // model.addAttribute("address", new MailAddress());
+        // model.addAttribute("addressList", mailAddressService.findAll());
+        // model.addAttribute("addresses", projectService.findMailAddressesByID(project.getId()));
+        return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{pid}/mailAddress/delete/{mid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/projects/{id}/addresses/add", method = RequestMethod.POST)
+    public String addMailAddressToProject(@PathVariable("id") int id, @Validated @ModelAttribute("add_form") MailAddress mailAddress, BindingResult result, Model model) {
+        // if (result.hasErrors()) {
+        // model.addAttribute("mailAddresses", mailAddressService.findAll());
+        // model.addAttribute("addresses", projectService.findMailAddressesByID(id));
+        // return "add_MailAddress_To_Project";
+        // }
+        // projectFormValidator.validate(mailAddress, result);
+        // if (result.hasErrors()) {
+        // model.addAttribute("mailAddresses", mailAddressService.findAll());
+        // model.addAttribute("addresses", projectService.findMailAddressesByID(id));
+        // return "add_MailAddress_To_Project";
+        // }
+        projectService.addMailAddressToProject(mailAddress.getAddress(), id);
+        return "redirect:/projects/{id}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{pid}/addresses/{mid}/delete", method = RequestMethod.GET)
     public String deleteMailAddress(@PathVariable("pid") int pid, @PathVariable("mid") int mid, Model model) {
         projectService.deleteMailAddress(pid, mid);
-        return "redirect:/projects/add";
+        return "redirect:/projects/{pid}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{id}/alertwordrule/add", method = RequestMethod.POST)
+    public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute("add_alert_form") AlertWordRule alertWordRule, BindingResult result, Model model) {
+        model.addAttribute("alertWordRuleList", alertWordRuleService.findAll());
+        model.addAttribute("projects", projectService.findAll());
+        // if (result.hasErrors()) {
+        // return "addAlertWordRule";
+        // }
+        //
+        // alertWordRuleFormValidator.validate(alertWordRule, result);
+        // if (result.hasErrors()) {
+        // return "addAlertWordRule";
+        // }
+        alertWordRuleService.add(id, alertWordRule.getThreshold());
+        return "redirect:/projects/{id}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{pid}/alertwordrule/{rid}/update", method = RequestMethod.GET)
+    public String updateAlertWordRule(@Validated @ModelAttribute("add_alert_form") AlertWordRule alertWordRule, BindingResult result, Model model) {
+        // if (result.hasErrors()) {
+        // return "update_alertwordrule";
+        // }
+        alertWordRuleService.update(alertWordRule);
+        return "redirect:/projects/{pid}/setting";
+    }
+
+    @RequestMapping(value = "/projects/{pid}/alertwordrule/{rid}/delete", method = RequestMethod.GET)
+    public String deleteAlertWordRule(@PathVariable("pid") int pid, @PathVariable("rid") int rid, Model model) {
+        AlertWordRule alertWordRule = alertWordRuleService.findById(rid);
+        // if (alertWordRule == null) {
+        // return "redirect:/bad/request";
+        // }
+        alertWordRuleService.delete(rid);
+        return "redirect:/projects/{pid}/setting";
     }
 }
