@@ -1,31 +1,22 @@
 package com.frobom.sw.entity;
 
-import javax.persistence.Column;
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "mail_count_listener")
-public class MailCountListener {
+public class MailCountListener implements Serializable {
 
     @Id
-    @Column(name = "mail_address_id")
-    private Integer id;
-
-    @OneToOne
-    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mail_address_id")
     private MailAddress mailAddress;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public MailAddress getMailAddress() {
         return mailAddress;

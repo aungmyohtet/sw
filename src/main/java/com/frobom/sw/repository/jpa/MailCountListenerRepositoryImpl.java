@@ -1,13 +1,10 @@
 package com.frobom.sw.repository.jpa;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import org.springframework.stereotype.Repository;
-
 import com.frobom.sw.entity.MailCountListener;
 import com.frobom.sw.repository.MailCountListenerRepository;
 
@@ -23,11 +20,7 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
 
     @Override
     public void save(MailCountListener mailCountListener) {
-        if (mailCountListener.getId() == null) {
-            entityManager.persist(mailCountListener);
-        } else {
-            entityManager.merge(mailCountListener);
-        }
+        entityManager.persist(mailCountListener);
     }
 
     @Override
@@ -42,13 +35,12 @@ public class MailCountListenerRepositoryImpl implements MailCountListenerReposit
 
     @Override
     public void delete(int id) {
-        Query query = entityManager.createQuery("delete from MailCountListener m where m.id = :id");
+        Query query = entityManager.createQuery("delete from MailCountListener m where m.mailAddress.id = :id");
         query.setParameter("id", id).executeUpdate();
     }
-  
+
     @Override
     public void delete(MailCountListener listener) {
         entityManager.remove(listener);
     }
-
 }

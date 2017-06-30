@@ -1,11 +1,9 @@
 package com.frobom.sw.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.frobom.sw.entity.MailPropertyKey;
 import com.frobom.sw.repository.MailPropertyKeyRepository;
 
@@ -32,9 +30,16 @@ public class MailPropertyKeyServiceImpl implements MailPropertyKeyService {
     }
 
     @Override
+    @Transactional
     public MailPropertyKey findById(int id) {
 
         return mailPropertyKeyRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(MailPropertyKey mailPropertyKey) {
+        mailPropertyKeyRepository.update(mailPropertyKey);
     }
 
     @Override

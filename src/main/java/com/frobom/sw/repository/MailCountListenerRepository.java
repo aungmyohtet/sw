@@ -13,6 +13,6 @@ public interface MailCountListenerRepository {
     MailCountListener findById(int id);
 
     void delete(int id);
-  
+
     void delete(MailCountListener listener);
 }

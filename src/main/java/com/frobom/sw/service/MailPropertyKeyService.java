@@ -12,5 +12,7 @@ public interface MailPropertyKeyService {
 
     MailPropertyKey findById(int id);
 
+    void update(MailPropertyKey mailPropertyKey);
+
     void delete(int id);
 }
