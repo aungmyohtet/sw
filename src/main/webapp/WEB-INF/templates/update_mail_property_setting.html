@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mail Property Setting</title>
+</head>
+<body>
+	<form action="#" th:action="@{/mailpropertysettings/update}" th:object="${mailPropertySetting}" method="post">
+		<input type="hidden" th:field="*{mailPropertyKey.id}" th:value="${mailPropertySetting.mailPropertyKey.id}" />
+		<input type="hidden" th:field="*{mailAddress.id}" th:value="${mailPropertySetting.mailAddress.id}" />
+		<input type="text" th:field="*{value}" th:value="${mailPropertySetting.value}"/>
+		<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid Data </span>
+	 <br/>
+	<input type="submit" value="Update"/>
+	</form>
+</body>
+</html>

@@ -5,15 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.frobom.sw.entity.MailPropertySetting;
 import com.frobom.sw.repository.MailPropertySettingRepository;
-import com.frobom.sw.web.HomeController;
 
 @Repository
 public class MailPropertySettingRepositoryImpl implements MailPropertySettingRepository {
@@ -59,7 +53,7 @@ public class MailPropertySettingRepositoryImpl implements MailPropertySettingRep
         query.executeUpdate();
     }
 
-    @Override  
+    @Override
     public void delete(MailPropertySetting setting) {
         entityManager.remove(setting);
     }

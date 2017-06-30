@@ -22,9 +22,9 @@ public class MailCountRule {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @NotNull(message = "Threshold should not be empty")
     @Min(1)
-    @NotNull
-    private int threshold;
+    private Integer threshold;
 
     public Integer getId() {
         return id;
@@ -34,11 +34,11 @@ public class MailCountRule {
         this.id = id;
     }
 
-    public int getThreshold() {
+    public Integer getThreshold() {
         return threshold;
     }
 
-    public void setThreshold(int threshold) {
+    public void setThreshold(Integer threshold) {
         this.threshold = threshold;
     }
 

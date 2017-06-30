@@ -1,14 +1,11 @@
 package com.frobom.sw.repository.jpa;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import org.springframework.stereotype.Repository;
-
 import com.frobom.sw.entity.MailPropertyKey;
 import com.frobom.sw.repository.MailPropertyKeyRepository;
 
@@ -52,6 +49,11 @@ public class MailPropertyKeyRepositoryImpl implements MailPropertyKeyRepository 
 
         }
         return propertyKey;
+    }
+
+    @Override
+    public void update(MailPropertyKey mailPropertyKey) {
+        entityManager.merge(mailPropertyKey);
     }
 
     @Override

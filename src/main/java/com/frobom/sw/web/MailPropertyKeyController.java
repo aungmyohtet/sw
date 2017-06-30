@@ -1,7 +1,5 @@
 package com.frobom.sw.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.frobom.sw.entity.MailPropertyKey;
 import com.frobom.sw.service.MailPropertyKeyService;
 import com.frobom.sw.service.MailPropertySettingService;
@@ -23,8 +20,6 @@ import com.frobom.sw.validator.MailPropertyKeyValidator;
  */
 @Controller
 public class MailPropertyKeyController {
-
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     @Qualifier("mailPropertyKeyValidator")
@@ -44,56 +39,60 @@ public class MailPropertyKeyController {
         this.mailPropertySettingService = mailPropertySettingService;
     }
 
-    @RequestMapping(value = "/mailpropertykey", method = RequestMethod.GET)
-    public String showMailPropertyKey(Model model) {
+    @RequestMapping(value = "/mailpropertykeys", method = RequestMethod.GET)
+    public String showMailPropertyKeys(Model model) {
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         model.addAttribute("mailPropertyKey", new MailPropertyKey());
-        return "mailpropertykey";
+        return "mail_property_keys";
     }
 
-    @RequestMapping(value = "/mailpropertykey/add", method = RequestMethod.POST)
-    public String addMailProperty(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
+    @RequestMapping(value = "/mailpropertykeys/add", method = RequestMethod.POST)
+    public String addMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         if (result.hasErrors()) {
-            return "mailpropertykey";
+            return "mail_property_keys";
         }
 
         mailPropertyKeyValidator.validate(mailPropertyKey, result);
         if (result.hasErrors()) {
-            return "mailpropertykey";
+            return "mail_property_keys";
         }
 
         mailPropertyKeyService.add(mailPropertyKey);
-        return "redirect:/mailpropertykey";
+        return "redirect:/mailpropertykeys";
     }
 
-    @RequestMapping(value = "mailpropertykey/{id}", method = RequestMethod.GET)
-    public String showDetails(@PathVariable("id") int id, Model model) {
-        model.addAttribute("mailPropertyKey", mailPropertyKeyService.findById(id));
-        return "mailpropertykeydetails";
-
-    }
-
-    @RequestMapping(value = "/mailpropertykey/edit/{id}", method = RequestMethod.GET)
-    public String editMailPropertyKey(@PathVariable("id") int id, Model model) {
+    @RequestMapping(value = "/mailpropertykeys/update/{id}", method = RequestMethod.GET)
+    public String updateMailPropertyKey(@PathVariable("id") int id, Model model) {
         model.addAttribute("mailPropertyKey", this.mailPropertyKeyService.findById(id));
-        return "mailpropertykeyedit";
+        return "update_mail_property_key";
     }
 
-    @RequestMapping(value = "/mailpropertykey/edit/save", method = RequestMethod.POST)
-    public String saveMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
-        mailPropertyKeyValidator.validate(mailPropertyKey, result);
+    @RequestMapping(value = "/mailpropertykeys/update", method = RequestMethod.POST)
+    public String updateMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
+        String name = mailPropertyKey.getName();
+        int id = mailPropertyKey.getId();
+
         if (result.hasErrors()) {
-            return "mailpropertykeyedit";
+            return "update_mail_property_key";
         }
-        mailPropertyKeyService.add(mailPropertyKey);
-        return "redirect:/mailpropertykey";
+
+        if (mailPropertyKeyService.findById(id).getName().equals(name)) {
+            mailPropertyKeyService.update(mailPropertyKey);
+        } else {
+            mailPropertyKeyValidator.validate(mailPropertyKey, result);
+            if (result.hasErrors()) {
+                return "update_mail_property_key";
+            }
+            mailPropertyKeyService.update(mailPropertyKey);
+        }
+        return "redirect:/mailpropertykeys";
     }
 
-    @RequestMapping(value = "/mailpropertykey/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mailpropertykeys/delete/{id}", method = RequestMethod.GET)
     public String deleteMailPropertyKey(@PathVariable("id") int id, Model model) {
         mailPropertySettingService.delete(id);
         mailPropertyKeyService.delete(id);
-        return "redirect:/mailpropertykey";
+        return "redirect:/mailpropertykeys";
     }
 }

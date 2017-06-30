@@ -1,13 +1,11 @@
 package com.frobom.sw.validator;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
 import com.frobom.sw.entity.MailPropertyKey;
 import com.frobom.sw.service.MailPropertyKeyService;
 
@@ -38,5 +36,4 @@ public class MailPropertyKeyValidator implements Validator {
             }
         }
     }
-
 }

@@ -14,5 +14,7 @@ public interface MailPropertyKeyRepository {
 
     MailPropertyKey findByName(String name);
 
+    void update(MailPropertyKey mailPropertyKey);
+
     void delete(int id);
 }
