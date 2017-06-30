@@ -101,26 +101,26 @@ public class ProjectServiceImpl implements ProjectService {
         for (MailAddress address : mailAddressRepo.findAll()) {
             address.getProjects().remove(proj);
         }
-//        for (AlertWordRule alertRule : alertWordRuleRepo.findAll()) {
-//            if (alertRule.getProject().equals(proj)) {
-//                alertWordRuleRepo.delete(alertRule);
-//            }
-//        }
-//        for (MailCountRule mailCountRule : mailCountRuleRepo.findAll()) {
-//            if (mailCountRule.getProject().equals(proj)) {
-//                mailCountRuleRepo.delete(mailCountRule);
-//            }
-//        }
-//        for (MailCount count : mailCountRepo.findAll()) {
-//            if (count.getProject().equals(proj)) {
-//                mailCountRepo.delete(count);
-//            }
-//        }
-//        for (NotificationResult noti : notiResultRepo.findAll()) {
-//            if (noti.getProject().equals(proj)) {
-//                notiResultRepo.delete(noti);
-//            }
-//        }
+        for (AlertWordRule alertRule : alertWordRuleRepo.findAll()) {
+            if (alertRule.getProject().equals(proj)) {
+                alertWordRuleRepo.delete(alertRule);
+            }
+        }
+        for (MailCountRule mailCountRule : mailCountRuleRepo.findAll()) {
+            if (mailCountRule.getProject().equals(proj)) {
+                mailCountRuleRepo.delete(mailCountRule);
+            }
+        }
+        for (MailCount count : mailCountRepo.findAll()) {
+            if (count.getProject().equals(proj)) {
+                mailCountRepo.delete(count);
+            }
+        }
+        for (NotificationResult noti : notiResultRepo.findAll()) {
+            if (noti.getProject().equals(proj)) {
+                notiResultRepo.delete(noti);
+            }
+        }
         projectRepository.delete(projectRepository.findById(id));
     }
 
@@ -128,7 +128,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public void addMailAddressToProject(String address, int id) {
         MailAddress mailAddress = mailAddressRepo.findByAddress(address);
-        // Project project = projectRepository.findByName(projName);
         Project project = projectRepository.findById(id);
         if (mailAddress != null && project != null) {
             project.getMailAddresses().add(mailAddress);
@@ -149,8 +148,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public List<MailAddress> findMailAddressesByID(int id) {
-        Project proj = projectRepository.findById(id);
+    public List<MailAddress> findMailAddressesByID(int projectId) {
+        Project proj = projectRepository.findById(projectId);
         return proj.getMailAddresses();
     }
 
