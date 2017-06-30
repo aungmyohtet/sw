@@ -13,7 +13,7 @@
 		    </select>
 		    &nbsp;&nbsp;<span th:if="${#fields.hasErrors('project.id')}" th:errors="*{project.id}">Select project</span>
 		    <br/>
-		    <input type="text" th:field="*{threshold}" placeholder="Threshold"/>
+		    <input type="number" th:field="*{threshold}" placeholder="Threshold"/>
 		    &nbsp;&nbsp;<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
 		    <br/>
 		    <input type="submit" value="Add AlertWordCountRule"/>
@@ -29,8 +29,8 @@
 		<tr th:each="alertwordrule : ${alertWordRuleList}">
 			<td th:text="${alertwordrule.project.name}"></td>
 			<td th:text="${alertwordrule.threshold}"></td>
-			<td><a th:href="@{/alertwordrules/remove/__${alertwordrule.id}__}">Remove</a></td>
-			<td><a th:href="@{/alertwordrules/update/__${alertwordrule.id}__}">Update</a></td>
+			<td><a th:href="@{/alertwordrules/remove/__${alertwordrule.project.id}__}">Remove</a></td>
+			<td><a th:href="@{/alertwordrules/update/__${alertwordrule.project.id}__}">Update</a></td>
 		</tr>
 	</table>
 </body>

@@ -27,7 +27,7 @@
 		</tr>
 		<tr th:each="alertwordcountlistener : ${alertwordcountlisteners}">
 			<td th:text="${alertwordcountlistener.mailAddress.address}"></td>
-			<td><a th:href="@{/alertwordcountlisteners/remove/__${alertwordcountlistener.id}__}">Remove</a></td>
+			<td><a th:href="@{/alertwordcountlisteners/remove/__${alertwordcountlistener.mailAddress.id}__}">Remove</a></td>
 		</tr>
 	</table>
 </body>
