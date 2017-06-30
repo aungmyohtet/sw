@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Mail Address</title>
+</head>
+<body>
+	<div>
+		<h4>Edit Mail Address</h4>
+		<form action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/update}"
+			th:object="${mailAddress}" method="post">
+			<input type="text" th:field="*{name}" placeholder="Name" /> <span
+				th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br />
+			<br />
+			<input type="email" th:field="*{address}" placeholder="Mail Address" /> <span
+				th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span><br />
+			<br /> <input type="submit" value="Edit" />
+		</form>
+	</div>
+	<hr/>
+	<div>
+		<form action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/add}" th:object="${mailPropertySetting}" method="post">
+			<h4>Property Settings</h4>
+			<select th:field="*{mailPropertyKey.id}">
+		   <option value="0" selected="selected">Mail Property Key</option>
+		   <option th:each="mailPropertyKey : ${mailPropertyKeys}"
+					th:value="${mailPropertyKey.id}"
+					th:text="${mailPropertyKey.name}" />
+			</select>
+		  <span th:if="${#fields.hasErrors('mailPropertyKey.id')}" th:errors="*{mailPropertyKey.id}">Invalid Data </span>
+		  </form>
+		  <table>
+	    <tr>
+	      <td>MailPropertyKey</td>
+	      <td> Value </td>
+	    </tr>
+		<tr th:each="mailPropertySetting : ${mailPropertySettings}" align = 'center'>
+			<td th:text="${mailPropertySetting.mailPropertyKey.name}"></td>
+			<td th:text="${mailPropertySetting.value}"></td>
+			<td><a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/update/__${mailPropertySetting.mailPropertyKey.id}__/__${mailPropertySetting.mailAddress.id}__}"> edit </a></td>
+			<td><a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/delete/__${mailPropertySetting.mailPropertyKey.id}__/__${mailPropertySetting.mailAddress.id}__}"> delete </a></td>			
+		</tr>
+	</table>
+	</div>
+</body>
+</html>

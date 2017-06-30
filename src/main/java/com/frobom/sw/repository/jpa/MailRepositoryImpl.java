@@ -23,4 +23,9 @@ public class MailRepositoryImpl implements MailRepository {
     public List<Mail> findAll() {
         return entityManager.createQuery("select m from Mail m", Mail.class).getResultList();
     }
+
+    @Override
+    public void delete(Mail mail) {
+        entityManager.remove(mail);
+    }
 }

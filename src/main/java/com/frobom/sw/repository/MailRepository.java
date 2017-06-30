@@ -8,4 +8,6 @@ public interface MailRepository {
 
     List<Mail> findAll();
 
+    void delete(Mail mail);
+
 }

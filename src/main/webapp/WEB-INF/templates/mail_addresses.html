@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Mail Address</title>
+</head>
+<body>
+	<div th:if="${!mailAddresses.empty}">
+		<h4>Mail Addresses</h4>
+		<table>
+			<tr>
+				<td>Name     </td>
+				<td>Address          </td>
+				<td>Actions</td>
+			</tr>
+			<tr th:each="mailAddress : ${mailAddresses}">
+				<td><input type="hidden" th:field="*{mailAddress.id}" /></td>
+				<td th:text="${mailAddress.name}"></td>
+				<td th:text="${mailAddress.address}"></td>
+				<td>
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/delete}">Delete</a>
+					&nbsp;&nbsp;
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/setting}">Setting</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
