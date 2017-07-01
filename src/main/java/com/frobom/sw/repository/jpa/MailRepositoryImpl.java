@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.stereotype.Repository;
 
 import com.frobom.sw.entity.Mail;
@@ -22,5 +24,13 @@ public class MailRepositoryImpl implements MailRepository {
     @Override
     public List<Mail> findAll() {
         return entityManager.createQuery("select m from Mail m", Mail.class).getResultList();
+    }
+
+    @Override
+    public List<Mail> findAllByFetchingSubEntities() {
+        Query query = entityManager.createQuery("SELECT m FROM Mail m "
+                + "JOIN FETCH m.mailAddress addr "
+                + "JOIN FETCH addr.projects prjs");
+        return query.getResultList();
     }
 }

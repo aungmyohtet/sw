@@ -52,7 +52,7 @@ public class MailController {
 
     @RequestMapping(value = "/alertWordCounts", method = RequestMethod.GET)
     public String ShowAlertWordCount(Model model) {
-        model.addAttribute("alertWordCounts", alertWordCountService.findAll());
+        model.addAttribute("mails", mailService.findAllByFetchingSubEntities());
         return "alertWordCounts";
     }
 }

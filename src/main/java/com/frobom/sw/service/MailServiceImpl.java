@@ -25,4 +25,10 @@ public class MailServiceImpl implements MailService {
         return mailRepo.findAll();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Mail> findAllByFetchingSubEntities() {
+        return mailRepo.findAllByFetchingSubEntities();
+    }
+
 }

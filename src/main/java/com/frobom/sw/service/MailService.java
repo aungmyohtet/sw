@@ -8,4 +8,6 @@ public interface MailService {
 
     List<Mail> findAll();
 
+    List<Mail> findAllByFetchingSubEntities();
+
 }

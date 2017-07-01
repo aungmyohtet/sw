@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -31,7 +32,8 @@ public class Mail {
     @JoinColumn(name = "mail_address_id")
     private MailAddress mailAddress;
 
-    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "mail")
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private AlertWordCount alertWordCount;
 
     private Date date;
