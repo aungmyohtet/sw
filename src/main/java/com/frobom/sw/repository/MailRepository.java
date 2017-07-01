@@ -8,4 +8,6 @@ public interface MailRepository {
 
     List<Mail> findAll();
 
+    List<Mail> findAllByFetchingSubEntities();
+
 }

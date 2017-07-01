@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h4>Alert Word Count Information</h4>
-	<div th:if="${!alertWordCounts.empty}">
+	<div th:if="${!mails.empty}">
 		<table border="1">
 			<tr>
 				<th>Project Name</th>
@@ -14,19 +14,20 @@
 				<th>Alert Word Count</th>
 				<th>Date</th>
 			</tr>
-			<tr th:each="alertWordCount : ${alertWordCounts}">
+			<tr th:each="mail : ${mails}">
 				<td>
 					<table
-						th:each="project : ${alertWordCount.mail.mailAddress.projects}">
+						th:each="project : ${mail.mailAddress.projects}">
 						<tr>
 							<td th:text="${project.name}"></td>
 						</tr>
 					</table>
 				</td>
-				<td th:text="${alertWordCount.mail.mailAddress.address}"></td>
-				<td th:text="${alertWordCount.sum}"></td>
-				<td th:text="${alertWordCount.mail.date}"></td>
+				<td th:text="${mail.mailAddress.address}"></td>
+				<td th:text="${mail.alertWordCount.sum}"></td>
+				<td th:text="${mail.date}"></td>
 			</tr>
+
 		</table>
 	</div>
 </body>
