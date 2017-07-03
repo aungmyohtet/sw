@@ -15,9 +15,6 @@ import com.frobom.sw.service.MailPropertyKeyService;
 import com.frobom.sw.service.MailPropertySettingService;
 import com.frobom.sw.validator.MailPropertyKeyValidator;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class MailPropertyKeyController {
 
@@ -39,14 +36,14 @@ public class MailPropertyKeyController {
         this.mailPropertySettingService = mailPropertySettingService;
     }
 
-    @RequestMapping(value = "/mailpropertykeys", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_property_keys", method = RequestMethod.GET)
     public String showMailPropertyKeys(Model model) {
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         model.addAttribute("mailPropertyKey", new MailPropertyKey());
         return "mail_property_keys";
     }
 
-    @RequestMapping(value = "/mailpropertykeys/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/mail_property_keys/add", method = RequestMethod.POST)
     public String addMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         if (result.hasErrors()) {
@@ -59,16 +56,16 @@ public class MailPropertyKeyController {
         }
 
         mailPropertyKeyService.add(mailPropertyKey);
-        return "redirect:/mailpropertykeys";
+        return "redirect:/mail_property_keys";
     }
 
-    @RequestMapping(value = "/mailpropertykeys/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_property_keys/update/{id}", method = RequestMethod.GET)
     public String updateMailPropertyKey(@PathVariable("id") int id, Model model) {
         model.addAttribute("mailPropertyKey", this.mailPropertyKeyService.findById(id));
         return "update_mail_property_key";
     }
 
-    @RequestMapping(value = "/mailpropertykeys/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/mail_property_keys/update", method = RequestMethod.POST)
     public String updateMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
         String name = mailPropertyKey.getName();
         int id = mailPropertyKey.getId();
@@ -86,13 +83,13 @@ public class MailPropertyKeyController {
             }
             mailPropertyKeyService.update(mailPropertyKey);
         }
-        return "redirect:/mailpropertykeys";
+        return "redirect:/mail_property_keys";
     }
 
-    @RequestMapping(value = "/mailpropertykeys/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_property_keys/delete/{id}", method = RequestMethod.GET)
     public String deleteMailPropertyKey(@PathVariable("id") int id, Model model) {
         mailPropertySettingService.delete(id);
         mailPropertyKeyService.delete(id);
-        return "redirect:/mailpropertykeys";
+        return "redirect:/mail_property_keys";
     }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Notification Setting</title>
+</head>
+<body>
+<div>
+	<h4>Alert Word Count Settings</h4>
+	<form action="#" th:action="@{/settings/alert_word_count/add}" th:object="${alertWordCountSetting}" method="post">
+	   <input type="text" th:field="*{name}" placeholder="Name"/>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
+	   <br/>
+	   <input type="text" th:field="*{value}" placeholder="Value"/>
+	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
+	   <br/>
+	   <input type="submit" value="Add"/>
+	</form>
+	<h3>Alert Word Count Settings</h3>
+	<table border="1">
+	    <tr align="center">
+	      <th>Name</th>
+	      <th>Value</th>
+	      <th colspan="2">Actions</th>
+	    </tr>
+		<tr th:each="alertwordcountsetting : ${alertwordcountsettings}">
+			<td th:text="${alertwordcountsetting.name}"></td>
+			<td th:text="${alertwordcountsetting.value}"></td>
+			<td width="10%"><a th:href="@{/settings/alert_word_count/delete/__${alertwordcountsetting.id}__}"> Delete </a></td>
+			<td width="10%"><a th:href="@{/settings/alert_word_count/update/__${alertwordcountsetting.id}__}"> Edit </a></td>
+		</tr>
+	</table>
+</div>
+<br/>
+<hr/>
+
+<div>
+	<h4>Mail Count Settings</h4>
+	<form action="#" th:action="@{/settings/mail_count/add}" th:object="${mailCountSetting}" method="post">
+	   <input type="text" th:field="*{name}" placeholder="Name"/>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
+	   <br/>
+	   <input type="text" th:field="*{value}" placeholder="Value"/>
+	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
+	   <br/>
+	   <input type="submit" value="Add"/>
+	</form>
+	<br/><br/>
+	<h3>Mail Count Settings</h3>
+	<table border="1">
+	    <tr>
+	      <th>Name</th>
+	      <th>Value</th>
+	      <th colspan="2">Actions</th>
+	    </tr>
+		<tr th:each="mailcountsetting : ${mailcountsettings}">
+			<td th:text="${mailcountsetting.name}"></td>
+			<td th:text="${mailcountsetting.value}"></td>
+			<td width="10%"><a th:href="@{/settings/mail_count/delete/__${mailcountsetting.id}__}">Delete</a></td>
+			<td width="10%"><a th:href="@{/settings/mail_count/update/__${mailcountsetting.id}__}">Edit</a></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
