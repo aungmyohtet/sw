@@ -1,5 +1,6 @@
 package com.frobom.sw.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.frobom.sw.entity.AlertWordCountSetting;
@@ -17,4 +18,6 @@ public interface AlertWordCountSettingService {
     void remove(int id);
 
     void update(AlertWordCountSetting alertWordCountSetting);
+
+    ArrayList<String> getAlertWordCountSettingNames();
 }

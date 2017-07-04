@@ -1,4 +1,5 @@
 package com.frobom.sw.web;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,8 +45,11 @@ public class NotificationSettingsController {
     }
 
     String oldAlertWordCountSettingName = "";
+
     String oldAlertWordCountValue = "";
+
     String oldMailCountSettingName = "";
+
     String oldMailCountValue = "";
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
@@ -53,10 +57,12 @@ public class NotificationSettingsController {
         if (!model.containsAttribute("alertWordCountSetting")) {
             model.addAttribute("alertWordCountSetting", new AlertWordCountSetting());
         }
-        model.addAttribute("alertwordcountsettings", alertWordCountSettingService.findAll());
+        model.addAttribute("alertWordCountSettingNames", alertWordCountSettingService.getAlertWordCountSettingNames());
+        model.addAttribute("alertWordCountSettings", alertWordCountSettingService.findAll());
         if (!model.containsAttribute("mailCountSetting")) {
             model.addAttribute("mailCountSetting", new MailCountSetting());
         }
+        model.addAttribute("mailCountSettingNames", mailCountSettingService.getMailCountSettingNames());
         model.addAttribute("mailcountsettings", mailCountSettingService.findAll());
         return "settings";
     }
@@ -66,7 +72,6 @@ public class NotificationSettingsController {
     public String addAlertWordCountListener(@Validated @ModelAttribute("alertWordCountSetting") AlertWordCountSetting alertWordCountSetting, BindingResult result, Model model,
             RedirectAttributes attr, HttpSession session) {
         model.addAttribute("alertwordcountsettings", alertWordCountSettingService.findAll());
-
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.alertWordCountSetting", result);
             attr.addFlashAttribute("alertWordCountSetting", alertWordCountSetting);
@@ -83,7 +88,7 @@ public class NotificationSettingsController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/settings/alert_word_count/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/settings/alert_word_count/{id}/delete", method = RequestMethod.GET)
     public String deleteAlertWordCountSetting(@PathVariable int id, Model model) {
         AlertWordCountSetting alertWordCountSetting = alertWordCountSettingService.findById(id);
         if (alertWordCountSetting == null) {
@@ -93,7 +98,7 @@ public class NotificationSettingsController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/settings/alert_word_count/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/settings/alert_word_count/{id}/update", method = RequestMethod.GET)
     public String showUpdateForm(@PathVariable int id, Model model) {
         AlertWordCountSetting alertWordCountSetting = alertWordCountSettingService.findById(id);
         if (alertWordCountSetting == null) {
@@ -111,13 +116,9 @@ public class NotificationSettingsController {
         if (result.hasErrors()) {
             return "update_alertwordcountsetting";
         }
-
         if (oldAlertWordCountSettingName.equals(alertWordCountSetting.getName())) {
-
             if (oldAlertWordCountValue.equals(alertWordCountSetting.getValue())) {
                 return "redirect:/settings";
-            } else {
-                alertWordCountSettingService.update(alertWordCountSetting);
             }
         } else {
             validator.validate(alertWordCountSetting, result);
@@ -125,7 +126,6 @@ public class NotificationSettingsController {
                 return "update_alertwordcountsetting";
             }
         }
-
         alertWordCountSettingService.update(alertWordCountSetting);
         return "redirect:/settings";
     }
@@ -135,7 +135,6 @@ public class NotificationSettingsController {
     public String addMailCountSetting(@Validated @ModelAttribute("mailCountSetting") MailCountSetting mailCountSetting, BindingResult result, Model model, RedirectAttributes attr,
             HttpSession session) {
         model.addAttribute("mailcountsettings", mailCountSettingService.findAll());
-
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.mailCountSetting", result);
             attr.addFlashAttribute("mailCountSetting", mailCountSetting);
@@ -152,7 +151,7 @@ public class NotificationSettingsController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/settings/mail_count/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/settings/mail_count/{id}/delete", method = RequestMethod.GET)
     public String deleteMailCountSetting(@PathVariable int id, Model model) {
         MailCountSetting mailCountSetting = mailCountSettingService.findById(id);
         if (mailCountSetting == null) {
@@ -162,7 +161,7 @@ public class NotificationSettingsController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/settings/mail_count/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/settings/mail_count/{id}/update", method = RequestMethod.GET)
     public String showMailCountSettingUpdateForm(@PathVariable int id, Model model) {
         MailCountSetting mailCountSetting = mailCountSettingService.findById(id);
         if (mailCountSetting == null) {
@@ -180,12 +179,9 @@ public class NotificationSettingsController {
         if (result.hasErrors()) {
             return "update_mailcountsetting";
         }
-
         if (oldMailCountSettingName.equals(mailCountSetting.getName())) {
             if (oldMailCountValue.equals(mailCountSetting.getValue())) {
                 return "redirect:/settings";
-            } else {
-                mailCountSettingService.update(mailCountSetting);
             }
         } else {
             mailCountSettingFormValidator.validate(mailCountSetting, result);
