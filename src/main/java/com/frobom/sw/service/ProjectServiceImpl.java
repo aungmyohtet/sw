@@ -126,9 +126,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public void addMailAddressToProject(String address, int id) {
-        MailAddress mailAddress = mailAddressRepo.findByAddress(address);
-        Project project = projectRepository.findById(id);
+    public void addMailAddressToProject(int mId, int pId) {
+        MailAddress mailAddress = mailAddressRepo.findById(mId);
+        Project project = projectRepository.findById(pId);
         if (mailAddress != null && project != null) {
             project.getMailAddresses().add(mailAddress);
             projectRepository.save(project);
@@ -138,9 +138,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public boolean IsExistsMailAddress(MailAddress mailAddress, Project project) {
-        Project proj = projectRepository.findByName(project.getName());
-        MailAddress address = mailAddressRepo.findByAddress(mailAddress.getAddress());
-        if (proj.getMailAddresses().contains(address)) {
+        if (projectRepository.isExistsMailAddress(mailAddress, project) != null) {
             return true;
         }
         return false;

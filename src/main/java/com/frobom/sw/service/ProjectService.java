@@ -19,7 +19,7 @@ public interface ProjectService {
 
     void delete(int id);
 
-    void addMailAddressToProject(String address, int id);
+    void addMailAddressToProject(int mId, int pId);
 
     boolean IsExistsMailAddress(MailAddress mailAddress, Project project);
 

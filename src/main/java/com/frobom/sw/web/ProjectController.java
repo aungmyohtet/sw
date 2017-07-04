@@ -136,19 +136,18 @@ public class ProjectController {
     @RequestMapping(value = "/projects/{id}/addresses/add", method = RequestMethod.POST)
     public String addMailAddressToProject(@PathVariable("id") int id, @ModelAttribute MailAddress mailAddress, BindingResult result, Model model,
             RedirectAttributes redirectAttributes) {
-
         redirectAttributes.addFlashAttribute("mailAddress", mailAddress);
-        if (mailAddress.getAddress().isEmpty()) {
+        if (mailAddress.getId() == null) {
             result.rejectValue("address", "address.isEmpty", "Address cannot be empty.");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
             return "redirect:/projects/{id}/setting";
         }
-        projectFormValidator.validate(projectService.findById(id), mailAddress, result);
+        projectFormValidator.validate(mailAddress, projectService.findById(id), result);
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
             return "redirect:/projects/{id}/setting";
         }
-        projectService.addMailAddressToProject(mailAddress.getAddress(), id);
+        projectService.addMailAddressToProject(mailAddress.getId(), id);
         redirectAttributes.addFlashAttribute("mailAddress", new MailAddress());
         return "redirect:/projects/{id}/setting";
     }

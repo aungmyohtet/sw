@@ -21,9 +21,9 @@
 		<h4>Mail Address</h4>
 		<form action="#" th:action="@{/projects/__${project.id}__/addresses/add}" th:object="${mailAddress}" method="post">
 			<div>
-				<select th:field="*{address}">
+				<select th:field="*{id}">
 					<option value="">Select Mail Address</option>
-					<option th:each="mailAddress : ${mailAddressList}" th:value="${mailAddress.address}" th:text="${mailAddress.address}"></option>
+					<option th:each="mailAddress : ${mailAddressList}" th:value="${mailAddress.id}" th:text="${mailAddress.address}"></option>
 				</select>
 				<input type="submit" value="Add" /> <br /> <br /> 
 				<label th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></label>

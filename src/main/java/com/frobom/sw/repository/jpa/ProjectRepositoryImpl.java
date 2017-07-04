@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import com.frobom.sw.entity.MailAddress;
 import com.frobom.sw.entity.Project;
 import com.frobom.sw.repository.ProjectRepository;
 
@@ -71,4 +72,19 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         entityManager.remove(project);
     }
 
+    @Override
+    public Project isExistsMailAddress(MailAddress mailAddress, Project project) {
+        Project proj = null;
+        try {
+            Query q = entityManager.createQuery("SELECT p FROM Project p LEFT JOIN p.mailAddresses m WHERE m.id = :id");
+            q.setParameter("id", mailAddress.getId());
+            proj = (Project) q.getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        if (proj != null) {
+            System.out.println("project name is " + proj.getName());
+        }
+        return proj;
+    }
 }
