@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mail_count_listener")
 public class MailCountListener implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @OneToOne(cascade = CascadeType.ALL)

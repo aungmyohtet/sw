@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add Mail Address</title>
+</head>
+<body>
+	<div th:if="${!mailAddresses.empty}">
+		<h4>Mail Addresses</h4>
+		<form action="#" th:action="@{/mail_addresses/add}"
+			th:object="${mailAddress}" method="post">
+			<input type="hidden" th:field="*{id}" />
+			<input type="text" th:field="*{name}" placeholder="Name" /> <span
+				th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br />
+			<br /> <input type="email" th:field="*{address}"
+				placeholder="Mail Address" /> <span
+				th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span><br />
+			<br /> <input type="submit" value="Add" />
+		</form>
+		<br />
+		<table>
+			<tr>
+				<td></td>
+				<td><b>Name</b></td>
+				<td><b>Address</b></td>
+				<td colspan="2"><b>Actions</b></td>
+			</tr>
+			<tr th:each="mailAddress : ${mailAddresses}">
+				<td><input type="hidden" th:field="*{mailAddress.id}" /></td>
+				<td th:text="${mailAddress.name}"></td>
+				<td th:text="${mailAddress.address}"></td>
+				<td>
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/delete}">Delete</a>
+					&nbsp;&nbsp;
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/setting}">Setting</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

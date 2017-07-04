@@ -3,6 +3,7 @@ package com.frobom.sw.repository;
 import java.util.List;
 
 import com.frobom.sw.entity.MailPropertyKey;
+import com.frobom.sw.entity.MailPropertySetting;
 
 public interface MailPropertyKeyRepository {
 

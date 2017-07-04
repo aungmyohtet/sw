@@ -55,7 +55,15 @@ public class MailPropertySettingRepositoryImpl implements MailPropertySettingRep
 
     @Override
     public void delete(MailPropertySetting setting) {
-        entityManager.remove(setting);
+        Query query = entityManager.createQuery("delete from MailPropertySetting m where m.mailAddress.id = :id ");
+        query.setParameter("id", setting.getMailAddress().getId());
+        query.executeUpdate();
+    }
+
+    @Override
+    public MailPropertySetting findByIds(int mailPropertyKeyId, int mailAddressId) {
+        String query = "SELECT m from MailPropertySetting m WHERE m.mailPropertyKey.id = " + mailPropertyKeyId + "AND m.mailAddress.id = " + mailAddressId;
+        return entityManager.createQuery(query, MailPropertySetting.class).getSingleResult();
     }
 
 }

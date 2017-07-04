@@ -9,12 +9,6 @@ import com.frobom.sw.repository.MailCountListenerRepository;
 
 @Service("mailCountListenerService")
 public class MailCountListenerServiceImpl implements MailCountListenerService {
-    @Autowired
-    private MailAddressService mailAdddressService;
-
-    public void setMailAddressService(MailAddressService mailAdddressService) {
-        this.mailAdddressService = mailAdddressService;
-    }
 
     @Autowired
     private MailCountListenerRepository mailCountListenerRepository;

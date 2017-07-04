@@ -17,4 +17,6 @@ public interface MailPropertySettingService {
     public void delete(int mailPropertyKeyId);
 
     void delete(int mailPropertyKeyId, int mailAddressId);
+
+    MailPropertySetting findByIds(int id, int mailAddressId);
 }

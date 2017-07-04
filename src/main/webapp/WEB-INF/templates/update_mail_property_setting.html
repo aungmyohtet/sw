@@ -4,7 +4,7 @@
 <title>Mail Property Setting</title>
 </head>
 <body>
-	<form action="#" th:action="@{/mailpropertysettings/update}" th:object="${mailPropertySetting}" method="post">
+	<form action="#" th:action="@{/mail_addresses/__${mailAddressId}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/update}" th:object="${mailPropertySetting}" method="post">
 		<input type="hidden" th:field="*{mailPropertyKey.id}" th:value="${mailPropertySetting.mailPropertyKey.id}" />
 		<input type="hidden" th:field="*{mailAddress.id}" th:value="${mailPropertySetting.mailAddress.id}" />
 		<input type="text" th:field="*{value}" th:value="${mailPropertySetting.value}"/>

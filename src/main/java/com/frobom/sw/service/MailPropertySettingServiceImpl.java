@@ -39,14 +39,7 @@ public class MailPropertySettingServiceImpl implements MailPropertySettingServic
     @Override
     @Transactional
     public void update(MailPropertySetting mailPropertySetting) {
-        int mailAddressId = mailPropertySetting.getMailAddress().getId();
-        int mailPropertyKeyId = mailPropertySetting.getMailPropertyKey().getId();
-        List<MailPropertySetting> mailPropertySettingLists = mailPropertySettingRepository.findAll();
-        for (MailPropertySetting m : mailPropertySettingLists) {
-            if (m.getMailAddress().getId().equals(mailAddressId) && m.getMailPropertyKey().getId().equals(mailPropertyKeyId)) {
-                mailPropertySettingRepository.update(mailPropertySetting);
-            }
-        }
+        mailPropertySettingRepository.update(mailPropertySetting);
     }
 
     @Override
@@ -59,5 +52,11 @@ public class MailPropertySettingServiceImpl implements MailPropertySettingServic
     @Transactional
     public void delete(int mailPropertyKeyId) {
         mailPropertySettingRepository.delete(mailPropertyKeyId);
+    }
+
+    @Override
+    @Transactional
+    public MailPropertySetting findByIds(int id, int mailAddressId) {
+        return mailPropertySettingRepository.findByIds(id, mailAddressId);
     }
 }

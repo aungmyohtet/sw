@@ -24,10 +24,6 @@ public class MailAddressFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         MailAddress mailAddress = (MailAddress) target;
-        if (mailAddressService.findByName(mailAddress.getName()) != null) {
-            errors.rejectValue("name", "name.alreadyExists", "Name already taken.");
-        }
-
         if (mailAddressService.findByAddress(mailAddress.getAddress()) != null) {
             errors.rejectValue("address", "address.alreadyExists", "Address already taken.");
         }

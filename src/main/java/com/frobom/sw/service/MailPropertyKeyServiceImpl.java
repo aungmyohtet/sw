@@ -47,4 +47,5 @@ public class MailPropertyKeyServiceImpl implements MailPropertyKeyService {
     public void delete(int id) {
         mailPropertyKeyRepository.delete(id);
     }
+
 }

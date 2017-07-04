@@ -10,4 +10,5 @@ public interface MailRepository {
 
     List<Mail> findAllByFetchingSubEntities();
 
+    void delete(Mail mail);
 }
