@@ -16,14 +16,7 @@
 	</div>
 	<br/>
 	<div th:if="${!projects.empty}">
-		<!-- <h4>Projects Lists</h4> -->
 		<table>
-			<!-- <tr>
-				<td>ID</td>
-				<td>Name</td>
-				<td>Actions</td>
-				<td>Setting</td>
-			</tr> -->
 			<tr th:each="project : ${projects}">
 				<td th:text="${project.id}"></td>
 				<td th:text="${project.name}"></td>
@@ -32,6 +25,5 @@
 			</tr>
 		</table>
 	</div>
-
 </body>
 </html>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.frobom.sw.entity.AlertWordRule;
 import com.frobom.sw.entity.MailAddress;
 import com.frobom.sw.entity.MailCountRule;
@@ -23,7 +25,7 @@ import com.frobom.sw.validator.ProjectFormValidator;
 @Controller
 public class ProjectController {
 
-    String projName;
+    private String projName;
 
     @Autowired
     @Qualifier("projectFormValidator")
@@ -88,34 +90,66 @@ public class ProjectController {
 
     @RequestMapping(value = "/projects/{id}/setting", method = RequestMethod.GET)
     public String showSettingPage(@PathVariable("id") int id, Model model) {
-        System.out.println("####### setting #########");
-        // for project form
-        model.addAttribute("project", projectService.findById(id));
 
-        // for mail address form
-        model.addAttribute("address", new MailAddress());
-        model.addAttribute("addressList", mailAddressService.findAll());
-        model.addAttribute("addresses", projectService.findMailAddressesByID(id));
+        projName = projectService.findById(id).getName();
+        if (!model.containsAttribute("project")) {
+            model.addAttribute("project", projectService.findById(id));
+        }
+        if (!model.containsAttribute("mailAddress")) {
+            model.addAttribute("mailAddress", new MailAddress());
+        }
+        model.addAttribute("mailAddressList", mailAddressService.findAll());
+        model.addAttribute("mailAddresses", projectService.findMailAddressesByID(id));
 
-        // for alert word rule form
-        model.addAttribute("newAlertWordRule", new AlertWordRule());
-        model.addAttribute("alertWordRule", alertWordRuleService.findByProject(projectService.findById(id)));
-
-        // for mail count rule form
-        model.addAttribute("newMailCountRule", new MailCountRule());
-        model.addAttribute("mailCountRule", mailCountRuleService.findByProject(projectService.findById(id)));
+        if (!model.containsAttribute("newAlertWordRule")) {
+            model.addAttribute("newAlertWordRule", new AlertWordRule());
+        }
+        if (!model.containsAttribute("alertWordRule")) {
+            model.addAttribute("alertWordRule", alertWordRuleService.findByProject(projectService.findById(id)));
+        }
+        if (!model.containsAttribute("newMailCountRule")) {
+            model.addAttribute("newMailCountRule", new MailCountRule());
+        }
+        if (!model.containsAttribute("mailCountRule")) {
+            model.addAttribute("mailCountRule", mailCountRuleService.findByProject(projectService.findById(id)));
+        }
         return "project_setting";
     }
 
     @RequestMapping(value = "/projects/{id}/update", method = RequestMethod.POST)
-    public String updateProject(@Validated @ModelAttribute("project") Project project, BindingResult result, Model model) {
+    public String updateProject(@Validated @ModelAttribute Project project, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("project", project);
+        if (projName.equals(project.getName())) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            return "redirect:/projects/{id}/setting";
+        }
+        projectFormValidator.validate(project, result);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.project", result);
+            return "redirect:/projects/{id}/setting";
+        }
         projectService.update(project);
         return "redirect:/projects/{id}/setting";
     }
 
     @RequestMapping(value = "/projects/{id}/addresses/add", method = RequestMethod.POST)
-    public String addMailAddressToProject(@PathVariable("id") int id, @Validated @ModelAttribute MailAddress mailAddress, BindingResult result, Model model) {
+    public String addMailAddressToProject(@PathVariable("id") int id, @ModelAttribute MailAddress mailAddress, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("mailAddress", mailAddress);
+        if (mailAddress.getAddress().isEmpty()) {
+            result.rejectValue("address", "address.isEmpty", "Address cannot be empty.");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
+            return "redirect:/projects/{id}/setting";
+        }
+        projectFormValidator.validate(projectService.findById(id), mailAddress, result);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
+            return "redirect:/projects/{id}/setting";
+        }
         projectService.addMailAddressToProject(mailAddress.getAddress(), id);
+        redirectAttributes.addFlashAttribute("mailAddress", new MailAddress());
         return "redirect:/projects/{id}/setting";
     }
 
@@ -126,13 +160,24 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/alertwordrule/add", method = RequestMethod.POST)
-    public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model) {
+    public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("newAlertWordRule", alertWordRule);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newAlertWordRule", result);
+            return "redirect:/projects/{id}/setting";
+        }
         alertWordRuleService.add(id, alertWordRule.getThreshold());
         return "redirect:/projects/{id}/setting";
     }
 
     @RequestMapping(value = "/projects/{id}/alertwordrule", params = "update", method = RequestMethod.POST)
-    public String updateAlertWordRule(@Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model) {
+    public String updateAlertWordRule(@Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("alertWordRule", alertWordRule);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.alertWordRule", result);
+            return "redirect:/projects/{id}/setting";
+        }
         alertWordRuleService.update(alertWordRule);
         return "redirect:/projects/{id}/setting";
     }
@@ -144,13 +189,24 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/projects/{id}/mailcountrule/add", method = RequestMethod.POST)
-    public String addMailCountRule(@PathVariable("id") int id, @Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model) {
+    public String addMailCountRule(@PathVariable("id") int id, @Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("newMailCountRule", mailCountRule);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newMailCountRule", result);
+            return "redirect:/projects/{id}/setting";
+        }
         mailCountRuleService.add(id, mailCountRule.getThreshold());
         return "redirect:/projects/{id}/setting";
     }
 
     @RequestMapping(value = "/projects/{id}/mailcountrule", params = "update", method = RequestMethod.POST)
-    public String updateMailCountRule(@Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model) {
+    public String updateMailCountRule(@Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("mailCountRule", mailCountRule);
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.mailCountRule", result);
+            return "redirect:/projects/{id}/setting";
+        }
         mailCountRuleService.update(mailCountRule);
         return "redirect:/projects/{id}/setting";
     }

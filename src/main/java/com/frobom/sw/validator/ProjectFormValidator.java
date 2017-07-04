@@ -35,11 +35,11 @@ public class ProjectFormValidator implements Validator {
         }
     }
 
-    public void validate(Object target1, Errors error1, Object target2, Errors error2) {
+    public void validate(Object target1, Object target2, Errors error) {
         Project project = (Project) target1;
         MailAddress mailAddress = (MailAddress) target2;
         if (projectService.IsExistsMailAddress(mailAddress, project)) {
-            error2.rejectValue("address", "address.alreadyExists", "Address already taken.");
+            error.rejectValue("address", "address.alreadyExists", "Address already taken.");
         }
     }
 }

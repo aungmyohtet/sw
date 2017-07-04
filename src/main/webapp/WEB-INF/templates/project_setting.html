@@ -7,8 +7,8 @@
 <body>
 	<div>
 		<h4>Update Project Name</h4>
-		<form id="project" action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
-			<input type="hidden" th:field="*{id}" /> 
+		<form action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
+			<input type="hidden" th:field="*{id}" />
 			<input type="text" th:field="*{name}" placeholder="Project Name" />
 			<input type="submit" value="Rename" /> <br /> <br /> 
 			<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
@@ -19,20 +19,20 @@
 
 	<div>
 		<h4>Mail Address</h4>
-		<form action="#" th:action="@{/projects/__${project.id}__/addresses/add}" method="post">
-			<div th:object="${address}">
+		<form action="#" th:action="@{/projects/__${project.id}__/addresses/add}" th:object="${mailAddress}" method="post">
+			<div>
 				<select th:field="*{address}">
 					<option value="">Select Mail Address</option>
-					<option th:each="mailAddress : ${addressList}" th:value="${mailAddress.address}" th:text="${mailAddress.address}"></option>
+					<option th:each="mailAddress : ${mailAddressList}" th:value="${mailAddress.address}" th:text="${mailAddress.address}"></option>
 				</select>
 				<input type="submit" value="Add" /> <br /> <br /> 
 				<label th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></label>
 			</div>
 		</form>
 	</div>
-	<div th:if="${!addresses.empty}">
+	<div th:if="${!mailAddresses.empty}">
 		<table>
-			<tr th:each="address : ${addresses}">
+			<tr th:each="address : ${mailAddresses}">
 				<td th:text="${address.address}"></td>
 				<td><a th:href="@{/projects/__${project.id}__/addresses/__${address.id}__/delete}">delete</a></td>
 			</tr>
@@ -49,7 +49,7 @@
 				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
 				<input type="submit" name="update" value="Update"/>
 				<input type="submit" name="delete" value="Delete"/> <br />
-				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
 		<div th:unless="${alertWordRule}">
@@ -57,11 +57,11 @@
 				th:object="${newAlertWordRule}" method="post">
 				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
-				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
 	</div>
-	
+	<br />
 	<hr />
 	
 	<div>
@@ -72,7 +72,7 @@
 				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
 				<input type="submit" name="update" value="Update"/>
 				<input type="submit" name="delete" value="Delete"/> <br />
-				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
 		<div th:unless="${mailCountRule}">
@@ -81,10 +81,11 @@
 				th:object="${newMailCountRule}" method="post">
 				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
-				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}">Invalid threshold</span>
+				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
 	</div>
+	<br />
 	<hr />
 </body>
 </html>
