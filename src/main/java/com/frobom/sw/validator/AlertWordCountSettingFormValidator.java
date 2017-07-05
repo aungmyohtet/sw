@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
 import com.frobom.sw.entity.AlertWordCountSetting;
 import com.frobom.sw.service.AlertWordCountSettingService;
 
@@ -24,9 +23,12 @@ public class AlertWordCountSettingFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         AlertWordCountSetting alertWordCountSetting = (AlertWordCountSetting) target;
-        if (alertWordCountSettingService.findByName(alertWordCountSetting.getName()) != null) {
-            errors.rejectValue("name", "name.alreadyExists", "Setting name already exist.");
+        String name = alertWordCountSetting.getName();
+        if (!(alertWordCountSettingService.getAlertWordCountSettingNames().contains(name))) {
+            errors.rejectValue("name", "name.alreadyExists", "Select name");
+        }
+        if (alertWordCountSetting.getValue().equals(null)) {
+            errors.rejectValue("value", "value.alreadyExists", "Enter value");
         }
     }
-
 }

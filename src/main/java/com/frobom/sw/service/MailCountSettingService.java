@@ -1,5 +1,6 @@
 package com.frobom.sw.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.frobom.sw.entity.MailCountSetting;
@@ -17,4 +18,6 @@ public interface MailCountSettingService {
     void delete(int id);
 
     void update(MailCountSetting mailCountSetting);
+
+    ArrayList<String> getMailCountSettingNames();
 }

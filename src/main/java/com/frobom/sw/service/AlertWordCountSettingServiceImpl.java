@@ -1,11 +1,10 @@
 package com.frobom.sw.service;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.frobom.sw.entity.AlertWordCountSetting;
 import com.frobom.sw.repository.AlertWordCountSettingRepository;
 
@@ -56,4 +55,17 @@ public class AlertWordCountSettingServiceImpl implements AlertWordCountSettingSe
         alertWordCountSettingRepo.delete(alertWordCountSetting);
     }
 
+    @Override
+    @Transactional
+    public ArrayList<String> getAlertWordCountSettingNames() {
+        String[] alertWordCountSettingNames = { "notification_title", "notification_content", "sender_mail", "last_analyzed_date" };
+        ArrayList<String> names = new ArrayList<String>();
+        for (int i = 0; i < alertWordCountSettingNames.length; i++) {
+            String name = alertWordCountSettingNames[i];
+            if (this.findByName(name) == null) {
+                names.add(name);
+            }
+        }
+        return names;
+    }
 }

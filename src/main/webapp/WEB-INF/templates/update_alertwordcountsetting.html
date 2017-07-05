@@ -4,15 +4,15 @@
 <title>Update AlertWordCountSetting</title>
 </head>
 <body>
-	<form action="#" th:action="@{/alertwordcountsettings/update}" th:object="${alertWordCountSetting}" method="post">
+	<h4> Alert Word Count Setting </h4>
+	<form action="#" th:action="@{/settings/alert_word_count/update}" th:object="${alertWordCountSetting}" method="post">
 	   <input type="hidden" th:field="*{id}" />
-	   <input type="text" th:field="*{name}" placeholder="Name"/>
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid name</span>
+	   <input type="text" th:field="*{name}" placeholder="Name" readonly="readonly" />
 	   <br/>
 	   <input type="text" th:field="*{value}" placeholder="Value"/>
 	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
 	   <br/>
-	   <input type="submit" value="Update AlertWordCountSetting"/>
+	   <input type="submit" value="Update"/>
 	</form>
 </body>
 </html>
