@@ -55,7 +55,7 @@
 		<div th:unless="${alertWordRule}">
 			<form action="#" th:action="@{/projects/__${project.id}__/alertwordrule/add}"
 				th:object="${newAlertWordRule}" method="post">
-				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
+				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
@@ -79,7 +79,7 @@
 			<form action="#"
 				th:action="@{/projects/__${project.id}__/mailcountrule/add}"
 				th:object="${newMailCountRule}" method="post">
-				<input type="text" th:field="*{threshold}" placeholder="Threshold" />
+				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
