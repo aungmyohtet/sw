@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Projects</title>
+</head>
+<body>
+	<div>
+		<h4>Project List</h4>
+		<form action="#" th:action="@{/projects/add}" th:object="${project}"
+			method="post">
+			<input type="text" th:field="*{name}" placeholder="Project Name" />
+			<span><input type="submit" value="Add" /></span> <br /> <br /> <span
+				th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+		</form>
+	</div>
+	<br/>
+	<div th:if="${!projects.empty}">
+		<table>
+			<tr th:each="project : ${projects}">
+				<td th:text="${project.id}"></td>
+				<td th:text="${project.name}"></td>
+				<td><a th:href="@{/projects/__${project.id}__/delete}">delete</a></td>
+				<td><a th:href="@{/projects/__${project.id}__/setting}">setting</a></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

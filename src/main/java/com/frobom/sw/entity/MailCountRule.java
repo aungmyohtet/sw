@@ -1,8 +1,8 @@
 package com.frobom.sw.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,12 +12,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "mail_count_rule")
-public class MailCountRule {
+public class MailCountRule implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
     @OneToOne
     @JoinColumn(name = "project_id")
     private Project project;
@@ -25,14 +24,6 @@ public class MailCountRule {
     @NotNull(message = "Threshold should not be empty")
     @Min(1)
     private Integer threshold;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getThreshold() {
         return threshold;

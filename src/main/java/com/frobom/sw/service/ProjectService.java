@@ -19,11 +19,11 @@ public interface ProjectService {
 
     void delete(int id);
 
-    void addMailAddressToProject(String address, String projName);
+    void addMailAddressToProject(int mId, int pId);
 
     boolean IsExistsMailAddress(MailAddress mailAddress, Project project);
 
-    List<MailAddress> findMailAddressesByID(int id);
+    List<MailAddress> findMailAddressesByID(int projectId);
 
     void deleteMailAddress(int pid, int mid);
 }

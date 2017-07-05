@@ -2,6 +2,7 @@ package com.frobom.sw.service;
 
 import java.util.List;
 import com.frobom.sw.entity.MailCountRule;
+import com.frobom.sw.entity.Project;
 
 public interface MailCountRuleService {
 
@@ -14,5 +15,9 @@ public interface MailCountRuleService {
     void update(MailCountRule mailCountRule);
 
     void delete(int id);
+
+    void add(int projectId, int threshold);
+
+    MailCountRule findByProject(Project project);
 
 }

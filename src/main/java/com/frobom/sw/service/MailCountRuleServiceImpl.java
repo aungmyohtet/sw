@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frobom.sw.entity.MailCountRule;
 import com.frobom.sw.entity.Project;
 import com.frobom.sw.repository.MailCountRuleRepository;
+import com.frobom.sw.repository.ProjectRepository;
 
 @Service("mailCountRuleService")
 public class MailCountRuleServiceImpl implements MailCountRuleService {
@@ -16,22 +17,20 @@ public class MailCountRuleServiceImpl implements MailCountRuleService {
     @Autowired
     private MailCountRuleRepository mailCountRuleRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
     public void setMailCountRuleRepository(MailCountRuleRepository mailCountRuleRepository) {
         this.mailCountRuleRepository = mailCountRuleRepository;
     }
 
-    @Autowired
-    private ProjectService projectService;
-
-    public void setProjectService(ProjectService projectService) {
-        this.projectService = projectService;
+    public void setProjectRepository(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
     @Override
     @Transactional
     public void add(MailCountRule mailCountRule) {
-        Project project = projectService.findById(mailCountRule.getProject().getId());
-        mailCountRule.setProject(project);
         mailCountRuleRepository.add(mailCountRule);
     }
 
@@ -57,6 +56,24 @@ public class MailCountRuleServiceImpl implements MailCountRuleService {
     @Transactional
     public void delete(int id) {
         mailCountRuleRepository.delete(mailCountRuleRepository.findById(id));
+    }
+
+    @Override
+    @Transactional
+    public void add(int projectId, int threshold) {
+        Project project = projectRepository.findById(projectId);
+        if (project != null) {
+            MailCountRule mailCountRule = new MailCountRule();
+            mailCountRule.setProject(project);
+            mailCountRule.setThreshold(threshold);
+            mailCountRuleRepository.add(mailCountRule);
+        }
+    }
+
+    @Override
+    @Transactional
+    public MailCountRule findByProject(Project project) {
+        return mailCountRuleRepository.findByProject(project);
     }
 
 }
