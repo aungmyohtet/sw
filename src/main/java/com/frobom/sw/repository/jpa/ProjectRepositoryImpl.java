@@ -76,8 +76,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public Project isExistsMailAddress(MailAddress mailAddress, Project project) {
         Project proj = null;
         try {
-            Query q = entityManager.createQuery("SELECT p FROM Project p LEFT JOIN p.mailAddresses m WHERE m.id = :id");
-            q.setParameter("id", mailAddress.getId());
+            Query q = entityManager.createQuery("SELECT p FROM Project p LEFT JOIN p.mailAddresses m WHERE p.id = :pId AND m.id = :mId");
+            q.setParameter("pId", project.getId());
+            q.setParameter("mId", mailAddress.getId());
             proj = (Project) q.getSingleResult();
         } catch (NoResultException e) {
 
