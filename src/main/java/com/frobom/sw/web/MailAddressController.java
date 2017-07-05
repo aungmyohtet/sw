@@ -45,8 +45,6 @@ public class MailAddressController {
 
     String oldName = "";
 
-    String update = "";
-
     public void setMailAddressService(MailAddressService mailAddressService) {
         this.mailAddressService = mailAddressService;
     }
@@ -59,34 +57,36 @@ public class MailAddressController {
 
     @RequestMapping(value = "/mail_addresses", method = RequestMethod.GET)
     public String showMailAddresses(Model model) {
-        model.addAttribute("mailAddress", new MailAddress());
+        if (!model.containsAttribute("mailAddress")) {
+            model.addAttribute("mailAddress", new MailAddress());
+            }
+
         model.addAttribute("mailAddresses", mailAddressService.findAll());
         return "mail_addresses";
     }
 
     @RequestMapping(value = "/mail_addresses/add", method = RequestMethod.POST)
-    public String saveMailAddress(@Validated @ModelAttribute MailAddress mailAddress, BindingResult result, Model model) {
-        model.addAttribute("mailAddresses", mailAddressService.findAll());
+    public String saveMailAddress(@Validated @ModelAttribute MailAddress mailAddress, BindingResult result, Model model, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "mail_addresses";
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
+            attr.addFlashAttribute("mailAddress", mailAddress);
+            return "redirect:/mail_addresses";
         }
         mailAddressFormValidator.validate(mailAddress, result);
         if (result.hasErrors()) {
-            return "mail_addresses";
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
+            attr.addFlashAttribute("mailAddress", mailAddress);
+            return "redirect:/mail_addresses";
         }
         mailAddressService.save(mailAddress);
         return "redirect:/mail_addresses";
     }
 
-    @RequestMapping(value = "/mail_addresses/{id}", method = RequestMethod.GET)
-    public String showDetails(@PathVariable("id") int id, Model model) {
-        model.addAttribute("mailAddress", mailAddressService.findById(id));
-        return "mailAddressDetails";
-    }
-
     @RequestMapping(value = "/mail_addresses/{id}/setting", method = RequestMethod.GET)
-    public String showSettingPage(@PathVariable("id") int id, @ModelAttribute String updated, BindingResult result, Model model) {
+    public String showSettingPage(@PathVariable("id") int id, Model model) {
         MailAddress mailAddress = mailAddressService.findById(id);
+        MailPropertySetting mailPropertySetting = new MailPropertySetting();
+
         if (mailAddress == null) {
             return "redirect:/Invalid_Address";
         }
@@ -95,12 +95,13 @@ public class MailAddressController {
             model.addAttribute("mailAddress", mailAddress);
         }
 
-        MailPropertySetting mailPropertySetting = new MailPropertySetting();
-        mailPropertySetting.setMailAddress(mailAddress);
+        if(!model.containsAttribute("mailPropertySetting")){
+            mailPropertySetting.setMailAddress(mailAddress);
+            model.addAttribute("mailPropertySetting", mailPropertySetting);
+        }
+
         model.addAttribute("mailPropertyKeys", mailPropertyKeyService.findAll());
-        model.addAttribute("mailPropertySetting", mailPropertySetting);
         model.addAttribute("mailPropertySettings", mailAddress.getPropertySettings());
-        model.addAttribute("updated", update);
         oldMailAddress = mailAddress.getAddress();
         oldName = mailAddress.getName();
         return "mail_addresses_setting";
@@ -113,9 +114,6 @@ public class MailAddressController {
         if (result.hasErrors()) {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
             attr.addFlashAttribute("mailAddress", mailAddress);
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.updated", result2);
-            update = "";
-            attr.addFlashAttribute("updated", update);
             return "redirect:/mail_addresses/{id}/setting";
         }
         if (!oldMailAddress.equals(mailAddress.getAddress())) {
@@ -123,15 +121,10 @@ public class MailAddressController {
             if (result.hasErrors()) {
                 attr.addFlashAttribute("org.springframework.validation.BindingResult.mailAddress", result);
                 attr.addFlashAttribute("mailAddress", mailAddress);
-                attr.addFlashAttribute("org.springframework.validation.BindingResult.updated", result2);
-                update = "";
-                attr.addFlashAttribute("updated", update);
                 return "redirect:/mail_addresses/{id}/setting";
             }
         }
         mailAddressService.update(mailAddress);
-        update = "Mail Address is updated..";
-        model.addAttribute("updated", update);
         return "redirect:/mail_addresses/{id}/setting";
     }
 
@@ -143,47 +136,47 @@ public class MailAddressController {
     }
 
     @RequestMapping(value = "/mail_addresses/{id}/mail_property_settings/add", method = RequestMethod.POST)
-    public String addMailPropertySetting(@PathVariable("id") int id, @Validated @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model) {
-        MailAddress mailAddress = mailAddressService.findById(id);
-        model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
-        model.addAttribute("mailPropertySettings", mailAddress.getPropertySettings());
-        model.addAttribute("mailAddress", mailAddress);
-        mailPropertySetting.setMailAddress(mailAddress);
-
-        if (result.hasErrors()) {
-            return "mail_addresses_setting";
-        }
+    public String addMailPropertySetting(@PathVariable("id") int id, @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model, RedirectAttributes attr) {
 
         mailPropertySettingValidator.validate(mailPropertySetting, result);
         if (result.hasErrors()) {
-            return "mail_addresses_setting";
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertySetting", result);
+            attr.addFlashAttribute("mailPropertySetting", mailPropertySetting);
+            return "redirect:/mail_addresses/{id}/setting";
         }
-
+        MailAddress mailAddress = mailAddressService.findById(id);
+        mailPropertySetting.setMailAddress(mailAddress);
         mailPropertySettingService.add(mailPropertySetting);
         return "redirect:/mail_addresses/{id}/setting";
     }
 
     @RequestMapping(value = "/mail_addresses/{mailAddressId}/mail_property_settings/{id}/update", method = RequestMethod.GET)
     public String updateMailPropertySetting(@PathVariable("id") int id, @PathVariable("mailAddressId") int mailAddressId,
-            @Validated @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model) {
-
-        mailPropertySetting.setMailAddress(mailAddressService.findById(mailAddressId));
+            @ModelAttribute MailPropertySetting updateMailPropertySetting, BindingResult result, Model model) {
+        
+        if (!model.containsAttribute("updateMailPropertySetting")) {
+            System.out.println(" ### model not contain");
+            updateMailPropertySetting = mailPropertySettingService.findByIds(id, mailAddressId);
+            model.addAttribute("updateMailPropertySetting", updateMailPropertySetting);
+        }
+        /*
+         * mailPropertySetting.setMailAddress(mailAddressService.findById(mailAddressId));
         mailPropertySetting.setMailPropertyKey(mailPropertyKeyService.findById(id));
         mailPropertySetting = mailPropertySettingService.findByIds(id, mailAddressId);
-        model.addAttribute("mailPropertySetting", mailPropertySetting);
+        model.addAttribute("mailPropertySetting", mailPropertySetting);*/
         model.addAttribute("mailAddressId", mailAddressId);
         return "update_mail_property_setting";
     }
 
     @RequestMapping(value = "/mail_addresses/{mailAddressId}/mail_property_settings/{id}/update", method = RequestMethod.POST)
-    public String updateMailPropertySetting(@Validated @ModelAttribute MailPropertySetting mailPropertySetting, BindingResult result, Model model, RedirectAttributes attr) {
+    public String updateMailPropertySetting(@PathVariable("id") int id, @PathVariable("mailAddressId") int mailAddressId, @Validated @ModelAttribute MailPropertySetting updateMailPropertySetting, BindingResult result, Model model, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertySetting", result);
-            attr.addFlashAttribute("mailPropertySetting", mailPropertySetting);
-            return "redirect:/mail_addresses/{mailAddressId}/setting";
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.updateMailPropertySetting", result);
+            attr.addFlashAttribute("updateMailPropertySetting", updateMailPropertySetting);
+            return "redirect:/mail_addresses/{mailAddressId}/mail_property_settings/{id}/update";
         }
-        mailPropertySettingService.update(mailPropertySetting);
+        mailPropertySettingService.update(updateMailPropertySetting);
         return "redirect:/mail_addresses/{mailAddressId}/setting";
     }
 

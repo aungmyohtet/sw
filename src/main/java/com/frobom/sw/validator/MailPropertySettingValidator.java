@@ -40,7 +40,7 @@ public class MailPropertySettingValidator implements Validator {
         int mailAddressId = mailPropertySetting.getMailAddress().getId();
         String value = mailPropertySetting.getValue();
         if (value.equals("")) {
-            errors.rejectValue("value", "value.alreadyExists", "Enter Mail Property ");
+            errors.rejectValue("value", "value.alreadyExists", "Value cannot be empty.");
         }
         if (mailAddressId == 0) {
             errors.rejectValue("mailAddress.id", "mailAddress.id.alreadyExists", "Select Mail Address");
