@@ -5,7 +5,7 @@
 </head>
 <body>
 	<h4> Alert Word Count Setting </h4>
-	<form action="#" th:action="@{/settings/alert_word_count/update}" th:object="${alertWordCountSetting}" method="post">
+	<form action="#" th:action="@{/settings/alert_word_count/__${id}__/update}" th:object="${alertWordCountSetting}" method="post">
 	   <input type="hidden" th:field="*{id}" />
 	   <input type="text" th:field="*{name}" placeholder="Name" readonly="readonly" />
 	   <br/>

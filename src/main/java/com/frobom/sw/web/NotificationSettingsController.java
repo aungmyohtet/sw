@@ -100,30 +100,35 @@ public class NotificationSettingsController {
 
     @RequestMapping(value = "/settings/alert_word_count/{id}/update", method = RequestMethod.GET)
     public String showUpdateForm(@PathVariable int id, Model model) {
-        AlertWordCountSetting alertWordCountSetting = alertWordCountSettingService.findById(id);
+        if (!model.containsAttribute("alertWordCountSetting")) {
+            model.addAttribute("alertWordCountSetting", this.alertWordCountSettingService.findById(id));
+        }
+        AlertWordCountSetting alertWordCountSetting = this.alertWordCountSettingService.findById(id);
         if (alertWordCountSetting == null) {
             return "redirect:/bad/request";
         }
-        model.addAttribute("alertWordCountSetting", alertWordCountSetting);
         oldAlertWordCountSettingName = alertWordCountSetting.getName();
         oldAlertWordCountValue = alertWordCountSetting.getValue();
         return "update_alertwordcountsetting";
     }
 
-    @RequestMapping(value = "/settings/alert_word_count/update", method = RequestMethod.POST)
-    public String updateAlertWordCountSetting(@Validated @ModelAttribute AlertWordCountSetting alertWordCountSetting, BindingResult result, Model model) {
-
+    @RequestMapping(value = "/settings/alert_word_count/{id}/update", method = RequestMethod.POST)
+    public String updateAlertWordCountSetting(@Validated @ModelAttribute("alertWordCountSetting") AlertWordCountSetting alertWordCountSetting, BindingResult result, Model model,
+            RedirectAttributes attr, HttpSession session) {
         if (result.hasErrors()) {
-            return "update_alertwordcountsetting";
-        }
-        if (oldAlertWordCountSettingName.equals(alertWordCountSetting.getName())) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.alertWordCountSetting", result);
+            attr.addFlashAttribute("alertWordCountSetting", alertWordCountSetting);
+            return "redirect:/settings/alert_word_count/{id}/update";
+        } else if (oldAlertWordCountSettingName.equals(alertWordCountSetting.getName())) {
             if (oldAlertWordCountValue.equals(alertWordCountSetting.getValue())) {
                 return "redirect:/settings";
             }
         } else {
             validator.validate(alertWordCountSetting, result);
             if (result.hasErrors()) {
-                return "update_alertwordcountsetting";
+                attr.addFlashAttribute("org.springframework.validation.BindingResult.alertWordCountSetting", result);
+                attr.addFlashAttribute("alertWordCountSetting", alertWordCountSetting);
+                return "redirect:/settings/alert_word_count/{id}/update";
             }
         }
         alertWordCountSettingService.update(alertWordCountSetting);
@@ -163,30 +168,36 @@ public class NotificationSettingsController {
 
     @RequestMapping(value = "/settings/mail_count/{id}/update", method = RequestMethod.GET)
     public String showMailCountSettingUpdateForm(@PathVariable int id, Model model) {
+        if (!model.containsAttribute("mailCountSetting")) {
+            model.addAttribute("mailCountSetting", this.mailCountSettingService.findById(id));
+        }
         MailCountSetting mailCountSetting = mailCountSettingService.findById(id);
         if (mailCountSetting == null) {
             return "redirect:/bad/request";
         }
-        model.addAttribute("mailCountSetting", mailCountSetting);
         oldMailCountSettingName = mailCountSetting.getName();
         oldMailCountValue = mailCountSetting.getValue();
         return "update_mailcountsetting";
     }
 
-    @RequestMapping(value = "/settings/mail_count/update", method = RequestMethod.POST)
-    public String updateMailCountSetting(@Validated @ModelAttribute MailCountSetting mailCountSetting, BindingResult result, Model model) {
+    @RequestMapping(value = "/settings/mail_count/{id}/update", method = RequestMethod.POST)
+    public String updateMailCountSetting(@Validated @ModelAttribute("mailCountSetting") MailCountSetting mailCountSetting, BindingResult result, Model model,
+            RedirectAttributes attr, HttpSession session) {
 
         if (result.hasErrors()) {
-            return "update_mailcountsetting";
-        }
-        if (oldMailCountSettingName.equals(mailCountSetting.getName())) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailCountSetting", result);
+            attr.addFlashAttribute("mailCountSetting", mailCountSetting);
+            return "redirect:/settings/mail_count/{id}/update";
+        } else if (oldMailCountSettingName.equals(mailCountSetting.getName())) {
             if (oldMailCountValue.equals(mailCountSetting.getValue())) {
                 return "redirect:/settings";
             }
         } else {
             mailCountSettingFormValidator.validate(mailCountSetting, result);
             if (result.hasErrors()) {
-                return "update_mailcountsetting";
+                attr.addFlashAttribute("org.springframework.validation.BindingResult.mailCountSetting", result);
+                attr.addFlashAttribute("mailCountSetting", mailCountSetting);
+                return "redirect:/settings/mail_count/{id}/update";
             }
         }
         mailCountSettingService.update(mailCountSetting);

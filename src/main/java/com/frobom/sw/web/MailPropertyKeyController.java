@@ -1,5 +1,7 @@
 package com.frobom.sw.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.frobom.sw.entity.MailPropertyKey;
 import com.frobom.sw.service.MailPropertyKeyService;
 import com.frobom.sw.service.MailPropertySettingService;
@@ -38,55 +41,65 @@ public class MailPropertyKeyController {
 
     @RequestMapping(value = "/mail_property_keys", method = RequestMethod.GET)
     public String showMailPropertyKeys(Model model) {
+        if (!model.containsAttribute("mailPropertyKey")) {
+            model.addAttribute("mailPropertyKey", new MailPropertyKey());
+        }
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
-        model.addAttribute("mailPropertyKey", new MailPropertyKey());
         return "mail_property_keys";
     }
 
     @RequestMapping(value = "/mail_property_keys/add", method = RequestMethod.POST)
-    public String addMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
+    public String addMailPropertyKey(@Validated @ModelAttribute("mailPropertyKey") MailPropertyKey mailPropertyKey, BindingResult result, Model model, RedirectAttributes attr,
+            HttpSession session) {
         model.addAttribute("mailPropertyKeys", this.mailPropertyKeyService.findAll());
         if (result.hasErrors()) {
-            return "mail_property_keys";
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertyKey", result);
+            attr.addFlashAttribute("mailPropertyKey", mailPropertyKey);
+            return "redirect:/mail_property_keys";
+        } else {
+            mailPropertyKeyValidator.validate(mailPropertyKey, result);
+            if (result.hasErrors()) {
+                attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertyKey", result);
+                attr.addFlashAttribute("mailPropertyKey", mailPropertyKey);
+                return "redirect:/mail_property_keys";
+            }
         }
-
-        mailPropertyKeyValidator.validate(mailPropertyKey, result);
-        if (result.hasErrors()) {
-            return "mail_property_keys";
-        }
-
         mailPropertyKeyService.add(mailPropertyKey);
         return "redirect:/mail_property_keys";
     }
 
-    @RequestMapping(value = "/mail_property_keys/update/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_property_keys/{id}/update", method = RequestMethod.GET)
     public String updateMailPropertyKey(@PathVariable("id") int id, Model model) {
-        model.addAttribute("mailPropertyKey", this.mailPropertyKeyService.findById(id));
+        if (!model.containsAttribute("mailPropertyKey")) {
+            model.addAttribute("mailPropertyKey", this.mailPropertyKeyService.findById(id));
+        }
         return "update_mail_property_key";
     }
 
-    @RequestMapping(value = "/mail_property_keys/update", method = RequestMethod.POST)
-    public String updateMailPropertyKey(@Validated @ModelAttribute MailPropertyKey mailPropertyKey, BindingResult result, Model model) {
+    @RequestMapping(value = "/mail_property_keys/{id}/update", method = RequestMethod.POST)
+    public String updateMailPropertyKey(@Validated @ModelAttribute("mailPropertyKey") MailPropertyKey mailPropertyKey, BindingResult result, Model model, RedirectAttributes attr,
+            HttpSession session) {
         String name = mailPropertyKey.getName();
         int id = mailPropertyKey.getId();
-
         if (result.hasErrors()) {
-            return "update_mail_property_key";
-        }
-
-        if (mailPropertyKeyService.findById(id).getName().equals(name)) {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertyKey", result);
+            attr.addFlashAttribute("mailPropertyKey", mailPropertyKey);
+            return "redirect:/mail_property_keys/{id}/update";
+        } else if (mailPropertyKeyService.findById(id).getName().equals(name)) {
             mailPropertyKeyService.update(mailPropertyKey);
         } else {
             mailPropertyKeyValidator.validate(mailPropertyKey, result);
             if (result.hasErrors()) {
-                return "update_mail_property_key";
+                attr.addFlashAttribute("org.springframework.validation.BindingResult.mailPropertyKey", result);
+                attr.addFlashAttribute("mailPropertyKey", mailPropertyKey);
+                return "redirect:/mail_property_keys/{id}/update";
             }
             mailPropertyKeyService.update(mailPropertyKey);
         }
         return "redirect:/mail_property_keys";
     }
 
-    @RequestMapping(value = "/mail_property_keys/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_property_keys/{id}/delete", method = RequestMethod.GET)
     public String deleteMailPropertyKey(@PathVariable("id") int id, Model model) {
         mailPropertySettingService.delete(id);
         mailPropertyKeyService.delete(id);
