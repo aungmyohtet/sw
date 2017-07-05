@@ -158,7 +158,7 @@ public class ProjectController {
         return "redirect:/projects/{pid}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/alertwordrule/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/alert_word_rule/add", method = RequestMethod.POST)
     public String addAlertWordRule(@PathVariable("id") int id, @Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model,
             RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("newAlertWordRule", alertWordRule);
@@ -170,7 +170,7 @@ public class ProjectController {
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/alertwordrule", params = "update", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/alert_word_rule", params = "update", method = RequestMethod.POST)
     public String updateAlertWordRule(@Validated @ModelAttribute AlertWordRule alertWordRule, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("alertWordRule", alertWordRule);
         if (result.hasErrors()) {
@@ -181,13 +181,13 @@ public class ProjectController {
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/alertwordrule", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/alert_word_rule", params = "delete", method = RequestMethod.POST)
     public String deleteAlertWordRule(@PathVariable("id") int id, Model model) {
         alertWordRuleService.delete(id);
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/mailcountrule/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/mail_count_rule/add", method = RequestMethod.POST)
     public String addMailCountRule(@PathVariable("id") int id, @Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model,
             RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("newMailCountRule", mailCountRule);
@@ -199,7 +199,7 @@ public class ProjectController {
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/mailcountrule", params = "update", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/mail_count_rule", params = "update", method = RequestMethod.POST)
     public String updateMailCountRule(@Validated @ModelAttribute MailCountRule mailCountRule, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("mailCountRule", mailCountRule);
         if (result.hasErrors()) {
@@ -210,7 +210,7 @@ public class ProjectController {
         return "redirect:/projects/{id}/setting";
     }
 
-    @RequestMapping(value = "/projects/{id}/mailcountrule", params = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/projects/{id}/mail_count_rule", params = "delete", method = RequestMethod.POST)
     public String deleteMailCountRule(@PathVariable("id") int id, Model model) {
         mailCountRuleService.delete(id);
         return "redirect:/projects/{id}/setting";
