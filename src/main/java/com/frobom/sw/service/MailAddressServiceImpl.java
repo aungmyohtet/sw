@@ -136,9 +136,12 @@ public class MailAddressServiceImpl implements MailAddressService {
                     mailPathRepo.delete(path);
                 }
             }
+            if (mail.getMailAddress().equals(mailAddress)) {
+                mailRepo.delete(mail);
+            }
         }
         for (MailPropertySetting sett : mailSettingRepo.findAll()) {
-            if (sett.getMailAddress().equals(mailAddress)) {
+            if (sett.getMailAddress().getAddress().equals(mailAddress.getAddress())) {
                 mailSettingRepo.delete(sett);
             }
         }

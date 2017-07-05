@@ -33,4 +33,9 @@ public class MailRepositoryImpl implements MailRepository {
                 + "JOIN FETCH addr.projects prjs");
         return query.getResultList();
     }
+
+    @Override
+    public void delete(Mail mail) {
+        entityManager.remove(mail);
+    }
 }

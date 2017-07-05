@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import com.frobom.sw.entity.MailPropertyKey;
+import com.frobom.sw.entity.MailPropertySetting;
 import com.frobom.sw.repository.MailPropertyKeyRepository;
 
 @Repository

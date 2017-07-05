@@ -64,9 +64,6 @@ public class MailAddressRepositoryImpl implements MailAddressRepository {
         } catch (NoResultException e) {
 
         }
-        if (mailAddress != null) {
-            System.out.println("mailAddress name is " + mailAddress.getName());
-        }
         return mailAddress;
     }
 
