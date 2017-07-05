@@ -12,7 +12,7 @@ import com.frobom.sw.service.MailCountService;
 import com.frobom.sw.service.MailService;
 
 @Controller
-public class MailController {
+public class ResultController {
 
     @Autowired
     @Qualifier("mailService")
@@ -38,21 +38,26 @@ public class MailController {
         this.alertWordCountService = alertWordCountService;
     }
 
-    @RequestMapping(value = "/mails", method = RequestMethod.GET)
-    public String ShowMails(Model model) {
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    public String ShowResult(Model model) {
+        return "result";
+    }
+
+    @RequestMapping(value = "/result/mails", method = RequestMethod.GET)
+    public String showMailsResult(Model model) {
         model.addAttribute("mails", mailService.findAll());
         return "mails";
     }
 
-    @RequestMapping(value = "/mailCounts", method = RequestMethod.GET)
+    @RequestMapping(value = "/result/mail_counts", method = RequestMethod.GET)
     public String ShowMailCount(Model model) {
         model.addAttribute("mailCounts", mailCountService.findAll());
-        return "mailCounts";
+        return "mail_counts";
     }
 
-    @RequestMapping(value = "/alertWordCounts", method = RequestMethod.GET)
+    @RequestMapping(value = "/result/alert_word_counts", method = RequestMethod.GET)
     public String ShowAlertWordCount(Model model) {
         model.addAttribute("mails", mailService.findAllByFetchingSubEntities());
-        return "alertWordCounts";
+        return "alert_word_counts";
     }
 }

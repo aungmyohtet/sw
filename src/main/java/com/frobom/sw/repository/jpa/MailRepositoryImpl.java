@@ -28,9 +28,7 @@ public class MailRepositoryImpl implements MailRepository {
 
     @Override
     public List<Mail> findAllByFetchingSubEntities() {
-        Query query = entityManager.createQuery("SELECT m FROM Mail m "
-                + "JOIN FETCH m.mailAddress addr "
-                + "JOIN FETCH addr.projects prjs");
+        Query query = entityManager.createQuery("SELECT m FROM Mail m JOIN FETCH m.mailAddress addr");
         return query.getResultList();
     }
 

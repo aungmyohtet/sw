@@ -44,7 +44,7 @@
 	<div>
 		<h4>Alert Word Rule</h4>
 		<div th:if="${alertWordRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/alertwordrule}" th:object="${alertWordRule}" method="post">
+			<form action="#" th:action="@{/projects/__${project.id}__/alert_word_rule}" th:object="${alertWordRule}" method="post">
 				<input type="hidden" th:field="*{project.id}" />
 				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
 				<input type="submit" name="update" value="Update"/>
@@ -53,7 +53,7 @@
 			</form>
 		</div>
 		<div th:unless="${alertWordRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/alertwordrule/add}"
+			<form action="#" th:action="@{/projects/__${project.id}__/alert_word_rule/add}"
 				th:object="${newAlertWordRule}" method="post">
 				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
@@ -67,7 +67,7 @@
 	<div>
 		<h4>Mail Count Rule</h4>
 		<div th:if="${mailCountRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/mailcountrule}" th:object="${mailCountRule}" method="post">
+			<form action="#" th:action="@{/projects/__${project.id}__/mail_count_rule}" th:object="${mailCountRule}" method="post">
 				<input type="hidden" th:field="*{project.id}" />
 				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
 				<input type="submit" name="update" value="Update"/>
@@ -77,7 +77,7 @@
 		</div>
 		<div th:unless="${mailCountRule}">
 			<form action="#"
-				th:action="@{/projects/__${project.id}__/mailcountrule/add}"
+				th:action="@{/projects/__${project.id}__/mail_count_rule/add}"
 				th:object="${newMailCountRule}" method="post">
 				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
 				<input type="submit" value="Add" /><br /> 
