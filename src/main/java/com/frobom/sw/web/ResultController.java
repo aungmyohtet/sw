@@ -52,12 +52,12 @@ public class ResultController {
     @RequestMapping(value = "/result/mail_counts", method = RequestMethod.GET)
     public String ShowMailCount(Model model) {
         model.addAttribute("mailCounts", mailCountService.findAll());
-        return "mailCounts";
+        return "mail_counts";
     }
 
     @RequestMapping(value = "/result/alert_word_counts", method = RequestMethod.GET)
     public String ShowAlertWordCount(Model model) {
         model.addAttribute("mails", mailService.findAllByFetchingSubEntities());
-        return "alertWordCounts";
+        return "alert_word_counts";
     }
 }
