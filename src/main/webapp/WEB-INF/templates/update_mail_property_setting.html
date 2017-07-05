@@ -4,13 +4,15 @@
 <title>Mail Property Setting</title>
 </head>
 <body>
-	<form action="#" th:action="@{/mail_addresses/__${mailAddressId}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/update}" th:object="${mailPropertySetting}" method="post">
-		<input type="hidden" th:field="*{mailPropertyKey.id}" th:value="${mailPropertySetting.mailPropertyKey.id}" />
-		<input type="hidden" th:field="*{mailAddress.id}" th:value="${mailPropertySetting.mailAddress.id}" />
-		<input type="text" th:field="*{value}" th:value="${mailPropertySetting.value}"/>
+	<form action="#" th:action="@{/mail_addresses/__${mailAddressId}__/mail_property_settings/__${updateMailPropertySetting.mailPropertyKey.id}__/update}" th:object="${updateMailPropertySetting}" method="post">
+		<input type="hidden" th:field="*{mailPropertyKey.id}" th:value="${updateMailPropertySetting.mailPropertyKey.id}" />
+		<input type="hidden" th:field="*{mailAddress.id}" th:value="${updateMailPropertySetting.mailAddress.id}" />
+		<input type="text" th:field="*{mailPropertyKey.name}" th:value="${updateMailPropertySetting.mailPropertyKey.name}" readonly="readonly"/>
+		<br/><br/>
+		<input type="text" th:field="*{value}" th:value="${updateMailPropertySetting.value}"/>
 		<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid Data </span>
-	 <br/>
-	<input type="submit" value="Update"/>
+		 <br/><br/>
+		<input type="submit" value="Update"/>
 	</form>
 </body>
 </html>

@@ -40,6 +40,9 @@
 							</select>
 						</td>
 						<td>
+							<input type="hidden" th:field="*{mailAddress.id}" />
+						</td>
+						<td>
 							<input type="text" th:field="*{value}" placeholder="Value" />
 						</td>
 						<td>
@@ -47,7 +50,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><span th:if="${#fields.hasErrors('mailPropertyKey.id')}"
+						<td colspan = "2"><span th:if="${#fields.hasErrors('mailPropertyKey.id')}"
 							th:errors="*{mailPropertyKey.id}">Invalid Data </span></td>
 						<td><span th:if="${#fields.hasErrors('value')}"
 							th:errors="*{value}">Invalid Data </span></td>

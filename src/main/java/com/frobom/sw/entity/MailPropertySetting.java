@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "mail_property_setting")
 public class MailPropertySetting implements Serializable {
@@ -24,6 +26,7 @@ public class MailPropertySetting implements Serializable {
     @JoinColumn(name = "mail_property_key_id")
     private MailPropertyKey mailPropertyKey;
 
+    @NotBlank(message = "Value cannot be blank.")
     private String value;
 
     public String getValue() {
