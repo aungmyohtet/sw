@@ -5,6 +5,12 @@
 <title>Mails Information</title>
 </head>
 <body>
+	<div>
+		<a th:href="@{/result/mails}">Mails Informations</a> <a
+			th:href="@{/result/mail_counts}">Mail Counts Informations</a> <a
+			th:href="@{/result/alert_word_counts}">Alert Word Counts
+			Informations</a>
+	</div>
 	<h4>Mails Information</h4>
 	<div th:if="${!mails.empty}">
 		<table border="1">
