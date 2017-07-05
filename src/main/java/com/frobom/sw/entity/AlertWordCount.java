@@ -2,6 +2,7 @@ package com.frobom.sw.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,11 +17,12 @@ public class AlertWordCount implements Serializable {
     private static final long serialVersionUID = -6363657972258641783L;
 
     @Id
+    @Column(name = "mail_id")
     public Long id;
 
     @MapsId
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "mail_id")
     private Mail mail;
 
     private int sum;
