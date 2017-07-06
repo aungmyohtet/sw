@@ -155,15 +155,9 @@ public class MailAddressController {
             @ModelAttribute MailPropertySetting updateMailPropertySetting, BindingResult result, Model model) {
         
         if (!model.containsAttribute("updateMailPropertySetting")) {
-            System.out.println(" ### model not contain");
             updateMailPropertySetting = mailPropertySettingService.findByIds(id, mailAddressId);
             model.addAttribute("updateMailPropertySetting", updateMailPropertySetting);
         }
-        /*
-         * mailPropertySetting.setMailAddress(mailAddressService.findById(mailAddressId));
-        mailPropertySetting.setMailPropertyKey(mailPropertyKeyService.findById(id));
-        mailPropertySetting = mailPropertySettingService.findByIds(id, mailAddressId);
-        model.addAttribute("mailPropertySetting", mailPropertySetting);*/
         model.addAttribute("mailAddressId", mailAddressId);
         return "update_mail_property_setting";
     }
