@@ -2,8 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Update AlertWordCountSetting</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
+	<div th:replace="fragments/header :: header"></div>
+	<br/><br/>
 	<h4> Alert Word Count Setting </h4>
 	<form action="#" th:action="@{/settings/alert_word_count/__${id}__/update}" th:object="${alertWordCountSetting}" method="post">
 	   <input type="hidden" th:field="*{id}" />

@@ -3,17 +3,19 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Mails Information</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
+	<div th:replace="fragments/header :: header"></div>
+	<br/><br/>
 	<div>
-		<a th:href="@{/result/mails}">Mails Informations</a> <a
-			th:href="@{/result/mail_counts}">Mail Counts Informations</a> <a
-			th:href="@{/result/alert_word_counts}">Alert Word Counts
-			Informations</a>
+		<a th:href="@{/result/mails}">Mails Informations</a> <br/>
+		<a th:href="@{/result/mail_counts}">Mail Counts Informations</a> <br/>
+		<a th:href="@{/result/alert_word_counts}">Alert Word Counts	Informations</a>
 	</div>
 	<h4>Mails Information</h4>
 	<div th:if="${!mails.empty}">
-		<table border="1">
+		<table class = "table table-striped">
 			<tr>
 				<th>ID</th>
 				<th>Address</th>
