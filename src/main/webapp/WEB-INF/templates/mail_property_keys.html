@@ -2,9 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Mail Property Key</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
-
+	<div th:replace="fragments/header :: header"></div>
+	<br/><br/>
 	<h4> Mail Property Keys</h4>
 <div>
 	<form action="#" th:action="@{/mail_property_keys/add}" th:object="${mailPropertyKey}" method="post">
@@ -15,7 +17,7 @@
 </div>
 		<br/>
 		<h4> Mail Property Key List</h4>
-		<table border ="1">
+		<table class = "table table-striped">
 	    <tr>
 	      <td>Mail Property Key Name</td>
 	      <td colspan ="2" align = "center" > Actions </td>

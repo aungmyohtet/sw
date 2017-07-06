@@ -3,8 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Projects</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
+	    <div th:replace="fragments/header :: header"></div>
+		<br/><br/><br/><br/>
 	<div>
 		<h4>Project List</h4>
 		<form action="#" th:action="@{/projects/add}" th:object="${project}"
@@ -16,7 +19,7 @@
 	</div>
 	<br/>
 	<div th:if="${!projects.empty}">
-		<table>
+		<table class = "table table-striped">
 			<tr th:each="project : ${projects}">
 				<td th:text="${project.id}"></td>
 				<td th:text="${project.name}"></td>

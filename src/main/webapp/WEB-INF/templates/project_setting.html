@@ -3,8 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Project Setting</title>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
+	<div th:replace="fragments/header :: header"></div>
+	<br/><br/>
 	<div>
 		<h4>Update Project Name</h4>
 		<form action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
@@ -31,7 +34,7 @@
 		</form>
 	</div>
 	<div th:if="${!mailAddresses.empty}">
-		<table>
+		<table class = "table table-striped">
 			<tr th:each="address : ${mailAddresses}">
 				<td th:text="${address.address}"></td>
 				<td><a th:href="@{/projects/__${project.id}__/addresses/__${address.id}__/delete}">delete</a></td>

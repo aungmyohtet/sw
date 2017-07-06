@@ -3,22 +3,27 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Add Mail Address</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
 </head>
 <body>
+	<div th:replace="fragments/header :: header"></div>
+	<br/><br/>
 		<h4>Mail Addresses</h4>
-		<form action="#" th:action="@{/mail_addresses/add}"
-			th:object="${mailAddress}" method="post">
+		<form action="#" th:action="@{/mail_addresses/add}"	th:object="${mailAddress}" method="post">
 			<input type="hidden" th:field="*{id}" />
-			<input type="text" th:field="*{name}" placeholder="Name" /> <span
-				th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br />
-			<br /> <input type="email" th:field="*{address}"
-				placeholder="Mail Address" /> <span
-				th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span><br />
-			<br /> <input type="submit" value="Add" />
+			<input type="text" th:field="*{name}" placeholder="Name" />
+			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+			<br />
+			<br />
+			<input type="email" th:field="*{address}" placeholder="Mail Address" />
+			<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+			<br />
+			<br />
+			<input type="submit" value="Add" />
 		</form>
 		<br />
 		<div th:if="${!mailAddresses.empty}">
-			<table>
+			<table class = "table table-striped">
 				<tr>
 					<td></td>
 					<td><b>Name</b></td>
