@@ -5,23 +5,33 @@
 </head>
 <body>
 <div>
-	<h4>Alert Word Count Settings</h4>
-	<form action="#" th:action="@{/settings/alert_word_count/add}" th:object="${alertWordCountSetting}" method="post">
-	   <select th:field="*{name}">
-	   <option value="0" selected="selected">Alert Word Count Setting Name</option>
-	   <option th:each="alertWordCountSettingName : ${alertWordCountSettingNames}"
-			th:value="${alertWordCountSettingName}"
-			th:text="${alertWordCountSettingName}" />
-		</select>
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
-	   <br/>
-	   <input type="text" th:field="*{value}" placeholder="Value"/>
-	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
-	   <br/>
-	   <input type="submit" value="Add"/>
-	</form>
 	<h3>Alert Word Count Settings</h3>
-	<table border="1">
+	<form action="#" th:action="@{/settings/alert_word_count/add}" th:object="${alertWordCountSetting}" method="post">
+		<table>
+			<tr>
+				<td>
+					<select th:field="*{name}">
+					   <option value="0" selected="selected">Alert Word Count Setting Name</option>
+					   <option th:each="alertWordCountSettingName : ${alertWordCountSettingNames}"
+							th:value="${alertWordCountSettingName}"
+							th:text="${alertWordCountSettingName}" />
+					</select>
+				</td>
+				<td>
+					<input type="text" th:field="*{value}" placeholder="Value"/>
+				</td>
+				<td>
+					<input type="submit" value="Add"/>
+				</td>
+			</tr>
+			<tr>
+				<td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span></td>
+				<td><span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span></td>
+			</tr>
+		</table>
+	</form>
+	<br/><br/>
+	<table border="1" th:if="${!alertWordCountSettings.empty}">
 	    <tr align="center">
 	      <th>Name</th>
 	      <th>Value</th>
@@ -39,24 +49,35 @@
 <hr/>
 
 <div>
-	<h4>Mail Count Settings</h4>
-	<form action="#" th:action="@{/settings/mail_count/add}" th:object="${mailCountSetting}" method="post">
-	   <select th:field="*{name}">
-	   <option value="0" selected="selected">Mail Count Setting Name</option>
-	   <option th:each="mailCountSettingName : ${mailCountSettingNames}"
-				th:value="${mailCountSettingName}"
-				th:text="${mailCountSettingName}" />
-		</select>
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
-	   <br/>
-	   <input type="text" th:field="*{value}" placeholder="Value"/>
-	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
-	   <br/>
-	   <input type="submit" value="Add"/>
-	</form>
-	<br/><br/>
 	<h3>Mail Count Settings</h3>
-	<table border="1">
+	<form action="#" th:action="@{/settings/mail_count/add}" th:object="${mailCountSetting}" method="post">
+		<table>
+			<tr>
+				<td>
+					<select th:field="*{name}">
+					   <option value="0" selected="selected">Mail Count Setting Name</option>
+					   <option th:each="mailCountSettingName : ${mailCountSettingNames}"
+								th:value="${mailCountSettingName}"
+								th:text="${mailCountSettingName}"> </option>
+					</select>
+				</td>
+				<td><input type="text" th:field="*{value}" placeholder="Value"/></td>
+				<td>
+					<input type="submit" value="Add"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
+				</td>
+				<td>
+					<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<br/>
+	<table border="1" th:if="${!mailcountsettings.empty}">
 	    <tr>
 	      <th>Name</th>
 	      <th>Value</th>
@@ -69,6 +90,111 @@
 			<td width="10%"><a th:href="@{/settings/mail_count/__${mailcountsetting.id}__/update}">Edit</a></td>
 		</tr>
 	</table>
+</div>
+<br/>
+<hr/>
+<div>
+	<h3>Alert Word Count Listeners</h3>
+	<form action="#" th:action="@{/settings/alert_word_count_listeners/add}"
+		th:object="${alertWordCountListener}" method="post">
+		<table>
+			<tr>
+				<td>
+					<select th:field="*{mailAddress.id}" >
+						<option value="0">Select Mail Address</option>
+						<option th:each="mailaddress : ${mailaddresses}"
+							th:value="${mailaddress.id}" th:text="${mailaddress.address}"></option>
+					</select>
+				</td>
+				<td><input type="submit" value="Add Listener" /></td>
+			</tr>
+			<tr>
+				<td><span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid user name</span></td>
+			</tr>
+		</table>
+	</form>
+	<br />
+	<table th:if="${!alertWordCountListeners.empty}">
+		<tr th:each="alertwordcountlistener : ${alertWordCountListeners}">
+			<td th:text="${alertwordcountlistener.mailAddress.address}"></td>
+			<td><a th:href="@{/settings/alert_word_count_listeners/__${alertwordcountlistener.mailAddress.id}__/delete}">Delete</a></td>
+		</tr>
+	</table>
+</div>
+<br />
+<hr />
+<div>
+<h3> Mail Count Listener </h3>
+	<form action="#" th:action="@{/settings/mail_count_listeners/add}" th:object="${mailCountListener}" method="post">
+		<table>
+			<tr>
+				<td>
+					<select th:field="*{mailAddress.id}">
+					   <option value="0" selected="selected">Select Mail Address</option>
+					   <option th:each="mailAddressList : ${mailaddresses}"
+							th:value="${mailAddressList.id}"
+							th:text="${mailAddressList.address}" />
+					</select>
+				</td>
+				<td><input type="submit" value="Add"/></td>
+			</tr>
+			<tr>
+				<td><span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid Data </span></td>
+			</tr>
+		</table>
+	</form>
+	<br/>
+	<table th:if="${!mailCountListeners.empty}">
+		<tr th:each="mailCountListener : ${mailCountListeners}" align = 'center'>
+			<td th:text="${mailCountListener.mailAddress.id}"></td>
+			<td th:text="${mailCountListener.mailAddress.address}"></td>
+			<td><a th:href="@{/settings/mail_count_listeners/__${mailCountListener.mailAddress.id}__/delete}"> Delete </a></td>
+		</tr>
+	</table>
+</div>
+<br />
+<hr />
+<div>
+	<h3>Alert Words</h3>
+	<form action="#" th:action="@{/settings/alert_words/add}"
+		th:object="${alertWord}" method="post">
+		<table>
+			<tr>
+				<td><input type="text" th:field="*{word}" placeholder="Alert Word" /></td>
+				<td>
+					 <select th:field="*{language}">
+						<option value="">Select Language</option>
+						<option
+							th:each="language : ${T(com.frobom.sw.entity.AlertWord.Language).values()}"
+							th:value="${language}" th:text="${language}"></option>
+					</select>
+				</td>
+				<td><input type="submit" value="Add" /></td>
+			</tr>
+			<tr>
+				<td><span th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span></td>
+				<td><span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span></td>
+			</tr>
+		</table>
+	</form>
+	<br />
+	<div th:if="${!alertWords.empty}">
+		<table>
+			<tr>
+				<td>Word</td>
+				<td>Language</td>
+				<td>Actions</td>
+			</tr>
+			<tr th:each="alertWord : ${alertWords}">
+				<td th:text="${alertWord.word}"></td>
+				<td th:text="${alertWord.language}"></td>
+				<td>
+					<a th:href="@{/settings/alert_words/__${alertWord.id}__/update}">Edit</a> &nbsp;
+					<a th:href="@{/settings/alert_words/__${alertWord.id}__/delete}">Delete</a>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
 </body>
 </html>
