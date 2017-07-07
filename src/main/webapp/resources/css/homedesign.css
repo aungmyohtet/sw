@@ -1,7 +1,6 @@
-body { 
-    padding-top: 65px;
+body {
     padding-left: 100px;
-    padding-right: 100px; 
+    padding-right: 100px;
 }
 .dropbtn {
     background-color:inherit;
@@ -40,7 +39,4 @@ body {
 
 .dropdown:hover .dropbtn {
     color:gray;
-}
-span{
-	color:red;
 }

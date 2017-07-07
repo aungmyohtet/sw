@@ -2,12 +2,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Home</title>
+	<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/homedesign.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<p> The time on the server is <span th:text="${serverTime}" th:remove="tag">server time</span></p>
+<div th:replace="fragments/header :: header">
+</div>
+<img th:src="@{../../../resources/images/homedesign.PNG}" width="100%"/>
 </body>
 </html>

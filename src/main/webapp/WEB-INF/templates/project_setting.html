@@ -10,11 +10,13 @@
 	<div th:replace="fragments/header :: header"></div>
 	<br/><br/>
 	<div>
-		<h4>Update Project Name</h4>
-		<form action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
+		<h3>Update Project Name</h3>
+		<form class="form-inline" action="#" th:action="@{/projects/__${project.id}__/update}" th:object="${project}" method="post">
 			<input type="hidden" th:field="*{id}" />
-			<input type="text" th:field="*{name}" placeholder="Project Name" />
-			<input type="submit" value="Rename" /> <br /> <br /> 
+			<div class="form-group">
+			<input class="form-control" type="text" th:field="*{name}" placeholder="Project Name" />
+			</div>
+			<input class="btn btn-default" type="submit" value="Rename" /> <br /> <br />
 			<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
 		</form>
 	</div>
@@ -22,23 +24,23 @@
 	<hr />
 
 	<div>
-		<h4>Mail Address</h4>
-		<form action="#" th:action="@{/projects/__${project.id}__/addresses/add}" th:object="${mailAddress}" method="post">
-			<div>
-				<select th:field="*{id}">
+		<h3>Mail Address</h3>
+		<form class="form-inline" action="#" th:action="@{/projects/__${project.id}__/addresses/add}" th:object="${mailAddress}" method="post">
+			<div class="form-group">
+				<select class="form-control" th:field="*{id}">
 					<option value="">Select Mail Address</option>
 					<option th:each="mailAddress : ${mailAddressList}" th:value="${mailAddress.id}" th:text="${mailAddress.address}"></option>
 				</select>
-				<input type="submit" value="Add" /> <br /> <br /> 
+				</div>
+				<input class="btn btn-default" type="submit" value="Add" /> <br /> <br />
 				<label th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></label>
-			</div>
 		</form>
 	</div>
 	<div th:if="${!mailAddresses.empty}">
 		<table class = "table table-striped">
 			<tr th:each="address : ${mailAddresses}">
 				<td th:text="${address.address}"></td>
-				<td><a th:href="@{/projects/__${project.id}__/addresses/__${address.id}__/delete}">delete</a></td>
+				<td><a th:href="@{/projects/__${project.id}__/addresses/__${address.id}__/delete}">Delete</a></td>
 			</tr>
 		</table>
 	</div>
@@ -46,13 +48,15 @@
 	<hr />
 
 	<div>
-		<h4>Alert Word Rule</h4>
+		<h3>Alert Word Rule</h3>
 		<div th:if="${alertWordRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/alert_word_rule}" th:object="${alertWordRule}" method="post">
+			<form class="form-inline" action="#" th:action="@{/projects/__${project.id}__/alert_word_rule}" th:object="${alertWordRule}" method="post">
 				<input type="hidden" th:field="*{project.id}" />
-				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
-				<input type="submit" name="update" value="Update"/>
-				<input type="submit" name="delete" value="Delete"/> <br />
+				<div class="form-group">
+				<input class="form-control" type="number" th:field="*{threshold}" placeholder="Threshold"/>
+				</div>
+				<input class="btn btn-default" type="submit" name="update" value="Update"/>
+				<input class="btn btn-default" type="submit" name="delete" value="Delete"/> <br />
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
@@ -69,13 +73,15 @@
 	<hr />
 	
 	<div>
-		<h4>Mail Count Rule</h4>
+		<h3>Mail Count Rule</h3>
 		<div th:if="${mailCountRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/mail_count_rule}" th:object="${mailCountRule}" method="post">
+			<form class="form-inline" action="#" th:action="@{/projects/__${project.id}__/mail_count_rule}" th:object="${mailCountRule}" method="post">
 				<input type="hidden" th:field="*{project.id}" />
-				<input type="number" th:field="*{threshold}" placeholder="Threshold"/>
-				<input type="submit" name="update" value="Update"/>
-				<input type="submit" name="delete" value="Delete"/> <br />
+				<div class="form-group">
+				<input class="form-control" type="number" th:field="*{threshold}" placeholder="Threshold"/>
+				</div>
+				<input class="btn btn-default" type="submit" name="update" value="Update"/>
+				<input class="btn btn-default" type="submit" name="delete" value="Delete"/> <br />
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>

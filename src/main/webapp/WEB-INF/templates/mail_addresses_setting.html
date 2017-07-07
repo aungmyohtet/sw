@@ -14,50 +14,41 @@
 	</div>
 	<div>
 		<h3>Edit Mail Address</h3>
-		<form action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/update}" th:object="${mailAddress}" method="post">
+		<form class="form-inline" action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/update}" th:object="${mailAddress}" method="post">
 			<input type="hidden" th:field="*{id}" />
-			<input type="text" th:field="*{name}" placeholder="Name" />
+			<div class="form-group">
+			<input class="form-control" type="text" th:field="*{name}" placeholder="Name" />
+			</div>
 			<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-			<br />
-			<input type="email" th:field="*{address}" placeholder="Mail Address" />
+			<br /><br/>
+			<div class="form-group">
+			<input class="form-control" type="email" th:field="*{address}" placeholder="Mail Address" />
+			</div>
 			<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
-			<br />
-			<input type="submit" value="Edit" />
+			<br /><br/>
+			<input class="btn btn-default" type="submit" value="Edit" />
 		</form>
 	</div>
 	<hr />
 	<div>
 		<div>
 			<h3>Property Settings</h3>
-			<form action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/add}" th:object="${mailPropertySetting}" method="post">
-				<table class = "table table-striped">
-					<tr>
-						<td>
-							<select th:field="*{mailPropertyKey.id}">
+			<form class="form-inline" action="#" th:action="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/add}" th:object="${mailPropertySetting}" method="post">
+						<div class="form-group">
+							<select class="form-control" th:field="*{mailPropertyKey.id}">
 								<option value="0" selected="selected">Mail Property Key</option>
 								<option th:each="mailPropertyKey : ${mailPropertyKeys}" th:value="${mailPropertyKey.id}" th:text="${mailPropertyKey.name}" />
 							</select>
-						</td>
-						<td>
+						</div>
+						<span th:if="${#fields.hasErrors('mailPropertyKey.id')}" th:errors="*{mailPropertyKey.id}">Invalid Data </span>
+						<br/><br/>
 							<input type="hidden" th:field="*{mailAddress.id}" />
-						</td>
-						<td>
-							<input type="text" th:field="*{value}" placeholder="Value" />
-						</td>
-						<td>
-							<input type="submit" value="Add" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan = "2">
-							<span th:if="${#fields.hasErrors('mailPropertyKey.id')}" th:errors="*{mailPropertyKey.id}">Invalid Data </span>
-						</td>
-						<td>
-							<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid Data </span>
-						</td>
-						<td></td>
-					</tr>
-				</table>
+						<div class="form-group">
+							<input class="form-control" type="text" th:field="*{value}" placeholder="Value" />
+						</div>
+						<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid Data </span>
+						<br/><br/>
+							<input class="btn btn-default" type="submit" value="Add" />
 			</form>
 		</div>
 		<br/>
@@ -73,10 +64,10 @@
 				<td>
 					<input type="hidden" th:value="${mailPropertySetting.mailAddress.id}" />
 					<input type="hidden" th:value="${mailPropertySetting.mailPropertyKey.id}" />
-					<a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/update}">edit</a>
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/update}">Edit</a>
 				</td>
 				<td>
-					<a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/delete}">delete</a>
+					<a th:href="@{/mail_addresses/__${mailAddress.id}__/mail_property_settings/__${mailPropertySetting.mailPropertyKey.id}__/delete}">Delete</a>
 				</td>
 			</tr>
 		</table>
