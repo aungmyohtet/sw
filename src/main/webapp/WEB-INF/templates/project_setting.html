@@ -56,15 +56,17 @@
 				<input class="form-control" type="number" th:field="*{threshold}" placeholder="Threshold"/>
 				</div>
 				<input class="btn btn-default" type="submit" name="update" value="Update"/>
-				<input class="btn btn-default" type="submit" name="delete" value="Delete"/> <br />
+				<input class="btn btn-default" type="submit" name="delete" value="Delete"/><br />
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
 		<div th:unless="${alertWordRule}">
-			<form action="#" th:action="@{/projects/__${project.id}__/alert_word_rule/add}"
+			<form class="form-inline" action="#" th:action="@{/projects/__${project.id}__/alert_word_rule/add}"
 				th:object="${newAlertWordRule}" method="post">
-				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
-				<input type="submit" value="Add" /><br /> 
+				<div class="form-group">
+				<input class="form-control" type="number" th:field="*{threshold}" placeholder="Threshold" />
+				</div>
+				<input class="btn btn-default" type="submit" value="Add" /><br />
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
@@ -86,11 +88,13 @@
 			</form>
 		</div>
 		<div th:unless="${mailCountRule}">
-			<form action="#"
+			<form class="form-inline" action="#"
 				th:action="@{/projects/__${project.id}__/mail_count_rule/add}"
 				th:object="${newMailCountRule}" method="post">
-				<input type="number" th:field="*{threshold}" placeholder="Threshold" />
-				<input type="submit" value="Add" /><br /> 
+				<div class="form-group">
+				<input class="form-control" type="number" th:field="*{threshold}" placeholder="Threshold" />
+				</div>
+				<input class="btn btn-default" type="submit" value="Add" /><br />
 				<span th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span>
 			</form>
 		</div>
