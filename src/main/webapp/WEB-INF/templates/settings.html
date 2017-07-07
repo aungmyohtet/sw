@@ -100,7 +100,7 @@
 					<input class="btn btn-default" type="submit" value="Add" /><br/>
 	</form>
 	<br />
-	<table th:if="${!alertWordCountListeners.empty}">
+	<table class = "table table-striped" th:if="${!alertWordCountListeners.empty}">
 		<tr th:each="alertwordcountlistener : ${alertWordCountListeners}">
 			<td th:text="${alertwordcountlistener.mailAddress.address}"></td>
 			<td><a th:href="@{/settings/alert_word_count_listeners/__${alertwordcountlistener.mailAddress.id}__/delete}">Delete</a></td>
@@ -125,9 +125,8 @@
 					<input class="btn btn-default" type="submit" value="Add"/><br/>
 	</form>
 	<br/>
-	<table th:if="${!mailCountListeners.empty}">
-		<tr th:each="mailCountListener : ${mailCountListeners}" align = 'center'>
-			<td th:text="${mailCountListener.mailAddress.id}"></td>
+	<table class = "table table-striped" th:if="${!mailCountListeners.empty}">
+		<tr th:each="mailCountListener : ${mailCountListeners}">
 			<td th:text="${mailCountListener.mailAddress.address}"></td>
 			<td><a th:href="@{/settings/mail_count_listeners/__${mailCountListener.mailAddress.id}__/delete}"> Delete </a></td>
 		</tr>
@@ -168,8 +167,8 @@
 				<td th:text="${alertWord.word}"></td>
 				<td th:text="${alertWord.language}"></td>
 				<td>
-					<a th:href="@{/settings/alert_words/__${alertWord.id}__/update}">Edit</a> &nbsp;
-					<a th:href="@{/settings/alert_words/__${alertWord.id}__/delete}">Delete</a>
+					<a th:href="@{/settings/alert_words/__${alertWord.id}__/delete}">Delete</a>&nbsp;
+					<a th:href="@{/settings/alert_words/__${alertWord.id}__/update}">Edit</a>
 				</td>
 			</tr>
 		</table>

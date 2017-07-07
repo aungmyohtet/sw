@@ -11,7 +11,7 @@
 	<br/>
 	<h3>Alert Word Count Information</h3>
 	<br/>
-	<div th:if="${!mails.empty}">
+	<div th:if="${!alertWordCounts.empty}">
 		<table class = "table table-striped">
 			<tr>
 				<th>Mail ID</th>
@@ -25,8 +25,8 @@
 				<td th:text="${mail.alertWordCount.sum}"></td>
 				<td th:text="${mail.date}"></td>
 			</tr>
-
 		</table>
 	</div>
+	<span th:if="${alertWordCounts.empty}">No Result</span>
 </body>
 </html>

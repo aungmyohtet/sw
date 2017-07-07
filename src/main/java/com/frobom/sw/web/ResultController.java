@@ -38,26 +38,22 @@ public class ResultController {
         this.alertWordCountService = alertWordCountService;
     }
 
-    @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public String ShowResult(Model model) {
-        return "result";
-    }
-
-    @RequestMapping(value = "/result/mails", method = RequestMethod.GET)
+    @RequestMapping(value = "/mails", method = RequestMethod.GET)
     public String showMailsResult(Model model) {
         model.addAttribute("mails", mailService.findAll());
         return "mails";
     }
 
-    @RequestMapping(value = "/result/mail_counts", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail_counts", method = RequestMethod.GET)
     public String ShowMailCount(Model model) {
         model.addAttribute("mailCounts", mailCountService.findAll());
         return "mail_counts";
     }
 
-    @RequestMapping(value = "/result/alert_word_counts", method = RequestMethod.GET)
+    @RequestMapping(value = "/alert_word_counts", method = RequestMethod.GET)
     public String ShowAlertWordCount(Model model) {
         model.addAttribute("mails", mailService.findAllByFetchingSubEntities());
+        model.addAttribute("alertWordCounts",alertWordCountService.findAll());
         return "alert_word_counts";
     }
 }
