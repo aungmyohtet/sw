@@ -8,12 +8,16 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <br/><br/>
-<h5> Edit Mail Property Key</h5>
-	<form action="#" th:action="@{/mail_property_keys/__${mailPropertyKey.id}__/update}" th:object="${mailPropertyKey}" method="post">
+<h3> Edit Mail Property Key</h3>
+<br/>
+	<form class="form-inline" action="#" th:action="@{/mail_property_keys/__${mailPropertyKey.id}__/update}" th:object="${mailPropertyKey}" method="post">
 	   <input type="hidden" th:field="*{id}" th:value="${mailPropertyKey.id}" />
-	   <input type="text" th:field="*{name}" th:value="${mailPropertyKey.name}"/>
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid Data </span> <br/>
-	   <input type="submit" value="Update"/>
+	   <div class="form-group">
+	   <input class="form-control" type="text" th:field="*{name}" th:value="${mailPropertyKey.name}"/>
+	   </div>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid Data </span>
+	   <br/><br/>
+	   <input class="btn btn-default" type="submit" value="Update"/>
 	</form>
 </body>
 </html>

@@ -8,19 +8,15 @@
 </head>
 <body>
 	 <div th:replace="fragments/header :: header"></div>
-	<br/><br/>
-	<div>
-		<a th:href="@{/result/mails}">Mails Informations</a> <br/>
-		<a th:href="@{/result/mail_counts}">Mail Counts Informations</a> <br/>
-		<a th:href="@{/result/alert_word_counts}">Alert Word Counts Informations</a>
-	</div>
-	<h4>Mail Count Informations</h4>
+	<br/>
+	<h3>Mail Count Informations</h3>
+	<br/>
 	<div th:if="${!mailCounts.empty}">
 		<table class = "table table-striped">
 			<tr>
-				<td>Project Name</td>
-				<td>Mail Count</td>
-				<td>Date</td>
+				<th>Project Name</th>
+				<th>Mail Count</th>
+				<th>Date</th>
 			</tr>
 			<tr th:each="mail : ${mailCounts}">
 				<td th:text="${mail.project.name}"></td>

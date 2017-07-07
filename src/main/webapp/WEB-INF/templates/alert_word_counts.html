@@ -8,13 +8,9 @@
 </head>
 <body>
 	<div th:replace="fragments/header :: header"></div>
-	<br/><br/>
-	<div>
-		<a th:href="@{/result/mails}">Mails Informations</a> <br/>
-		<a th:href="@{/result/mail_counts}">Mail Counts Informations</a> <br/>
-		<a th:href="@{/result/alert_word_counts}">Alert Word Counts Informations</a>
-	</div>
-	<h4>Alert Word Count Information</h4>
+	<br/>
+	<h3>Alert Word Count Information</h3>
+	<br/>
 	<div th:if="${!mails.empty}">
 		<table class = "table table-striped">
 			<tr>

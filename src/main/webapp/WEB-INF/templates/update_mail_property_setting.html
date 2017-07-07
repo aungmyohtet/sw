@@ -7,16 +7,23 @@
 </head>
 <body>
 	<div th:replace="fragments/header :: header"></div>
-	<br/><br/>
-	<form action="#" th:action="@{/mail_addresses/__${mailAddressId}__/mail_property_settings/__${updateMailPropertySetting.mailPropertyKey.id}__/update}" th:object="${updateMailPropertySetting}" method="post">
+	<h3>Edit Mail Property Setting</h3>
+	<form class="form-inline" action="#" th:action="@{/mail_addresses/__${mailAddressId}__/mail_property_settings/__${updateMailPropertySetting.mailPropertyKey.id}__/update}" th:object="${updateMailPropertySetting}" method="post">
 		<input type="hidden" th:field="*{mailPropertyKey.id}" th:value="${updateMailPropertySetting.mailPropertyKey.id}" />
-		<input type="hidden" th:field="*{mailAddress.id}" th:value="${updateMailPropertySetting.mailAddress.id}" />
-		<input type="text" th:field="*{mailPropertyKey.name}" th:value="${updateMailPropertySetting.mailPropertyKey.name}" readonly="readonly"/>
+		<div class="form-group">
+		<input class="form-control" type="hidden" th:field="*{mailAddress.id}" th:value="${updateMailPropertySetting.mailAddress.id}" />
+		</div>
 		<br/><br/>
-		<input type="text" th:field="*{value}" th:value="${updateMailPropertySetting.value}"/>
+		<div class="form-group">
+		<input class="form-control" type="text" th:field="*{mailPropertyKey.name}" th:value="${updateMailPropertySetting.mailPropertyKey.name}" readonly="readonly"/>
+		</div>
+		<br/><br/>
+		<div class="form-group">
+		<input class="form-control" type="text" th:field="*{value}" th:value="${updateMailPropertySetting.value}"/>
+		</div>
 		<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid Data </span>
-		 <br/><br/>
-		<input type="submit" value="Update"/>
+		<br/><br/>
+		<input class="btn btn-default" type="submit" value="Update"/>
 	</form>
 </body>
 </html>

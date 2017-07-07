@@ -8,16 +8,20 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <br/><br/>
-    <h4> Mail Count Setting</h4>
-	<form action="#" th:action="@{/settings/mail_count/__${id}__/update}" th:object="${mailCountSetting}" method="post">
+    <h3> Mail Count Setting</h3>
+    <br/>
+	<form class="form-inline" action="#" th:action="@{/settings/mail_count/__${id}__/update}" th:object="${mailCountSetting}" method="post">
 	   <input type="hidden" th:field="*{id}" />
-	   <input type="text" th:field="*{name}" placeholder="Name" readonly="readonly" />
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid name</span>
-	   <br/>
-	   <input type="text" th:field="*{value}" placeholder="Value"/>
+	   <div class="form-group">
+	   <input class="form-control" type="text" th:field="*{name}" placeholder="Name" readonly="readonly" />
+	   </div>
+	   <br/><br/>
+	   <div class="form-group">
+	   <input class="form-control" type="text" th:field="*{value}" placeholder="Value"/>
+	   </div>
 	   <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
-	   <br/>
-	   <input type="submit" value="Update"/>
+	   <br/><br/>
+	   <input class="btn btn-default" type="submit" value="Update"/>
 	</form>
 </body>
 </html>

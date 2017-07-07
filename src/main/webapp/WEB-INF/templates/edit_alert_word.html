@@ -10,20 +10,25 @@
 	<div th:replace="fragments/header :: header"></div>
 	<br/>
 	<div>
-		<h4>Edit Alert Word Form</h4>
-		<form action="#" th:action="@{/settings/alert_words/__${updateAlertWord.id}__/update}"
+		<h3>Edit Alert Word Form</h3>
+		<br/>
+		<form class="form-inline" action="#" th:action="@{/settings/alert_words/__${updateAlertWord.id}__/update}"
 			th:object="${updateAlertWord}" method="post">
+			<div class="form-group">
 			<input type="hidden" th:field="*{id}" />
-			<input type="text" th:field="*{word}" placeholder="Alert Word" />
+			<input class="form-control" type="text" th:field="*{word}" placeholder="Alert Word" />
+			</div>
 			<span th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span>
-			<br /> <br />
-			<select th:field="*{language}">
+			<br /><br/>
+			<div class="form-group">
+			<select class="form-control" th:field="*{language}">
 				<option value="">Select Language</option>
 				<option th:each="language : ${T(com.frobom.sw.entity.AlertWord.Language).values()}" th:value="${language}" th:text="${language}"></option>
 			</select>
+			</div>
 			<span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span>
-			<br /> <br />
-			<input type="submit" value="Edit" />
+			<br/><br/>
+			<input  class="btn btn-default" type="submit" value="Edit" />
 		</form>
 	</div>
 </body>

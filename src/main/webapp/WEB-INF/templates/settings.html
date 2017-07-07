@@ -9,30 +9,25 @@
 	<div th:replace="fragments/header :: header"></div>
 	<br/><br/>
 <div>
-	<h4>Alert Word Count Settings</h4>
-	<form action="#" th:action="@{/settings/alert_word_count/add}" th:object="${alertWordCountSetting}" method="post">
-		<table class = "table table-striped">
-			<tr>
-				<td>
-					<select th:field="*{name}">
+	<h3>Alert Word Count Settings</h3>
+	<form class="form-inline" action="#" th:action="@{/settings/alert_word_count/add}" th:object="${alertWordCountSetting}" method="post">
+					<div class="form-group">
+					<select class="form-control" th:field="*{name}">
 					   <option value="0" selected="selected">Alert Word Count Setting Name</option>
 					   <option th:each="alertWordCountSettingName : ${alertWordCountSettingNames}"
 							th:value="${alertWordCountSettingName}"
 							th:text="${alertWordCountSettingName}" />
 					</select>
-				</td>
-				<td>
-					<input type="text" th:field="*{value}" placeholder="Value"/>
-				</td>
-				<td>
-					<input type="submit" value="Add"/>
-				</td>
-			</tr>
-			<tr>
-				<td><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span></td>
-				<td><span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span></td>
-			</tr>
-		</table>
+					</div>
+					<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
+					<br/><br/>
+					<div class="form-group">
+					<input class="form-control" type="text" th:field="*{value}" placeholder="Value"/>
+					</div>
+					<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span><br/><br/>
+					<div class="form-group">
+					</div>
+					<input class="btn btn-default" type="submit" value="Add"/>
 	</form>
 	<br/><br/>
 	<table class = "table table-striped" th:if="${!alertWordCountSettings.empty}">
@@ -53,32 +48,24 @@
 <hr/>
 
 <div>
-	<h4>Mail Count Settings</h4>
-	<form action="#" th:action="@{/settings/mail_count/add}" th:object="${mailCountSetting}" method="post">
-		<table>
-			<tr>
-				<td>
-					<select th:field="*{name}">
+	<h3>Mail Count Settings</h3>
+	<form class="form-inline" action="#" th:action="@{/settings/mail_count/add}" th:object="${mailCountSetting}" method="post">
+					<div class="form-group">
+					<select class="form-control" th:field="*{name}">
 					   <option value="0" selected="selected">Mail Count Setting Name</option>
 					   <option th:each="mailCountSettingName : ${mailCountSettingNames}"
 								th:value="${mailCountSettingName}"
 								th:text="${mailCountSettingName}"> </option>
 					</select>
-				</td>
-				<td><input type="text" th:field="*{value}" placeholder="Value"/></td>
-				<td>
-					<input type="submit" value="Add"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
+					</div>
 					<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid setting name</span>
-				</td>
-				<td>
+					<br/><br/>
+					<div class="form-group">
+					<input class="form-control" type="text" th:field="*{value}" placeholder="Value"/>
+					</div>
 					<span th:if="${#fields.hasErrors('value')}" th:errors="*{value}">Invalid value</span>
-				</td>
-			</tr>
-		</table>
+					<br/><br/>
+					<input class="btn btn-default" type="submit" value="Add"/><br/>
 	</form>
 	<br/>
 	<table class = "table table-striped" th:if="${!mailcountsettings.empty}">
@@ -99,23 +86,18 @@
 <hr/>
 <div>
 	<h3>Alert Word Count Listeners</h3>
-	<form action="#" th:action="@{/settings/alert_word_count_listeners/add}"
+	<form class="form-inline" action="#" th:action="@{/settings/alert_word_count_listeners/add}"
 		th:object="${alertWordCountListener}" method="post">
-		<table class = "table table-striped">
-			<tr>
-				<td>
-					<select th:field="*{mailAddress.id}" >
+					<div class="form-group">
+					<select class="form-control" th:field="*{mailAddress.id}" >
 						<option value="0">Select Mail Address</option>
 						<option th:each="mailaddress : ${mailaddresses}"
 							th:value="${mailaddress.id}" th:text="${mailaddress.address}"></option>
 					</select>
-				</td>
-				<td><input type="submit" value="Add Listener" /></td>
-			</tr>
-			<tr>
-				<td><span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid user name</span></td>
-			</tr>
-		</table>
+					</div>
+					<span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid user name</span>
+					<br/><br/>
+					<input class="btn btn-default" type="submit" value="Add" /><br/>
 	</form>
 	<br />
 	<table th:if="${!alertWordCountListeners.empty}">
@@ -129,23 +111,18 @@
 <hr />
 <div>
 <h3> Mail Count Listener </h3>
-	<form action="#" th:action="@{/settings/mail_count_listeners/add}" th:object="${mailCountListener}" method="post">
-		<table class = "table table-striped">
-			<tr>
-				<td>
-					<select th:field="*{mailAddress.id}">
+	<form class="form-inline" action="#" th:action="@{/settings/mail_count_listeners/add}" th:object="${mailCountListener}" method="post">
+					<div class="form-group">
+					<select class="form-control" th:field="*{mailAddress.id}">
 					   <option value="0" selected="selected">Select Mail Address</option>
 					   <option th:each="mailAddressList : ${mailaddresses}"
 							th:value="${mailAddressList.id}"
 							th:text="${mailAddressList.address}" />
 					</select>
-				</td>
-				<td><input type="submit" value="Add"/></td>
-			</tr>
-			<tr>
-				<td><span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid Data </span></td>
-			</tr>
-		</table>
+					</div>
+					<span th:if="${#fields.hasErrors('mailAddress.id')}" th:errors="*{mailAddress.id}">Invalid Data </span>
+					<br/><br/>
+					<input class="btn btn-default" type="submit" value="Add"/><br/>
 	</form>
 	<br/>
 	<table th:if="${!mailCountListeners.empty}">
@@ -160,34 +137,32 @@
 <hr />
 <div>
 	<h3>Alert Words</h3>
-	<form action="#" th:action="@{/settings/alert_words/add}"
+	<form class="form-inline" action="#" th:action="@{/settings/alert_words/add}"
 		th:object="${alertWord}" method="post">
-		<table class = "table table-striped">
-			<tr>
-				<td><input type="text" th:field="*{word}" placeholder="Alert Word" /></td>
-				<td>
-					 <select th:field="*{language}">
+				<div class="form-group">
+				<input class="form-control" type="text" th:field="*{word}" placeholder="Alert Word" />
+				</div>
+				<span th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span>
+				<br/><br/>
+				<div class="form-group">
+					<select class="form-control" th:field="*{language}">
 						<option value="">Select Language</option>
 						<option
 							th:each="language : ${T(com.frobom.sw.entity.AlertWord.Language).values()}"
 							th:value="${language}" th:text="${language}"></option>
 					</select>
-				</td>
-				<td><input type="submit" value="Add" /></td>
-			</tr>
-			<tr>
-				<td><span th:if="${#fields.hasErrors('word')}" th:errors="*{word}"></span></td>
-				<td><span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span></td>
-			</tr>
-		</table>
+				</div>
+				<span th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span>
+				<br/><br/>
+				<input class="btn btn-default" type="submit" value="Add" /><br/>
 	</form>
 	<br />
 	<div th:if="${!alertWords.empty}">
 		<table class = "table table-striped">
 			<tr>
-				<td>Word</td>
-				<td>Language</td>
-				<td>Actions</td>
+				<th>Word</th>
+				<th>Language</th>
+				<th colspan="2">Actions</th>
 			</tr>
 			<tr th:each="alertWord : ${alertWords}">
 				<td th:text="${alertWord.word}"></td>

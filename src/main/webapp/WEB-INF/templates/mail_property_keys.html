@@ -8,20 +8,23 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<br/><br/>
-	<h4> Mail Property Keys</h4>
+	<h3> Mail Property Keys</h3>
 <div>
-	<form action="#" th:action="@{/mail_property_keys/add}" th:object="${mailPropertyKey}" method="post">
-	   <input type="text" th:field="*{name}" placeholder="Mail Property Key" />
-	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid Data </span><br/>
-	   <input type="submit" value="add"/>
+	<form class="form-inline" action="#" th:action="@{/mail_property_keys/add}" th:object="${mailPropertyKey}" method="post">
+	  <div class="form-group">
+	   <input class="form-control" type="text" th:field="*{name}" placeholder="Mail Property Key" />
+	  </div>
+	   <input class="btn btn-default" type="submit" value="add"/>
+	   <br/><br/>
+	   <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Invalid Data </span>
 	</form>
 </div>
 		<br/>
-		<h4> Mail Property Key List</h4>
+		<h3> Mail Property Key List</h3>
 		<table class = "table table-striped">
 	    <tr>
-	      <td>Mail Property Key Name</td>
-	      <td colspan ="2" align = "center" > Actions </td>
+	      <th>Mail Property Key Name</th>
+	      <th colspan ="2" align = "center" > Actions </th>
 	    </tr>
 		<tr th:each="mailPropertyKey : ${mailPropertyKeys}">
 			<td th:text="${mailPropertyKey.name}"></td>
